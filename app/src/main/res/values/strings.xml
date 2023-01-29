@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">质感代码工具</string>
+    <string name="first_usage">在首次使用之前，我们需要以下权限</string>
+    <string name="welcome">欢迎使用</string>
+    <string name="start">开始使用</string>
+    <string name="external_storage_permission">外部存储权限</string>
+    <string name="external_storage_permission_tip">受安卓版本影响，App需要获取【外部存储权限】才能正常运行</string>
+    <string name="manage_storage_permission">所有文件访问权限</string>
+    <string name="manage_storage_permission_tip">受沙盒存储机制的影响，App需要授予【所有文件访问权限】才能正常运行</string>
+    <string name="please_allow_permission">请先授予对应权限！</string>
+
+    <string name="reference">参考文档</string>
+    <string name="tools">快捷工具</string>
+
+    <string name="tieCode">结绳4.0</string>
+    <string name="iv5">iApp-V5</string>
+    <string name="iv5_cn">iApp-V5-中文</string>
+    <string name="iGame">iApp-Game</string>
+    <string name="iGame_cn">iApp-Game-中文</string>
+    <string name="iv3">iApp-V3</string>
+    <string name="iv3_java">iApp-V3-iJava</string>
+    <string name="iv3_lua">iApp-V3-iLua</string>
+    <string name="iv3_js">iApp-V3-iJS</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="navigation">导航</string>
+    <string name="more">更多</string>
+</resources>
