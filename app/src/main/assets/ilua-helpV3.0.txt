@@ -1,0 +1,4603 @@
+﻿《ilua》速成开发手册3.0
+
+官方用户交流：
+官方源码开源群：323924434
+iApp技术开发群：483556574
+官方1群：239547050
+官方2群：103540883
+官方3群：680364987
+官方4群：334267540
+官方5群：1018513107
+官方游戏开发群：375679257
+
+
+【3.0 ilua升级简介】
+1. 出错后报错信息，显示在调试日志里。
+2. “null”的表示方式在lua为 “nil”，所以空值写法为 nil
+3. 融合裕语言代码，写法和使用方式有所不同。
+4. 入口文件必须为 mian.iyu 如果全部采用此语言开发，可以在入口文件加一个uigo跳转。
+5. 更多不同点可以自行探索。
+
+
+【lua语言】
+Lua 是一种轻量小巧的脚本语言，用标准C语言编写并以源代码形式开放， 其设计目的是为了嵌入应用程序中，从而为应用程序提供灵活的扩展和定制功能。
+Lua 是巴西里约热内卢天主教大学（Pontifical Catholic University of Rio de Janeiro）里的一个研究小组，由Roberto Ierusalimschy、Waldemar Celes 和 Luiz Henrique de Figueiredo所组成并于1993年开发。 
+
+【luajava介绍】
+LuaJava项目由 Carlos Cassino 在2004年开发创建，上传开源，并未作出使用限制。以及 Thiago Ponte 作为主要代码贡献者，在2005年和2007年等进行了更新。 
+iApp引用了他们的项目基础，并进行了升级和修复BUG
+[历史资料来源于网络，仅供参考]
+
+
+【local 变量】
+用法：
+
+--申明一个局部变量
+local a = "aaa"
+tw(a)
+
+--申明一个界面变量，直接赋值不写“local”关键词视为界面变量
+b = "bbb"
+tw(b)
+
+--注：此全局变量如果等于 空值， 则无法访问，访问将报错。
+--通过 is(var) 访问不确定的全局变量，若他不存在或 是空值 不会报错
+local abc = is("abc")
+syso(abc)
+
+
+lua变量区域介绍：
+局部变量：服务于一个事件，当用户与界面发生交互时，产生一个事件，仅供于该事件的变量产生以及操作。
+界面变量：生产界面变量后，同一个界面中的所有事件，均可对其进行操作。
+
+说明：
+变量类似一个箱子，你可以把数据储存在里面，等需要的时候就取出来使用，可以改变它装你想要装的数据。裕语言中的变量是可以根据赋值，而且自动转换的，所以无需申明数据类型。
+
+空值：
+如果访问一个没有声明的变量，将返回“nil”空值类型，这个不对等于字符的 'nil'。
+判断是否空值的例子:(这里我们不知道变量“abc”是否空值)
+if(abc == nil)
+{
+	syso("是空值")
+}
+
+
+【s 变量】
+用法：
+
+申明界面变量
+--可以赋字符串
+ss("a", "blss")
+--或 设置为空
+i:ss("a", nil)
+
+--读取数据
+tw(ss("a"))
+或 注意，这样写也属于读取
+tw(ss("a", nil))
+
+申明全局变量
+--可以赋其他变量
+sss("a", "blsss")
+--或 设置为空
+i:sss("a", nil)
+
+--读取数据
+tw(sss("a"))
+
+用途：
+可用于与iApp支持的其他语言进行交换数据，数据共享，数据储存等。
+
+区域介绍：
+界面变量：生产界面变量后，同一个界面中的所有事件，均可对其进行操作。
+全局变量：生产全局变量后，同一个应用中的所有事件，均可对其进行操作。
+
+说明：
+变量类似一个箱子，你可以把数据储存在里面，等需要的时候就取出来使用，可以改变它装你想要装的数据。语言中的变量是可以根据赋值，而且自动转换的，所以无需申明数据类型。
+
+提示：
+自定义的变量名，比如“abc、 nihao、sfw123、www_zzw”变量不允许全部为数字，不允许掺杂符号，请不要使用太长的变量名，不推荐使用中文作为变量名。
+
+空值：
+如果访问一个没有声明的变量，将返回“nil”空值类型，这个不对等于字符的 'nil'。
+判断是否空值的例子:(这里我们不知道变量“abc”是否空值)
+local abc = sss("abc")
+f(abc == nil)
+{
+	syso("是空值")
+}
+
+【-- 或  --[[ --]] 注释语句】
+用法：
+
+--这个是变量“a”它的值等于“1”
+local a = 1
+--这个是变量“b”它的值等于“2”
+local b = 2
+
+--[[
+大量代码注释方法
+local c = 3
+local d = 4
+
+--]]
+
+说明：
+注释语句符号可以用“--” 也可以用“--[[ --]]”，以注释符号开头的正行，将会被代码执行器无视。通常用于给自己标示代码的含义
+
+【tos 转为字符串】
+用法：
+--将 数字 转换字符串
+local c = tos(123)
+local c = tos(123.23)
+--将 是否 转换字符串
+local c = tos(true)
+
+--拼接变量打印字符串
+local a = "a"
+local b = nil
+local c = true
+
+syso("如果变量" .. tos(a) .. "等于" .. tos(b) .. "那么就不是" .. tos(c))
+
+【toi 转为整数型】
+用法：
+--将 小数型 转换为整数型 123
+local c = toi(123.23)
+
+--将转换为整数型数据 123
+local c = toi(123.23)
+
+说明：
+由于lua只有小数类型，没有整数类型，传递到java方法将导致数据类型不匹配。若需要整数型时，使用该方法转换整数型。
+
+【tosz lua数组转为java数组】
+用法：
+local c = {3,2,4,5,1}
+local sz = tosz(c)
+
+
+【szto java数组转为lua数组】
+用法：
+local sz = i:sl("12;12;12;12;12", ";")
+local c = szto(sz)
+
+
+【fn 加载mlua模块】
+用法：
+--加载a.mjs模块
+fn("a")
+
+--然后就可以直接，调用a.mjs模块 的 abc 方法
+abc()
+
+说明：
+用于加载你的模块文件；建议要加载的模块，载入事件加载一次即可。
+
+注意：
+加载多模块时，模块方法名，不要过分简单，避免重复；可在不同的模块，所有方法名加前缀或 后缀。
+
+也可以使用require方法加载模块，效果一样。
+
+【syso 打印】
+用法：
+--打印字符串
+syso("wo1314")
+--或
+i:syso("wo1314")
+
+--打印字符串，字符串拼接
+syso("wo" .. "ai" .. "ni")
+--或
+i:syso("wo" .. "ai" .. "ni")
+
+
+--拼接变量打印字符串
+local a = "a"
+local b = nil
+
+syso("变量" .. tos(a) .. "等于" .. tos(b))
+
+
+可以打印出数据，代码同等于 System.out.println("1314")，可以在测试时，选择 调试日志查看打印数据。
+
+说明：
+用于打印调试数据。
+
+【if 判断语句】
+用法：
+
+--if 语句的使用
+local a = 2
+
+if a > 1 then
+
+syso("a大于1")
+
+end
+
+
+--if...else 搭配使用
+local a = 2
+
+if a == 1 then
+
+syso("a等于1")
+
+elseif a == 2 then
+
+syso("a等于2")
+
+else
+
+syso("a等于其他")
+
+end
+
+
+--多个if语句嵌套
+local a = 1
+local b = 2
+if a == 1 then
+
+if b == 2 then
+syso("a等于1，b等于2")
+end
+
+else
+
+syso("a不等于1")
+
+end
+
+
+--逻辑运算判断
+
+local a = 1
+local b = 2
+--a等于1 或者 等于2
+if a == 1 or a == 2 then
+
+syso("a等于1")
+
+end
+
+--a等于1 并且 b等于2
+if a == 1 and b == 2 then
+
+syso("a等于1，b等于2")
+
+end
+
+--a等于3 取反意，与逻辑运算结果相反，如果条件为 true，逻辑非为 false
+if not(a == 3) then
+
+syso("a不等于3")
+
+end
+
+--a不等于b 此运算符检测两个值是否相等，相等返回 false，否则返回 true
+
+if a ~= b  then
+
+syso("a不等于b")
+
+end
+
+
+【while 循环】
+用法：
+--这将循环10次
+local a = 10
+
+while a > 0 do
+
+syso(a)
+a = a - 1
+
+end
+
+说明：
+条件循环语句，比较值的变化，然后进行循环执行里面的代码。当条件为“否”的时候会停止循环，条件“是”的话，将一直循环执行。
+支持运算符（返回 是 与 否）：（跟 if 语句 一样，请参考）
+
+
+【for 循环】
+用法：
+-- 条件: a=初始值,最大值,增长值；a初始为1，设置a最大为10，a每次循环增加1
+for a=1,10,1 do
+
+syso("循环10/" .. a)
+
+end
+
+
+-- 提前跳出循环
+for a=1,10,1 do
+
+syso("循环10/" .. a)
+if a == 6 then
+-- break 语句跳出循环
+break
+end
+
+end
+
+
+--设置一个数组
+local data = {"a","b","c","d"}
+--打印数组；a是记录循环次数，b是每次循环数组值
+for a,b in ipairs(data) do
+
+syso(a .. "次 循环:" .. b)
+
+end
+
+说明：
+用于多次重复循环操作。
+
+
+【t 新线程】
+用法：
+i:t(
+function()
+
+syso("新线程里执行代码")
+
+end
+)
+
+说明：
+启用新线程，去执行一些需要执行很久的代码。比如把下载文件，获取网页源码，大量的文件操作，可以放入新线里执行。这里线程的概念，启用新的线程帮你处理代码，这样不会影响到主线程。
+
+
+【ssj 设置或修改控件事件代码】
+用法：
+--设置控件ID3，的单击事件
+i:ssj(3, "clicki",{
+function(st_vId,st_vW)
+
+syso("ok")
+
+end
+})
+
+--设置控件ID3，的触屏滑动事件
+i:ssj(3, "onscroll",{
+function(st_vId,st_vW,st_sE)
+
+syso("ok")
+
+end
+,
+
+function(st_vId,st_vW,st_fM,st_vT,st_bT)
+
+syso("ok")
+
+end
+})
+
+
+说明：
+输入控件Id，输入事件类型，并将事件顺序填写在 { 中 }，动态控件将触发该事件代码。
+
+事件类型：
+clicki=单击事件
+
+
+【tw 提示】
+用法：
+tw("你好")
+--或
+i:tw("你好")
+
+--设置参数1：显示的时间长久；0：显示的时间短暂；\n为换行的意思，其他地方通用
+tw("你好\n吗？", 1)
+--或
+i:tw("你好\n吗？", 1)
+
+
+说明：
+用于提醒用户，界面显示时长大约为 2秒钟。弹出代码中的文字，来提醒用户。
+
+
+【fd 删除文件】
+用法：(将删除SD卡根目录的abc.zip文件)
+local b = i:fd("%abc.zip")
+
+syso(b)
+
+说明：
+用于删除指定的文件，是否成功返回数据：true或 false
+
+
+【fe 文件是否存在】
+用法：(将判断SD卡根目录的abc.zip文件是否存在)
+local b = i:fe("%abc.zip")
+
+syso(b)
+
+说明：
+用于判断指定的文件存在，是否存在返回数据：true或 false
+
+
+【fs 文件大小】
+用法：(将获取SD卡根目录的abc.zip文件占用的大小)
+local b = i:fs("%abc.zip")
+
+syso(b)
+
+说明：
+用于判断指定的文件存在，是否存在返回数值单位(字节)。
+转换为KB：
+local b = i:fs("%abc.zip")
+b = b / 1024
+syso(b)
+
+转换为MB：
+b = b / 1024 / 1024
+
+
+【fr 读取文本】
+用法：(将读取SD卡根目录的abc.txt文件里面的内容)
+local b = i:fr("%abc.txt")
+syso(b)
+
+local b = i:fr("%abc.txt", "utf-8")
+syso(b)
+
+说明：
+用于读取文本文件的数据内容。
+……
+
+【fc 复制文件】
+用法：（在SD卡根目录abc.txt文件拷贝一个新的副本至abc2.txt）
+local b = i:fc("%abc.txt", "%abc2.txt")
+syso(b)
+
+--设置重复不覆盖
+local b = i:fc("%abc.txt", "%abc2.txt", false)
+syso(b)
+
+--将apk包内的 abc.txt 复制到SD卡上
+local b = i:fc("@abc.txt", "%abc2.txt")
+syso(b)
+
+说明：
+用于复制文件，创建一个新的副本文件。是否成功返回数据：true或 false
+……
+
+
+【fw 写入文本】
+用法：(将文本数据写入至SD卡根目录的abc.txt文件里面)
+
+local b = "我是一个txt文件的内容"
+i:fw("%abc.txt", b)
+
+local b = "我是一个txt文件的内容"
+i:fw("%abc.txt", b, "utf-8")
+
+说明：
+用于写入文件。
+
+
+
+【fl 文件列表】
+用法：（获取一个目录的文件列表）
+local c2 = i:fl("%dir")
+local c = szto(c2)
+local cc = #c
+--获取总共文件并减去1
+local leng = cc - 1
+--循环打印
+for a=0,leng,1 do
+
+syso("文件 " .. c[a])
+
+end
+
+
+--仅获取文件夹
+local c2 = i:fl("%.estrongs", false)
+local c = szto(c2)
+local leng = #c
+while leng>0 do
+leng = leng - 1
+
+syso("文件夹 " .. c[leng])
+end
+
+
+--仅获取文件
+local c2 = i:fl("%.estrongs", false)
+local c = szto(c2)
+local leng = #c
+while leng>0 do
+leng = leng - 1
+
+syso("文件 " .. c[leng])
+end
+
+说明：上面例子是获取sd卡根目录文件夹“dir”里面的所有子目录以及文件，并获取结果返回变量“c”，并用用符合 # 获取变量c 有多少位，然后循环来读取变量“c”里面的列表数据，可以通过c[0]获取第一位，c[1]第二位数据等。
+
+提示：
+看似有些复杂，理解了就简单了， 这里的变量“c”类型是一个数组，里面包含了一个数据列表。通过循环可以顺序读取这个列表。
+
+
+【ft 转移文件】
+用法：（将SD卡根目录的abc.txt转移至abc3.txt）
+local c = i:ft("%abc.txt", "%abc3.txt")
+syso(c)
+
+说明：
+用于转移文件。是否成功返回数据：true或 false
+
+
+【fdir 获取SD卡根目录路径】
+用法：（获取根目录路径并赋值至变量“a”）
+--获取根目录
+local a = i:fdir()
+syso(a)
+
+--获取目录的绝对路径
+local a = i:fdir("%dir")
+syso(a)
+
+说明：
+通过获取根目录路径，就可以计算文件的绝对路径。
+
+
+【fuz 解压zip部分文件】
+用法：（将根目录文件abc.apk压缩包里的AndroidManifest.xml文件，解压到根目录AndroidManifest2.xml）
+local d = i:fuz("%abc.apk", "AndroidManifest.xml", "%AndroidManifest2.xml")
+syso(d)
+
+--解压文件遇到重复不覆盖
+local d = i:fuz("%abc.apk", "AndroidManifest.xml", "%AndroidManifest2.xml",false)
+syso(d)
+
+说明：
+通过上面代码可以实现压缩包解压部分的文件，并返回赋值至变量“d”解压文件的数量。
+
+
+【fuzs 解压整个zip】
+用法：(将根目录文件abc.apk压缩包解压至根目录文件夹abcdir，会自动创建)
+
+local c = i:fuzs("%abc.apk", "%abcdir")
+syso(c)
+
+--解压文件遇到重复不覆盖
+local c = i:fuzs("%abc.apk", "%abcdir", false)
+syso(c)
+
+说明：
+通过上面代码将解压整个压缩包至指定文件，并赋值至变量“c”，是否成功返回数据：true或 false
+
+
+【fj 压缩文件或文件夹至zip】
+用法：
+local c = i:fj("%adc.txt", "%abc.zip")
+syso(c)
+
+--不去除根目录
+local c = i:fj("%adc.txt", "%abc.zip",false)
+syso(c)
+
+说明：
+压缩文件。返回赋值数据：true 或 false
+
+
+【fo 打开文件】
+用法：（将根目录打开安装abc.apk文件）
+i:fo("%abc.apk")
+
+说明：
+可以调用系统工具打开不同的文件。
+
+
+【sr 替换字符】
+用法：
+local a = "123456789"
+local b = "456"
+local c = "."
+local d = i:sr(a, b, c)
+--将提示：123.789
+syso(d)
+
+--支持正则表达式
+--local d = i:sr(a, b, c, true)
+
+说明：
+用于替换字符
+
+
+【sj 截取字符】
+用法：
+local a = "123456789"
+local b = "34"
+local c = "8"
+local d = i:sj(a, b, c)
+--将提示：567
+syso(d)
+
+--从头部开始截取
+local d = i:sj(a, nil, c)
+syso(d)
+
+--截取到尾部
+local d = i:sj(a, b, nil)
+syso(d)
+
+说明：
+用于截取数据部分字符
+
+
+【sl 数据数组】
+用法：
+local a = "12;12;12;12;12"
+local b = ";"
+local c2 = i:sl(a, b)
+
+--可以支持正则表达式；例子看（注意说明）
+--local c2 = i:sl(a, b, true)
+local c = szto(c2)
+
+--获取数组有多少位
+local leng = #c
+while leng>0 do
+leng = leng - 1
+
+--将打印5次：12
+syso(c[leng])
+end
+
+说明：
+将把变量“a”的字符串，切割成一个数组，以字符“.”为分割字符。并用循环顺序打印出数据。
+
+注意：
+如果支持正则表达式数据数组，上例子的 local b = ";" 其内的值。需要转义的特殊字符 “$()*+.[]?\^{},|”
+
+支持正则的特殊字符转义方法：
+如：
+local a = "12|a$12|a$12|a$12|a$12"
+
+--关键分割字符串如果包含特殊字符，需要在每个特殊字符前面增加“\\”进行转义
+local b = "\\|a\\$"
+local c2 = i:sl(a, b, true)
+local c = szto(c2)
+--获取数组有多少位
+local leng = #c
+while leng>0 do
+leng = leng - 1
+
+--将打印5次：12
+syso(c[leng])
+end
+
+
+【siof 获取字符位置】
+用法：
+local a = "123456789"
+local b = "3"
+local c = 0
+local d = i:siof(a, b, c)
+--将提示：2
+syso(d)
+
+local a = "123456789"
+local b = "3"
+local d = i:siof(a, b)
+--将提示：2
+syso(d)
+
+说明：
+从前面向后面进行匹配。字符位置以0计算，若无数据找到将返回 -1
+
+
+【slof 获取字符位置】
+用法：
+local a = "123456789"
+local b = "4"
+local c = 8
+local d = i:slof(a, b, c)
+--将提示：3
+syso(d)
+
+local a = "123456789"
+local b = "4"
+local c = i:slof(a, b)
+--将提示：3
+syso(c)
+
+说明：
+从后面向前面进行匹配。字符位置以0计算，若无数据找到将返回 -1
+
+
+【ssg 截取字符】
+用法：
+local a = "abcdefghijk"
+local b = i:ssg(a, 2, 6)
+--将提示：cdef
+syso(b)
+
+local a = "abcdefghijk"
+local b = i:ssg(a, 6)
+--将提示：ghijk
+syso(b)
+
+说明：
+根据字符的位置进行截取字符，若失败将变量“b”赋值 nil
+
+
+【slg 获取字符长度】
+用法：
+local a = "123456789"
+local b = i:slg(a)
+--将提示：9
+syso(b)
+
+说明：
+顾名思义。
+
+
+【strim 去除头尾空格】
+用法：
+local a = "   123456789 "
+local b = i:strim(a)
+--将提示:123456789
+syso(b)
+
+说明：
+常用于去除后进行判断头尾字符。
+
+【slower 转换为小写】
+用法：
+local a = "AiufSUscN"
+local b = i:slower(a)
+--将提示:aiufsuscn
+syso(b)
+
+说明：
+常用于转换为小写后进行判断。
+
+【supper 转换为大写】
+用法：
+local a = "AiufSUscN"
+local b = i:supper(a)
+--将提示:AIUFSUSCN
+syso(b)
+
+说明：
+常用于转换为大写后进行判断。
+
+
+【stop 暂停代码】
+用法：
+i:t(
+function()
+syso("1")
+
+i:stop(1000)
+syso("2")
+
+i:stop(1000)
+syso("3")
+
+i:stop(1000)
+syso("4")
+end
+)
+
+说明：
+每次执行 i:stop(1000) 将暂停1秒后，再执行下面代码。单位为毫秒：1000毫秒 = 1秒
+
+
+【sran 生产范围随机数】
+用法：（生产一个 100 至 1000的随机数）
+local a = i:sran(100, 1000)
+syso(a)
+
+说明：
+有时候需要利用到随机机制，可以利用这个来开发！
+
+
+【nsz 创建数组】
+用法：
+--声明6位的数组
+local a2 = i:nsz(6)
+syso(i:sgszl(a2))
+
+或
+
+//指定数组数据类型
+local a2 = nsz(6, "String")
+
+
+--声明数组，并直接设置数组值
+local a2 = i:nsz({ 1, 2, 3, 4, 5 })
+
+--打印数组总行数
+local leng = i:sgszl(a2)
+syso(leng)
+
+--设置数组值
+a[0] = 3 --设置第一位
+a[1] = 6 --设置第二位
+
+--循环打印数组所有
+local leng = i:sgszl(a2)
+local a = szto(a2)
+while leng>0 do
+leng = leng - 1
+
+syso(a[leng])
+end
+
+
+说明：
+申明一个数组。并且设置数组
+
+
+【sgsz 指定访问数组维数】
+用法：（根据序号访问数组）
+local a = i:nsz({ 1, 2, 3, 4, 5 })
+local d = i:sgsz(a, 2)
+tw(d)
+
+说明：
+数组可以进行列表形式存储数据，常用于数据列表。注意的是序号是从0开始的。数组总行数如果是5，那序号最大为4
+
+【sssz 设置数组数据】
+用法：
+local a = i:nsz({ 1, 2, 3, 4, 5 })
+local c = 1
+local d = 9
+i:sssz(a, c, d)
+
+说明：
+指定数组序号设置数组的数据。
+
+
+【sgszl 访问数组总行数】
+用法：
+local a = i:nsz({ 1, 2, 3, 4, 5 })
+local d = i:sgszl(a)
+tw(d)
+
+说明：
+可以获取到长度，更准确的访问数组
+
+
+【hs 获取网页源码】
+用法：
+i:t(
+function()
+local a = "https://m.baidu.com/"
+local b = i:hs(a)
+syso(b)
+end
+)
+
+2，提交post数据:
+输入说明：地址，post数据提交，目标网页编码
+i:t(
+function()
+local a = "https://m.baidu.com/"
+local b = i:hs(a, "title=你好&text=你好吗？", "utf-8")
+syso(b)
+end
+)
+
+3，带自定义cookie方式获取网页:
+--传递cookie项值，格式为nama=value 下例： uid=112;name=nihao;sb=123456789;
+i:t(
+function()
+local a = "https://m.baidu.com/"
+local b = i:hs(a, "title=你好&text=你好吗？", "utf-8", "uid=112;name=nihao;sb=123456789;")
+syso(b)
+end
+)
+
+4，带自动设置cookie方式获取网页，并记录当前网页的Cookie:
+--传递cookie项值，当自定义为nil 系统将自动设置已记录的cookie
+i:t(
+function()
+local a = "https://m.baidu.com/"
+local b = i:hs(a, "title=你好&text=你好吗？", "utf-8", nil, true)
+syso(b)
+end
+)
+
+5，带自动设置cookie方式获取网页，并记录当前网页的Cookie，并设置Header头:（可设置多条，以“||”隔开）文件头包括了Cookie，User-Agent设备型号。
+--传递cookie项值，当自定义为nil 系统将自动设置已记录的cookie
+i:t(
+function()
+local a = "https://m.baidu.com/"
+local b = i:hs(a, "title=你好&text=你好吗？", "utf-8", nil, true, "User-Agent=Mozilla/5.0 (iPad; U; CPU OS 6_0 like Mac OS X; zh-CN; iPad2)||accept=*/*||accept-language=zh-CN")
+syso(b)
+end
+)
+
+6，带自动设置cookie方式获取网页，并记录当前网页的Cookie，并设置Header头:（可设置多条，以“||”隔开）文件头包括了Cookie，User-Agent设备型号，设置连接超时，设置接收超时，设置代理IP。
+--传递cookie项值，当自定义为nil 系统将自动设置已记录的cookie
+i:t(
+function()
+local a = "https://m.baidu.com/"
+local b = i:hs(a, "title=你好&text=你好吗？", "utf-8", nil, true, "User-Agent=Mozilla/5.0 (iPad; U; CPU OS 6_0 like Mac OS X; zh-CN; iPad2)||accept=*/*||accept-language=zh-CN", 20000, 20000, "10.0.0.172:80")
+syso(b)
+end
+)
+
+7，应用系统存储Cookie的浏览查看，返回赋值变量为字符串
+local b = i:hs("cookie")
+
+8，应用系统存储Cookie的清空，无赋值变量
+i:hs("del cookie")
+
+说明：
+这里先开了一个线程，然后在线程里执行获取网页源码的工作，开线程是担心有些主线程界面。大部分网页都需要使用cookie登陆，可使用工具查询所需cookie然后进行操作。
+设置cookie有说明作用？
+1.登陆用户名
+2.获取验证码图片并发送验证码
+....
+
+
+【hd 下载文件】
+用法：（下载文件至SD卡根目录 abc.apk）
+
+1，下载文件，默认不覆盖重复
+i:t(
+function()
+local a = "http://abc.com/abc.apk"
+local b = "abc.apk"
+local c = i:hd(a, b)
+syso(c)
+end
+)
+
+2，设置重复是否覆盖
+i:t(
+function()
+local a = "http://abc.com/abc.apk"
+local b = "abc.apk"
+local c = i:hd(a, b, true)
+syso(c)
+end
+)
+
+
+3，带自动设置cookie方式下载网页形式文件（如图片形式验证码，论坛的附件等），支持post数据，自定义Cookie或系统设置Cookie，并记录当前网页的Cookie，并设置重复是否覆盖。可参考hs获取网页，并设置Header头:（可设置多条，以“||”隔开，也可留空为nil）
+输入说明：下载地址，保存文件位置，是否重复覆盖，post数据提交，目标网页编码，自定义Cookie，是否系统自动设置Cookie，设置Header头
+i:t(
+function()
+local a = "http://abc.com/abc.apk"
+local b = "abc.apk"
+local c = i:hd(a, b, true, "title=你好&text=你好吗？", "utf-8", nil, true, nil)
+syso(b)
+end
+)
+
+说明：
+开个线程，然后在里面下载一个文件。并存到SD卡。下载结果将赋值到变量“c”
+返回的赋值：
+1 文件已经存在
+0 下载成功
+-1 下载失败
+
+
+【hw 访问网页】
+用法：
+local a = "https://m.baidu.com/"
+i:hw(a)
+
+说明：
+使用内置浏览器访问网页。
+可用于下载文件：
+local a = "http://abc.com/abc.apk"
+hw(a)
+
+
+--跳转访问网页，并且自定义标题栏颜色
+--主体颜色
+local b = "#387bd6"
+--底部横杠颜色
+local c = "#255eab"
+i:hw("https://m.baidu.com/", b, c)
+
+【hws 系统浏览器访问网页】
+用法：
+local a = "https://m.baidu.com/"
+i:hws(a)
+
+说明：
+使用内置浏览器访问网页。
+可用于下载文件：
+local a = "http://abc.com/abc.apk"
+i:hws(a)
+
+
+【ug 获取控件属性】
+用法：(1为：控件ID，第二个参数为控件属性标识，然后赋值到变量)
+local a = i:ug(1, "text")
+syso(a)
+
+说明：
+输入属性标示来返回不同的控件数据。注意：有些控件没有指定属性，将返回nil。下面有属性介绍，可参考。
+
+可用属性标识：
+text=内容、background=背景、width=宽度、height=高度、x=X轴、y=Y轴、paddingleft=左内边距、paddingtop=顶内边距、paddingright右内边距、paddingbottom=底内边距、layout_marginleft=左外边距、layout_margintop=顶外边距、layout_marginright=右外边距、layout_marginbottom=底外边距、
+hint=提示字符、imeoptions=虚拟键盘按键状态、visibility=控件可视状态、checked=选项是否被选中、title=浏览器网页标题、url=浏览器网址、lastvisibleposition=列表滑动到项目位置的序号、count=列表项目总数、
+selecteditem=获取下拉框选值、rating=评分当前数值、progress=控件当前进度数值、date=日期控件选值、time=时间控件选值、currentitem=获得滑动窗体界面序号、isdraweropen=侧滑是否界面展开状态、selectionstart=获取文本框光标开始位置、selectionend=获取文本框光标结束位置、
+cangoback=是否存在可返回的网页、cangoforward=是否存在可前进的网页、collapsecolumns=表格布局获取指定列是否折叠、shrinkcolumns=表格布局获取指定的列是否可收缩、stretchcolumns=表格布局获取指定的列是否可拉伸、shrinkcolumnsall=表格布局获取指示是否所有的列都是可收缩的、
+stretchcolumnsall=表格布局获取指示是否所有的列都是可拉伸的
+
+
+
+【us 设置控件属性】
+用法：(1为：控件ID，第二个参数为控件属性标识，第三个是需要设置的数据或变量)
+
+--设置文本控件内容
+local c = "文本内容"
+local f = i:us(1, "text", c)
+syso(f)
+
+
+--设置浏览器的连接url
+local c = "https://m.baidu.com/"
+local f = i:us(2, "url", c)
+--提示：如果浏览器正在播放视频或音乐，直接关闭浏览器可能还会有声音，建议关闭浏览器时先跳转成另一个网页。
+--提示：如果需要加载本地的文件，可以 us(2, "url", "file:///android_asset/res/web.html") 加载安装包内assets/res/web.html文件
+syso(f)
+
+
+--设置浏览器显示的html文件或文本
+s c = "<html><p>html内容</></html>"
+s d = "utf-8"
+s e = "text/html"
+local f = i:us(2, "url", c, d, e)
+syso(f)
+
+
+--设置控件阴影（部分控件有效果如文本、文本框、按钮）
+local radius = 5
+local dx = 0
+local dy = 0
+local color = "#000000"
+local f = us(2, "shadow", radius, dx, dy, color)
+syso(f)
+
+
+--带有赋值变量，将返回数据是否设置成功 true 或 false
+local c = "文本内容"
+us(1, "text", c)
+
+--设置文本框控件光标
+us(1, "selection", 1)
+
+--选中文本框部分内容
+us(1, "selection", 1, 3)
+
+--浏览器前进1个网页
+us(1, "gobackorforward", 1)
+
+--浏览器后退1个网页
+us(1, "gobackorforward", -1)
+
+--设置控件点击波纹效果颜色；需系统5.0以及以上才有效果；部分控件还需要设置 clickable=true 才有效果。
+us(1, "backgroundripple", "#888888")
+
+--设置编辑框光标颜色
+us(1, "textcursordrawable", "#000000")
+
+说明：
+输入控件标示设置控件数据。【可参照控件属性，所有属性标识通用】
+
+更多属性标识：
+currentitem=设置滑动窗体界面序号、closedrawer=关闭指定侧滑、opendrawer=展开指定侧滑、drawerlockmode=设置手势滑动、selection=设置文本框光标位置、gobackorforward=浏览器的前进或推后、backgroundripple=波纹效果、dh=执行动画（非队列动画）
+
+
+【uigo 跳转界面】
+用法：（输入界面文件名，跳转指定的界面）
+i:uigo("abc.ilua")
+
+--带参数的跳转
+i:uigo("abc.ilua", 536870912)
+
+
+说明：
+可以界面之间的转换，扩展新的界面。
+
+参数：
+67108864：如果在内存中发现存在该界面，则清空这个界面之上的所有其他界面，使其处于栈顶。
+268435456：系统会寻找或创建一个新的内存来放置该界面
+1073741824：跳转到的界面，不排在内存中
+536870912：当内存中存在该界面并且位手机的显示状态时，不再创建一个新的，直接利用这个界面。
+
+
+【utw 弹出界面】
+用法：（在原有的界面弹出界面）
+local a = nil
+local b = "界面标题"
+local c = "界面内容"
+local d = "退出"
+local e = "保存"
+local f = "取消"
+
+--三个按钮
+--输入图标，输入标题，输入内容，输入按钮名称，输入按钮名称，输入按钮名称，输入是否点击弹窗以外界面是否关闭弹窗
+i:utw(a, b, c, d, e, f, false,
+function()
+syso("点击了确定")
+end
+,
+function()
+syso("点击了保存")
+end
+,
+function()
+syso("点击了取消")
+end
+)
+
+--两个按钮
+i:utw(a, b, c, d, e, false,
+function()
+syso("点击了确定")
+end
+,
+function()
+syso("点击了取消")
+end
+)
+
+-- 一个按钮
+i:utw(a, b, c, d, false,
+function()
+syso("点击了确定")
+end
+)
+
+
+--没有按钮
+i:utw(a, b, c, false)
+
+--将界面添加到弹窗界面上，直接将界面内容设为一个界面文件
+local a = "界面标题"
+local b = "a.ilua"
+local c = "取消"
+
+--返回界面对象，设置为全局变量 v
+v = i:utw(nil, a, b, c, false, 
+function()
+syso("点击了取消")
+
+--获取全局变量 v
+local v = is("v")
+syso(v)
+end
+)
+
+
+说明：
+常用于询问用户当前的操作，弹窗展示内容。
+
+赋值变量说明：
+弹出界面需要赋值到一个变量，用于自定义界面弹窗的操作。
+
+
+【endutw 关闭弹出界面】
+用法：
+i:endutw()
+
+说明：
+用于关闭当前打开的弹窗界面
+
+【end 结束界面】
+用法：
+i:end()
+
+说明：
+调用后，将结束当前的界面。 并返回原来的界面。如果原来没有界面，将退出应用。
+
+【ends 显示桌面】
+用法：
+i:ends()
+
+说明：
+跳转到手机的桌面，程序将后台运行。
+
+
+【bfm 播放音频】
+用法：
+local a = "http://www.abc.com/abc.mp3"
+local b = i:bfm(a)
+
+local a = "%abc.mp3"
+local b = i:bfm(a)
+-- 播放
+-- i:bfms(b, "st")
+-- 暂停
+-- i:bfms(b, "pe")
+-- 停止
+-- i:bfms(b, "sp")
+-- 结束播放组件
+-- i:bfms(b, "re")
+-- 是否在播放
+-- i:bfms(b, "ip", c)
+-- tw(c)
+
+-- 获取音频时长（毫秒）
+-- i:bfms(b, "dn", c)
+-- tw(c)
+-- 获取当前播放时长（毫秒）
+-- i:bfms(b, "cn", c)
+-- tw(c)
+
+-- 指定播放的位置（毫秒）
+-- i:bfms(b, "seekto", 2000)
+
+-- 设置音量（0-100）
+-- i:bfms(b, "volume", 100, 100)
+
+-- 一直循环播放
+-- i:bfms(b, "sl", true)
+
+说明：
+可以直接访问安装包里面的音频文件，也可以访问sd卡上的。
+……
+
+【html 标签支持】
+用法：
+local a = "(html)<a href="https://m.baidu.com">百度</a>"
+i:us(1, "text", a)
+
+说明：
+text属性：设置支持html代码！
+
+
+【ula 列表操作内容】
+用法：
+--输入数据列表对象，输入数据项...不限制数量。
+local a
+a = i:ula(a, {1,2,3}, {"abc","bac","bbc"})
+
+--刷新列表显示内容，常用增加数据后的刷新。
+i:ula(a)
+
+--清空列表对象
+i:ula(a, nil)
+--i:ula(a, "clear")
+
+--获得列表对象，赋值返回v变量为列表对象
+local v = i:ula(a, "list")
+
+说明：
+根据数据列表，进行增加数据。
+
+提示：
+1 abc，其中1为控件id，abc为设置控件值
+其中所谓的控件，为a.iyu界面中的控件。
+增加标识数据，不作为设置控件数据，可在标识处设负数。如下：
+-1 abc
+
+提示：
+如果需要设置 单选控件、多选控件 的选择状态，可设值为 true 或 false
+
+注意：
+将要执行事件的控件，必须在此设置值。如你有一个按钮控件无需设置值，但需要使用事件，可设置 1=nil
+不设置值的控件，将无法获取列表内容数据。
+
+【uls 列表显示内容】
+用法：
+--
+local a
+a = i:ula(a, {1,2,3}, {"abc","bac","bbc"})
+a = i:ula(a, {1,2,3}, {"cde","cdw","cad"})
+local c = "a.ilua"
+local d = -1
+local e = -2
+--输入控件id或控件对象，输入数据列表，输入列表项界面文件名，输入界面宽度，输入界面高度
+i:uls(1, a, c, d, e)
+
+--设置下拉选择列表
+--输入控件id或控件对象，输入数据列表或数组数据
+i:uls(1, {"abc","bac","bbc"})
+
+说明：
+设置列表控件、视图控件、下拉列表的数据。
+
+注意：
+列表控件、视图控件 设置的界面 a.ilua 其中的载入事件是允许被调用。
+可以通过列表控件、视图控件 设置的界面 a.ilua 的载入事件，进行每项列表布局的个性化设计。
+每当显示到每项列表内容就会调用一次此载入事件，并且将该项的布局控件赋值给 st_vW 变量对象，
+然后可以通过 local b = i:gvs(st_vW, "a.2") 获取其中的子控件对象，然后进行操作子控件即可。
+还可以通过 st_pN 获取当前的视图中的序号，方便判断目前操作的是那一个视图。
+
+
+【ulag 获取列表内容数据】
+用法：
+
+--输入当前的控件对象，输入获取控件ID 1的数据参数
+local b = i:ulag(a, 1)
+
+--输入当前的控件对象，输入获取标识为 -1的数据参数
+local b = i:ulag(a, -1)
+
+--通过 数据列表对象 或 列表控件对象 获取数据
+--输入数据列表对象 或 列表控件对象，输入视图中的位置序号，输入获取标识为 -1的数据参数
+local b = i:ulag(a, 1, -1)
+
+
+说明：
+常用与在列表控件的事件中，获取参数数据与用户进行互动。获取失败将赋值变量为 nil
+
+注意：
+使用此方法在uls中设置控件参数后，有设置参数的控件，在事件中可使用此方法。
+
+【ulas 更新列表内容数据】
+用法：
+
+--输入当前的控件对象，输入获取控件ID 1的数据参数
+local b = i:ulas(a, 1)
+
+--输入当前的控件对象，输入获取标识为 -1的数据参数
+local b = i:ulas(a, -1)
+
+--通过 数据列表对象 或 列表控件对象 获取数据
+--输入数据列表对象 或 列表控件对象，输入视图中的位置序号，输入获取标识为 -1的数据参数，输入新的数据
+local b = i:ulas(a, 1, -1)
+
+--刷新列表显示内容，常用增加数据后的刷新。
+i:ula(a)
+
+说明：
+常用与更新修改列表内容数据。修改数据后，别忘记刷新列表。
+
+【usms 发送短信】
+用法：
+local a = "10086"
+local b = "0"
+i:usms(a, b)
+
+注意:测试时只显示syso日志，不直接 发送短信，打包即可。
+
+【ucall 拨打电话】
+用法：
+local a = "10086"
+i:ucall(a)
+
+注意:测试时只显示syso日志，不直接 拨出号码，打包即可。
+
+【time 当前时间】
+用法：
+local a = 0
+local b = i:time(a)
+syso(b)
+
+说明：
+第一个参数为时间类型，第二个赋值变量
+
+[数字类型]
+0：2014-07-07 09:10:08
+1：2014/07/07 09:10:08
+2：2014-07-07
+3：09:10:08
+4：18144133553151
+5：2014年07月07日 09:10:08
+[字符类型，输入字符形式需引号概括]
+Y 年
+m 月
+d 日
+H 时
+M 分
+S 秒
+a/A 星期几
+
+
+【fi 判断路径是否文件夹】
+用法：
+local a = "abc"
+local b = i:fi(a)
+syso(b)
+
+说明：
+指定路径，判断是否为目录文件夹，返回：true 或 false
+
+
+【swh 获取屏幕分辨率】
+用法：
+local a = "w"
+--获取屏幕宽度的dp
+local w = i:swh(a)
+
+local a = "h"
+--获取屏幕高度的dp
+local h = i:swh(a)
+
+local a = "hh"
+--获取屏幕真实高度的dp
+local w = i:swh(a)
+
+local a = "pxw"
+--获取屏幕宽度的px像素
+local w = i:swh(a)
+
+local a = "pxh"
+--获取屏幕高度的px像素
+local h = i:swh(a)
+
+local a = "pxhh"
+--获取屏幕真实高度的px像素
+local hh = i:swh(a)
+
+local a = "pxztl"
+//获取屏幕状态栏高度的px像素
+local h = i:swh(a)
+
+local a = "pxbvk"
+//获取屏幕底部虚拟键盘的高度的px像素
+local h = i:swh(a)
+
+说明：
+常用于获取屏幕的大小。
+
+真实高度：不去除其他系统界面所占用（如状态栏）
+
+
+
+【stobm 汉字转换编码字符】
+用法：（你 转换 %E4%BD%A0）
+local b = i:stobm("你", "utf-8")
+tw(b)
+
+说明：
+有些时候网络操作的时候，网址需要带有字符参数，就可以把这个汉字转换下。
+
+【sutf8to 将UTF-8编码字符转换中文】
+local b = i:sutf8to("%E4%BD%A0")
+tw(b)
+
+【uycl 隐藏状态栏】
+用法：
+--隐藏
+i:uycl(true)
+--不隐藏
+i:uycl(false)
+
+--输入更变颜色，并且保留状态栏空间，只设置状态栏，不设置软键盘
+i:uycl("#50c4e5", true, 0)
+
+--输入更变颜色，并且保留状态栏空间，只设置软键盘，不设置状态栏
+i:uycl("#50c4e5", true, 1)
+
+说明：
+隐藏手机顶部的状态栏
+
+【uycl 修改状态栏颜色】
+用法：
+--输入更变颜色，并且保留状态栏空间
+i:uycl("#50c4e5", true)
+
+--输入更变颜色，并且不保留状态栏空间
+i:uycl("#50c4e5", false)
+
+
+说明：
+常用与设置一体化颜色，以及更变不同的状态栏颜色。
+
+注意：
+仅系统android 4.4以及以上才有效果，系统android 5.0以及以上效果更佳！
+android 4.4以下的系统，无效果！
+
+【ushsp 设置横屏或竖屏】
+用法：
+--横屏
+i:ushsp(true)
+--竖屏
+i:ushsp(false)
+
+说明：
+设置屏幕的显示方式，注意的是设置后载入事件将重新执行
+
+
+【bfv 播放视频】
+用法：(播放SD卡上的视频文件)
+local a = "%abcd.mp4"
+i:bfv(a)
+
+--并且横屏
+local a = "%abcd.mp4"
+local b = true
+i:bfv(a, b)
+
+
+--并且横屏
+local a = "http://m.baidu.com/abcd.mp4"
+local b = true
+i:bfv(a, b)
+说明：
+此方法将全屏播放SD卡上的视频文件。调用自带的播放器。
+
+注意：
+不支持加载assets文件。支持SD卡文件、应用私有文件、（http）远程网络文件！
+
+支持格式：
+3gp、MP4、avi
+
+
+【ftz 发送通知栏】
+用法：
+i:ftz("提醒标题", "标题", "内容", nil, [[
+tw("点击了")
+]])
+
+--设置显示图标
+i:ftz("提醒标题", "标题", "内容", "%abc.png", [[
+tw("点击了")
+]])
+
+说明：
+可以用于通知用户。
+
+
+【uapp 打开App应用或游戏】
+用法：
+local c = i:uapp("com.iapp")
+
+--或 带有指定类名的启动
+local c = i:uapp("com.iapp", "com.yougaile.MakeiApp.logoActivity")
+
+说明：
+输入应用包名，赋值变量； 赋值变量返回启动结果：true 或 false
+
+【uapplist 获取App列表】
+用法：
+local b = i:uapplist(true)
+local c = b[1]
+syso(c[0])
+
+说明：
+输入 是否包括获取系统App，返回一个列表数组 至变量 “b”，每列数据将存储一个应用的信息，并且以数组方式储存。
+
+其中列数组内容序列：
+0应用包名，1启动类，2应用标题，3应用版本
+
+
+【uapplistgo 获取正在运行的App列表】
+用法：
+local b = i:uapplistgo()
+syso(b[0])
+
+说明：
+输入 返回一个列表数组 至变量 “b”，每列数据将存储一个应用的信息，并且以 “\n”隔开。
+
+其中列内容格式：
+应用包名，pid, uid
+
+【uninapp 卸载应用】
+用法：
+i:uninapp("com.iapp")
+
+说明：
+输入应用包名
+
+
+【huf 上传文件】
+用法：
+t(
+function()
+local a = "http://abc.com/upfile.php"
+local b = "filename=iApp我的应用.apk&test=一款非常好的应用哦"
+local c = "%abc/iApp.apk"
+-- 支持多文件上传
+//local c = "%abc/iApp.apk|%abc/iApp2.apk|%abc/iApp3.apk"
+local d = "utf-8"
+local e = i:huf(a, b, c, d)
+syso(e)
+end
+)
+
+2.设置 header文件头，文件头包括了Cookie，User-Agent设备型号。。
+t(
+function()
+local a = "http://abc.com/upfile.php"
+local b = "filename=iApp我的应用.apk&test=一款非常好的应用哦"
+local c = "%abc/iApp.apk"
+-- 支持多文件上传
+//local c = "%abc/iApp.apk|%abc/iApp2.apk|%abc/iApp3.apk"
+local d = "utf-8"
+local e = "User-Agent=Mozilla/5.0 (iPad; U; CPU OS 6_0 like Mac OS X; zh-CN; iPad2)||Cookie=aa:123;bb:456;||accept-language=zh-CN"
+local f = huf(a, b, c, d, e)
+syso(f)
+end
+)
+
+说明：
+输入 http接口，表单内容，手机内存选择文件，接口的网页编码， 赋值变量。 返回网页内容将赋值给变量 “e”
+
+
+【nvw 创建动态控件】
+用法：
+--将控件添加至指定的控件作为子控件
+--输入要添加的控件ID或控件对象，输入添加至指定控件ID或控件对象
+i:nvw(id, did)
+
+--输入要添加的控件ID或控件对象，输入添加至指定控件ID或控件对象，输入插入指定序号
+i:nvw(id, did, 0)
+
+--创建文本控件
+--输入控件ID，输入添加至指定控件ID或控件对象（若不添加则输入nil），输入控件类型，输入控件属性
+local id = 123456
+local did = 1
+local v = i:nvw(id, did, "文本", "width=-2\nheight=-2\ntext=内容")
+
+说明：
+输入创建的控件ID，输入将新控件添加至指定控件ID或控件对象，创建控件的类型，创建控件的属性
+
+
+【uall 获取子控件】
+用法：
+--输入控件ID或控件对象，输入false时将赋值子控件ID，输入赋值变量将返回一个数据列表
+local a = i:uall(1, false)
+
+--输入控件ID或控件对象，输入true时将赋值子控件对象，输入赋值变量将返回一个数据列表
+local a = i:uall(1, true)
+
+tw(a[0])
+
+说明：
+获取一个包含子控件的，控件中所有的子控件。
+
+【urvw 移除控件】
+用法：
+i:urvw(3)
+
+说明：
+输入需要移除的控件ID或控件对象
+
+
+【sbp 图像分割】
+用法：
+--载入一个图像变量，并赋值到图像变量“b”
+local b = i:sbp("%1.png")
+
+--载入一个用户图标，{裁剪图像区域（像素）：x坐标:80，y坐标:90，裁剪宽度:50，裁剪高度:60}
+--并将裁剪好的赋值到图像变量“b”
+local b = i:sbp("%1.png", 80, 90, 50, 60)
+
+--载入一个SD卡上的图标，{裁剪图像区域（像素）：x坐标:80，y坐标:90，裁剪宽度:50，裁剪高度:60}，图像旋转图像:180度
+--并将裁剪好的赋值到图像变量“b”
+local b = i:sbp("%1.png", 80, 90, 50, 60, 180)
+
+说明：
+三种方式载入图像，从图像变量，从用户图标，从SD上图标；并可设置裁剪图片；可设置图像旋转； 并赋值到新的图像变量；
+
+
+【bfs 保存图像】
+用法：
+i:bfs(b, "%1.jpg")
+
+--或 压缩比例（1至100）
+i:bfs(b, 70, "%1.jpg")
+
+说明：
+输入图像变量，输入压缩比例（1至100），输入保存图像的路径，图像将保存至该路径。
+
+
+【sdeg 启动调试模式】
+用法：
+
+i:sdeg(0)
+i:sdeg(1)
+i:sdeg(2)
+
+说明：
+提示日志方式。0打包后没有任何提示，1打包后可任然打印错误，2打包后记录日志保存至文件 iApp/Log
+
+
+【tot 获取控件图标】
+用法：
+local id = 4
+local b = i:tot(id)
+
+说明：
+输入控件ID或控件对象，返回将赋值“b”图像变量。注：此方法仅限于 图片控件，图标按钮控件。
+
+
+【tzz 图像旋转】
+用法：
+local a = i:sbp("%1.png")
+local b = 90
+local c = i:tzz(a, b)
+
+说明：
+输入被旋转图像变量，输入旋转度数（逆向旋转数为负数），返回将赋值“c”图像变量。
+
+
+【tsf 图像缩放】
+用法：
+local a = i:sbp("%1.png")
+
+--按照倍增缩放，值小于则为缩小，否则为放大
+local b = 2
+local c = i:tsf(a, b)
+
+--指定高度与宽度缩放
+local w = 100
+local h = 200
+local c = i:tsf(a, w, h)
+
+说明：
+输入被缩放图像变量，输入缩放倍数 或 指定图像高度与宽度缩放，返回将赋值“c”图像变量。
+
+
+【tfz 图像反转】
+用法：
+local a = i:sbp("%1.png")
+--水平反转
+local b = "x"
+local c = i:tfz(a, b)
+
+--垂直反转
+local b = "y"
+local c = i:tfz(a, b, c)
+
+说明：
+输入被反转图像变量，输入反转方式 x为水平 y为垂直，返回将赋值“c”图像变量。
+
+【tcc 获取图像变量尺寸】
+用法：
+local a = i:sbp("%1.png")
+local b = "w"
+local c = i:tcc(a, b)
+syso(c)
+
+local b = "h"
+local c = i:tcc(a, b)
+syso(c)
+
+说明：
+获取图像变量的 w宽度 和 h高度。
+
+【sxb 写入剪切板】
+用法：
+local a = "nihao"
+i:sxb(a)
+
+说明：
+可用于复制到剪切板，其他应用可获取到此数据。
+
+【shb 获取剪切板】
+用法：
+local a = i:shb()
+syso(a)
+
+说明：
+可获取剪切板数据，得到其他地方写入的剪切板数据。
+
+【usjxm 手机休眠】
+用法：
+i:usjxm(false)
+
+说明：
+设置后手机将不休眠，不锁屏。默认为 true 需要休眠。
+
+
+【bfvs 播放视频】
+用法：
+
+--设置SD卡视频文件
+--输入控件ID或对象，输入视频文件路径
+i:bfvs(1, "%a.mp4")
+
+--设置网络远程视频文件
+i:bfvs(1, "http://abc.com/a.mp4")
+
+--增加控制器，c为赋值变量
+local c = i:bfvss(1, "media")
+--开始播放
+i:bfvss(1, "st")
+
+说明：
+自定义视频播放控件进行播放视频。
+
+注意：
+不支持加载assets文件。支持SD卡文件、（http）远程网络文件！
+
+支持格式：
+3gp、MP4、avi
+
+【bfvss 播放视频控制】
+用法：
+--开始播放
+i:bfvss(1, "st")
+
+--暂停播放
+i:bfvss(1, "pe")
+
+--停止播放
+i:bfvss(1, "sp")
+
+--定位到指定帧
+i:bfvss(1, "seekto", 300)
+
+--增加控制器，c为赋值变量
+local c = i:bfvss(1, "media")
+
+--是否在播放
+local c = i:bfvss(1, "ip")
+tw(c)
+
+--获取视频时长（毫秒）
+local c = i:bfvss(1, "dn")
+tw(c)
+
+--获取当前播放时长（毫秒）
+local c = i:bfvss(1, "cn")
+tw(c)
+
+【addv 加载界面】
+用法：
+--界面中载入其他界面
+local id = 1
+i:addv(id, "a.ilua")
+i:addv(id, "b.ilua")
+
+--侧滑窗体
+local id = 1
+i:addv(id, "a.ilua|b.ilua")
+
+--滑动窗体，将带有赋值变量。此处变量“b”赋值为根控件列表，先通过 gslist 访问指定序号的根控件。通过 gvs 指定的根控件访问指定ID的控件。
+local id = 1
+local b = i:addv(id, "a.ilua|b.ilua")
+
+说明：
+输入控件ID，输入界面名，输入辅助参数。可用将一个界面的控件，载入到指定控件作为子控件。
+
+如何设置或获取属性上例 a.ilua 中的控件呢？
+通过文件名作为对象，进行访问，如：
+
+--注意：此对象的使用方式。
+local b = i:ug("a.2", "text")
+i:us("a.3", "text", "你好")
+
+注意：
+如果载入事件中使用 addv 滑动窗体进行绑定， 如果还需要给滑动窗体内的界面中的控件设置数据，需要将设置控件的代码写在 载入完毕事件 中。否将将可能设置数据失败。
+
+注意：
+若增加 侧滑窗体 与 滑动窗体 的子控件，需要在被载入的界面设计中，自设一个根目录，作为界面唯一根目录。
+
+
+【gvs 获取控件对象】
+用法：
+--根据当前界面，来获取控件
+--输入要获取的控件ID，输入赋值变量
+local c = i:gvs(1)
+
+--根据控件对象，来获取内部的子控件
+--输入控件ID或控件对象，输入要获取的控件ID，输入赋值变量
+local c = i:gvs(1, 2)
+
+说明：
+常用与于利用根控件获取内部的子控件 或 获取控件对象。获取失败将赋值返回 nil
+
+
+【aslist 添加数据列表】
+用法：
+local a
+a = i:aslist(a, {"你好", "你好", "你好"})
+a = i:aslist(a, {"你好2", "你好2", "你好2"})
+
+--可插入数据到指定序号
+a = i:aslist(a, {"你好3","你好3"，"你好3"}, 1)
+
+说明：
+输入列表对象，输入要添加的数据，输入插入指定序号。
+
+
+【sslist 数据列表设置数据】
+用法：
+local b = 1
+local c = "数据"
+i:sslist(a, b，c)
+
+
+说明：
+输入列表对象，输入指定数据序号，输入设置的数据
+
+【gslist 数据列表访问数据】
+用法：
+local b = 1
+local c = i:gslist(a, b)
+syso(c)
+
+说明：
+输入列表对象，输入指定数据序号，输入赋值变量
+
+【gslistl 数据列表访问数据总数】
+用法：
+local b = i:gslistl(a)
+syso(b)
+
+说明：
+输入列表对象，输入赋值变量
+
+【dslist 数据列表删除指定数据】
+用法：
+local b = 1
+i:dslist(a, b)
+
+--清空所有数据
+local b = -1
+i:dslist(a, b)
+
+说明：
+输入列表对象，输入指定数据序号
+
+提示：
+如果需要清空所有数据，[输入指定数据序号]可输入 -1 即会删除当前数据列表所有数据。
+
+【gslistsz 列表数据转化为数组】
+用法：
+local b = i:gslistsz(a)
+
+说明：
+输入列表对象，输入赋值变量
+
+【gslistis 列表数据检查是否存在指定数据】
+用法：
+local b = "数据"
+local c = i:gslistis(a, b)
+
+说明：
+输入列表对象，被判断的数据，输入赋值变量。赋值数据：true 或 false
+
+【gslistiof 列表数据从头开始检查是否包含该数据】
+用法：
+local b = "数据"
+local c = i:gslistiof(a, b)
+
+说明：
+输入列表对象，被判断的数据，输入赋值变量
+
+【gslistlof 列表数据从尾开始检查是否包含该数据】
+用法：
+local b = "数据"
+local c = i:gslistlof(a, b)
+
+说明：
+输入列表对象，被判断的数据，输入赋值变量
+
+
+【nuibs 背景选择器】
+用法：
+--使用颜色作为背景
+local pressed = "#333333"
+local selected = "#333333"
+local normal = "#888888"
+local b = i:nuibs(pressed, selected, normal)
+
+
+--使用图像作为背景
+local pressed = "%a.png"
+local selected = "%a.png"
+local normal = "%b.png"
+local b = i:nuibs(pressed, selected, normal)
+
+
+--使用渐变颜色作为背景
+.配置选中状态背景
+local a = 0
+local b = 0
+local c = "#255779|#3e7492|#a6c0cd"
+local d = "0"
+local e = "topbottom"
+local pressed = i:ngde(a, b, c, d, e)
+
+.配置正常状态背景
+local a = 0
+local b = 0
+local c = "#255779|#3e7492|#a6c0cd"
+local d = "0"
+local e = "rightleft"
+local normal = i:ngde(a, b, c, d, e)
+
+local selected = pressed
+
+local b = i:nuibs(pressed, selected, normal)
+
+说明：
+输入按下背景，输入选中背景，正常状态背景。
+
+
+【ngde 背景调控器】
+用法：
+--输入圆角半径，输入背景填充色，输入赋值变量
+local a = 15
+local b = "#888888"
+local c = i:ngde(a, b)
+
+--输入边框宽度，输入背景填充色，输入边框颜色，输入赋值变量
+local a = 5
+local b = "#888888"
+local c = "#333333"
+local d = ngde(a, b, c)
+
+--输入边框宽度，输入圆角半径，输入背景填充色，输入边框颜色，输入赋值变量
+local a = 5
+local b = 15
+local c = "#888888"
+local d = "#333333"
+local e = i:ngde(a, b, c, d)
+
+--颜色渐变。输入边框宽度，输入圆角半径，输入背景填充渐变色组，输入边框颜色，输入颜色渐变方向，输入赋值变量
+local a = 5
+local b = 15
+local c = "#255779|#3e7492|#a6c0cd"
+local d = "#333333"
+local e = "topbottom"
+local f = i:ngde(a, b, c, d, e)
+
+说明：
+背景空调生成的赋值变量，可配合背景选择器进行应用。
+
+注意：
+ngde 代码将赋值返回一个背景对象，此背景对象如果被多个不同大小的控件引用为背景。因为控件的大小不同，会导致此背景对象大小被修改。从而影响其他引用者控件。
+
+提示：
+边框与圆角半径 若不想调整，可设值为0 。适用于颜色渐变，不需要调节圆角半径和边框。
+
+颜色渐变方向说明：
+	topbottom：绘制从顶部梯度至底部
+	trbl：借鉴右上角渐变左下角
+	rightleft：绘制从右侧的梯度向左
+	brtl：借鉴右下角渐变左上角
+	bottomtop：绘制从底部梯度顶端
+	bltr：借鉴渐变左下角到右上角
+	leftright：绘制从左侧的梯度向右
+	TL_BR：从绘制渐变的左上角到右下角
+
+【sit 目标的设置】
+用法：
+--如，分享软件
+--输入对象，输入属性标识，输入属性值
+local a
+a = i:sit(a, "action", "android.intent.action.SEND")
+a = i:sit(a, "type", "text/plain")
+a = i:sit(a, "extra", "android.intent.extra.SUBJECT", "共享软件")
+a = i:sit(a, "extra", "android.intent.extra.TEXT", "共享内容文本")
+a = i:sit(a, "flags", 268435456)
+i:uit(a, "chooser", "标题")
+
+说明：
+常用于调用系统程序以及功能 或 第三方程序功能。
+
+可属性标识：action、type、extra、flags、data、classname、component
+
+【uit 目标的执行】
+用法：
+--输入目标对象，输入属性，输入属性值
+i:uit(a, "chooser", "标题")
+
+--输入目标对象，输入属性，输入请求数值
+i:uit(a, "result", 1)
+
+--输入目标对象
+i:uit(a)
+
+说明：
+常用于调用系统程序以及功能 或 第三方程序功能。
+
+属性支持：chooser、result
+
+【git 目标获取参数】
+用法：
+--输入目标对象，输入属性标识
+local c = i:git(a, "action")
+local c = i:git(a, "type")
+local c = i:git(a, "extra", "title")
+local c = i:git(a, "flags")
+
+说明：
+获取目标的属性。
+
+【uqr 二维码扫描】
+用法：
+
+--扫描二维码
+i:uqr()
+
+--扫描结果，需要在 回调结果事件 写代码
+if st_sC == 1102 then
+
+local c = i:git(st_iT, "extra", "result")
+syso(c)
+
+end
+
+
+--生成二维码图像
+s a = "https://m.baidu.com"
+--输入字符串数据，输入图像长宽像素；将返回一个图像变量
+local c = i:uqr(a, 400)
+
+
+--识别二维码图像
+--输入图像变量或图片路径；将返回一个字符串
+local c = i:uqr(a)
+
+说明：
+常用于网络通用二维码扫描。
+
+【zdp  dip转换px】
+用法：
+local dp = 10
+--输入dp数值
+local c = i:zdp(dp)
+
+说明：
+用于常用数据转换。
+
+【zpd  px转换dip】
+用法：
+local px = 10
+--输入px数值，输入赋值变量
+local c = i:zpd(px)
+
+说明：
+用于常用数据转换。
+
+【zps  px转换sp】
+用法：
+local px = 10
+--输入px数值，输入赋值变量
+local c = i:zps(px)
+
+说明：
+用于常用数据转换。
+
+【zsp  sp转换px】
+用法：
+local sp = 10
+--输入sp数值，输入赋值变量
+local c = i:zsp(sp)
+
+说明：
+用于常用数据转换。
+
+【lan 跳转界面动画】
+用法：
+i:uigo("abc.ilua")
+--输入跳转界面动画的序号；6 右往左推出效果
+i:lan(6)
+
+说明：
+用于跳转界面时候进行的动画效果
+
+提示：
+0.淡入淡出效果 1.放大淡出效果 2.转动淡出效果1 3.转动淡出效果2 4.左上角展开淡出效果 5.压缩变小淡出效果 6.右往左推出效果 7.下往上推出效果 8.左右交错效果 9.放大淡出效果 10.缩小效果 11.上下交错效果
+
+
+【sjxx 获取设备信息】
+用法：
+local a = i:sjxx()
+syso(a[0])
+
+说明：
+获取手机基本信息，将返回一个数组到赋值变量“a”，数组格式如下：
+
+数据格式：（真实数据 \n 旁边将不没有空格）
+
+CPU型号 \n CPU频率
+屏幕宽度 \n 屏幕高度 \n 分辨率宽度 \n 分辨率高度
+手机型号 \n 手机品牌 \n 手机SDK
+
+【simsi 获取设备imsi】
+用法：
+local a = i:simsi()
+syso(a)
+
+说明：
+常用于识别用户的手段。
+
+【simei 获取设备imei】
+用法：
+local a = i:simei()
+syso(a)
+
+说明：
+常用于识别用户的手段。
+
+【endkeyboard 强制隐藏虚拟键盘】
+用法：
+i:endkeyboard()
+
+说明：
+常用于需要隐藏安卓弹出的虚拟键盘。
+
+
+【hdfl 文件下载器】
+用法：
+--两个参数的方法设置
+local savedir = "%SaveDir"
+--输入下载保存目录，输入赋值变量返回一个下载器对象
+a = i:hdfl(savedir,
+function(st_drD,st_drI)
+--每当下载完一个执行
+--系统赋值 st_drD 文件下载项的序号
+--系统赋值 st_drI 文件下载项的状态
+
+--获取下载的URL
+local b1 = i:ulag(a, st_drD, "url")
+syso(b1)
+
+--获取自定义整数标识
+local b2 = i:ulag(a, st_drD, "type")
+syso(b2)
+
+--获取自定义参数任意数据
+local b3 = i:ulag(a, st_drD, "text")
+syso(b3)
+
+--获取下载文件保存的路径
+local b4 = i:ulag(a, st_drD, "filename")
+syso(b4)
+
+end
+,
+function(st_drJ)
+
+--当下载完目前所有执行
+--系统赋值 st_drJ 本次文件下载完成总数
+syso(st_drJ)
+end
+)
+
+
+--三个参数的方法设置
+local tempdir = "%TempDir"
+local savedir = "%SaveDir"
+--输入下载临时文件保存目录，输入下载保存目录，输入赋值变量返回一个下载器对象
+local a = i:hdfl(tempdir, savedir,
+function(st_drD,st_drI)
+
+syso(st_drD)
+end
+,
+function(st_drJ)
+
+syso(st_drJ)
+end
+)
+
+--六个参数的方法设置
+local tempdir = "%TempDir"
+local savedir = "%SaveDir"
+--输入下载临时文件保存目录，输入下载保存目录, 下载线程数量，连接网络超时时间（25秒的意思），文件重复是否覆盖，输入赋值变量返回一个下载器对象
+local a = i:hdfl(tempdir, savedir, 3, 25000, true,
+function(st_drD,st_drI)
+
+syso(st_drD)
+end
+,
+function(st_drJ)
+
+syso(st_drJ)
+end
+)
+
+说明：
+常用与单个或多个的文件下载。推荐图片列表下载或小文件下载。
+
+提示：
+代码 区域中 属于线程内执行。在其中更新界面控件属性需要使用ufnsui代码
+上例子使用tw代码，并且用了ufnsui代码。
+
+
+
+【hdfla 文件下载器 增加文件下载项】
+用法：
+--创建一个文件下载器
+local a = i:hdfl("%TempDir",
+function()
+
+syso(st_drD)
+end
+,
+function()
+
+syso(st_drJ)
+end
+)
+
+--增加下载项
+--输入下载器对象，输入下载连接URL，输入自定义整数标识，输入自定义参数任意数据
+i:hdfla(a, "http://abc.com/1.jpg", 1, "abcd123")
+
+
+--增加下载项，并且自定义保存目录
+--输入下载器对象，输入下载连接URL，输入自定义整数标识，输入自定义参数任意数据，输入自定义保存路径
+i:hdfla(a, "http://abc.com/2.jpg", 1, "abcd123", "%abc.jpg")
+
+说明：
+调用下载器增加下载项，并且立刻进行下载。
+
+【hdd 配置下载管理器】
+用法：
+--下载产生的临时文件目录
+local a = "%tempdir"
+--下载至保存的目录
+local b = "%filedir"
+--允许同时下载任务数量
+local c = 3
+--每个任务开启线程数量
+local d = 3
+--连接失败重试次数
+local e = 2
+--连接超时时间，25秒的意思
+local f = 25000
+--是否显示下载进度通知
+local g = true
+i:hdd(a, b, c, d, e, f, g)
+
+说明：
+如果不使用此代码进行配置，那么系统将使用默认配置。下载配置器可以很方便的制作下载文件，并且方便管理。
+
+默认目录属性：
+临时文件目录：iApp/DownloadFileDir/TempDefaultDownFile
+保存文件目录：iApp/DownloadFileDir/DefaultDownFile
+
+【hdda 下载管理器 增加文件下载项】
+用法：
+
+--===========方法一
+--下载的链接
+local url = "http://abc.com/abc.apk"
+
+--保存的文件名（仅输入文件名,请勿不包含目录）
+local name = "abc.apk"
+
+--输入自定义参数任意数据
+local data = "abcde123"
+
+--变量v为赋值变量，为下载对象
+local v = i:hdda(url, name, data)
+
+--===========方法二
+--下载的链接
+local url = "http://abc.com/abc.apk"
+
+--保存的文件名（仅输入文件名,请勿不包含目录）
+local name = "abc.apk"
+
+--下载任务的标题
+local title = "abc.apk最新版"
+
+--输入自定义参数任意数据
+local data = "abcde123"
+
+--变量v为赋值变量，为下载对象
+local v = i:hdda(url, name, title, data)
+
+--===========方法三
+--下载的链接
+local url = "http://abc.com/abc.apk"
+
+--保存的文件名（仅输入文件名,请勿不包含目录）
+local name = "abc.apk"
+
+--下载任务的标题
+local title = "abc.apk最新版"
+
+--下载任务的图标
+local icon = "@abc.png"
+
+--输入自定义参数任意数据
+local data = "abcde123"
+
+--变量v为赋值变量，为下载对象
+local v = i:hdda(url, name, title, icon, data)
+
+--===========方法四
+--下载的链接
+local url = "http://abc.com/abc.apk"
+
+--保存至目录
+local dir = "%filedir"
+
+--保存的文件名（仅输入文件名,请勿不包含目录）
+local name = "abc.apk"
+
+--下载任务的标题
+local title = "abc.apk最新版"
+
+--下载任务的图标
+local icon = "@abc.png"
+
+--是否显示下载进度通知
+local notsohw = true
+
+--输入自定义参数任意数据
+local data = "abcde123"
+
+--变量v为赋值变量，为下载对象
+local v = i:hdda(url, dir, name, title, icon, notsohw, data)
+
+说明：
+增加常用的网络文件进行下载。
+
+【hddgl 获取下载管理器下载列表】
+用法：
+--输入赋值变量返回下载列表
+local list = i:hddgl()
+
+--获取第一位数据
+local b = i:gslist(list, 0)
+local c = i:hddg(b, "url")
+syso(c)
+
+说明：
+获取下载管理器所有的下载列表。
+
+【hddg 获取下载管理器获取下载项属性】
+用法：
+--下载的链接
+local url = "http://abc.com/abc.apk"
+--保存的文件名（仅输入文件名,请勿不包含目录）
+local name = "abc.apk"
+--输入自定义参数任意数据
+local data = "abcde123"
+--变量v为赋值变量，为下载对象
+local v = i:hdda(url, name, data)
+
+--===========获取下载项的属性
+--获取下载项的 ID
+local b = i:hddg(v, "id")
+
+--获取下载项的 下载链接
+local b = i:hddg(v, "url")
+
+--获取下载项的 保存的绝对路径
+local b = i:hddg(v, "dirfilename")
+
+--获取下载项的 下载链接的md5
+local b = i:hddg(v, "urlmd5")
+
+--获取下载项的 保存的目录
+local b = i:hddg(v, "dir")
+
+--获取下载项的 保存的文件名
+local b = i:hddg(v, "filename")
+
+--获取下载项的 下载文件的大小（字节）
+local b = i:hddg(v, "contentlength")
+
+--获取下载项的 已下载的数据（字节）
+local b = i:hddg(v, "equivalent")
+
+--获取下载项的 当前下载速度（字节）
+local b = i:hddg(v, "downloadspeed")
+
+--获取下载项的 当前下载进度百分比
+local b = i:hddg(v, "downloadpercentage")
+
+--获取下载项的 下载状态；（0为等待下载；1为正在下载；2为下载完成；3下载已经暂停或停止；-1下载失败；-2已删除）
+local b = i:hddg(v, "status")
+
+--获取下载项的 是否显示下载通知
+local b = i:hddg(v, "notificationshow")
+
+--获取下载项的 自定义的数据
+local b = i:hddg(v, "text")
+
+--获取下载项的 通知标题
+local b = i:hddg(v, "title")
+
+--获取下载项的 通知图标
+local b = i:hddg(v, "icon")
+
+说明：
+可获取详细的下载项目状态属性。
+
+【hdds 设置下载管理器下载项的属性】
+用法：
+--下载的链接
+local url = "http://abc.com/abc.apk"
+--保存的文件名（仅输入文件名,请勿不包含目录）
+local name = "abc.apk"
+--输入自定义参数任意数据
+local data = "abcde123"
+--变量v为赋值变量，为下载对象
+local v = i:hdda(url, name, data)
+
+--===========可设置的下载项属性
+
+--设置下载项的 下载状态；（0为等待下载；1为正在下载；2为下载完成；3下载已经暂停或停止；-1下载失败；-2已删除）
+i:hdds(v, "status", 0)
+
+--设置下载项的 是否显示下载通知
+i:hdds(v, "notificationshow", true)
+
+--设置下载项的 自定义的数据
+i:hdds(v, "text", "abcd123")
+
+--设置下载项的 通知标题
+i:hdds(v, "title", "abc.apk最新版本")
+
+--设置下载项的 通知图标
+i:hdds(v, "icon", "@abc.png")
+
+说明：
+设置下载项目的属性。
+
+【hdduigo 跳转至下载管理器】
+用法：
+--跳转至下载管理器
+i:hdduigo()
+
+--跳转至下载管理器，并且自定义标题栏颜色
+--主体颜色
+local a = "#387bd6"
+--底部横杠颜色
+local b = "#255eab"
+i:hdduigo(a, b)
+
+说明：
+跳转至文件下载的管理器。
+
+【ufnsui 线程更新界面】
+用法：
+i:ufnsui(
+function()
+
+tw(a)
+us(1, "text", "内容")
+
+end
+)
+
+说明：
+线程中直接修改界面或修改设置控件属性，出错。
+需要使用ufnsui模块进行更新或设置控件属性。
+
+提示：
+线程中获取控件数据不会出错。
+
+
+【se 正则表达式操作】
+用法：
+--===========例子1；所有属性展示
+--字符串
+local a = "qqqq123456eee"
+--正则表达式
+local b = "([a-z]+)(\\d+)"
+--更多参数
+local c = 0
+local d = i:se(a, b, c)
+syso(d)
+
+--替换成，将替换全部
+local e = i:se(d, "sral", "1:$1, 2:$2")
+syso(e)
+--替换成，只替换第一个
+local e = i:se(d, "srft", "1:$1, 2:$2")
+syso(e)
+
+--返回是否匹配成功，赋值返回true或 false
+.local e = i:se(d, "ms")
+
+--开始匹配 或 匹配下一个，赋值返回true或 false
+.local e = i:se(d, "find")
+
+--给定位置序号进行匹配，赋值返回true或 false
+.local e = i:se(d, "find", 1)
+
+--获取匹配组的数量，当前为2组：([a-z]+)、(\d+)
+.local e = i:se(d, "gl")
+
+--获取第1组匹配到的子字符串在字符串中的开头位置 
+.local e = i:se(d, "start", 1)
+
+--获取第1组匹配到的子字符串在字符串中的结尾位置 
+.local e = i:se(d, "end", 1)
+
+--获取第1组匹配到的子字符串
+.local e = i:se(d, "group", 1)
+--获取第2组匹配到的子字符串
+.local e = i:se(d, "group", 2)
+
+
+--===========例子2；获取所有手机号
+
+--字符串
+local a = "我的号码 13612345678 , 你的号码 13412345678"
+--正则表达式
+local b = "[1][3-8]\\d{9}"
+--更多参数
+local c = 0
+local d = i:se(a, b, c)
+
+--开始匹配 或 匹配下一个
+local ee = i:se(d, "find")
+
+--循环判断是否匹配成功
+while ee do
+--因为 [1][3-8]\\d{9} 没有组，所以这里我们输入 0
+local e = i:se(d, "group", 0)
+
+--打印出匹配到的子字符串
+syso(e)
+
+--开始匹配 或 匹配下一个
+ee = i:se(d, "find")
+end
+
+--===========例子3；判断是否为手机号
+
+--字符串
+local a = "13612345678"
+--正则表达式
+local b = "^[1][3-8]\\d{9}$"
+--更多参数
+local c = 0
+local d = i:se(a, b, c)
+
+local e = i:se(d, "ms")
+if e == true then
+syso("手机号格式正确")
+else
+syso("手机号格式错误")
+end
+
+
+说明：
+常用与字符串处理，高效的处理字符串，以及检测字符串类型等。使用此方法，需要对正则表达式有部分知识。
+
+【usg 闪光灯操作】
+用法：
+--开启闪光灯
+--输入闪光灯变量对象，输入是否开启闪光灯
+local sgd
+sgd = i:usg(sgd, true)
+
+--关闭闪光灯
+--输入闪光灯变量对象，输入是否开启闪光灯
+sgd = i:usg(sgd, false)
+
+说明：
+开启或关闭 设备闪光灯！
+
+说明：
+常用照明。
+
+注意：
+此方法调用将无法与摄像头同时调用。如启动摄像头需要使用闪光灯，可在摄像头操作中开启闪光灯。
+
+【uzd 震动器操作】
+用法：
+--震动1秒时长
+--输入振动器变量对象，输入震动时长
+local zdq
+zdq = i:uzd(zdq, 1000)
+
+--静止1秒，震动1秒，静止1秒，震动1秒，静止1秒，震动1秒，静止1秒，..， 并且不重复
+--输入振动器变量对象，输入震动规则，输入是否重复循环执行
+zdq = i:uzd(zdq, { 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000 }, false)
+
+--强制停止震动器
+i:uzd(zdq, "sp")
+
+--检查硬件是否具有振动器
+local b = i:uzd(zdq, "ip")
+syso(b)
+
+说明：
+常用提示用户。
+
+【usxq 开启前置摄像头】
+用法：
+local ps
+--开启摄像头
+--输入摄像头变量对象，输入面控件的对象或ID，摄像头旋转角度
+ps = i:usxq(ps, 1, 90)
+
+--输入摄像头变量对象，输入面控件的对象或ID，摄像头旋转角度，输入拍摄宽度像素，输入拍摄高度像素，输入图像品质1-100
+ps = i:usxq(ps, 1, 90, 640, 480, 95)
+
+--自动对焦拍摄
+--输入摄像头变量对象，输入保存路径，输入图像旋转角度，输入拍摄是否停止预览
+ps = i:usx(ps, "shot", "%abc.jpg", -90, false)
+
+说明：
+指定打开前置摄像头。
+
+注意：
+此功能需要与一个面控件进行绑定，你可以在面控件上面设置拍摄事件。
+
+注意：
+此代码仅限于载入事件调用。
+
+【usxh 开启后置摄像头】
+用法：
+local ps
+--开启摄像头
+--输入摄像头变量对象，输入面控件的对象或ID，摄像头旋转角度
+ps = i:usxh(ps, 1, 90)
+
+--输入摄像头变量对象，输入面控件的对象或ID，摄像头旋转角度，输入拍摄宽度像素，输入拍摄高度像素，输入图像品质1-100
+ps = i:usxh(ps, 1, 90, 1280, 960, 95)
+
+--自动对焦拍摄
+--输入摄像头变量对象，输入保存路径，输入图像旋转角度，输入拍摄是否停止预览
+ps = i:usx(ps, "shot", "%abc.jpg", 90, false)
+
+说明：
+指定打开后置摄像头。
+
+注意：
+此功能需要与一个面控件进行绑定，你可以在面控件上面设置拍摄事件。
+
+注意：
+此代码仅限于载入事件调用。
+
+【usx 摄像头操作】
+用法：
+--开启摄像头
+i:usxh(ps, 1, 90)
+
+--自动对焦拍摄
+--输入摄像头变量对象，输入保存路径，输入图像旋转角度，输入拍摄是否停止预览
+i:usx(ps, "shot", "%abc.jpg", 90, false)
+
+--开始预览
+i:usx(ps, "st")
+
+--停止预览
+i:usx(ps, "sp")
+
+--旋转摄像头角度
+i:usx(ps, "rotaing", 180)
+--获取旋转摄像头角度
+local b = i:usx(ps, "getrotaing")
+syso(b)
+
+--启动摄像头闪光灯
+i:usx(ps, "usg", true)
+
+--结束摄像头组件变量对象
+i:usx(ps, "re")
+
+说明：
+摄像头的控制。
+
+【bly 录制音频】
+用法：
+local ly
+--开始录制
+--输入录音变量对象，输入保存文件路径
+i:bly(ly, "%abcd.amr")
+
+--停止录音
+i:bly(ly, "sp")
+
+说明：
+常用于录制音频。
+
+说明：
+可使用 bfm 代码来播放录制好的音频。
+
+【ujp 截取屏幕】
+用法：
+--输入保存路径，输入图像品质（1-100）
+i:ujp("%123.jpg", 70)
+
+说明：
+常用于截取当前界面。
+
+【sqlite 数据库操作】
+用法：
+local data
+--连接一个私有数据库，如果不存在将自动新建
+--输入数据库对象变量，输入数据库文件名
+i:sqlite(data, "iapp.db")
+
+--连接一个公共数据库，如果不存在将自动新建
+--输入数据库对象变量，输入数据库文件名
+i:sqlite(data, "%iapp.db")
+
+--判断数据库是否存在
+local b = i:sqlite("iapp.db", "ip")
+syso(b)
+
+--删除数据库
+local b = i:sqlite("iapp.db", "del")
+syso(b)
+
+--释放数据库
+i:sqlite(data, "re")
+
+说明：
+进行数据库的操作。
+
+【sql 数据表操作】
+用法：
+
+--创建数据表
+local table = "_id integer primary key,url text, filename text,status interger,createTime datetime"
+local b = i:sql(data, "info", "add", table)
+
+--判断数据表是否存在
+local b = i:sql(data, "info", "ip")
+syso(b)
+
+--删除数据表
+local b = i:sql(data, "info", "del")
+syso(b)
+
+--添加数据表一条数据
+local table = "url,filename,status,createTime"
+local value = "'http://abc.com/abc.apk', 'abc.apk', 1, '" .. i:time(0) .. "'"
+local b = i:sql(data, "info", "add", table, value)
+syso(b)
+
+--修改数据表的数据，若不需要设置条件(status=2)可设为 nil 视为适用于执行所以数据
+local b = i:sql(sss.data, "info", "up", "status=2", "_id=1")
+syso(b)
+
+--删除数据表的数据，若不需要设置条件(_id=1)可设为 nil 视为适用于执行所以数据
+local b = i:sql(sss.data, "info", "del", "_id=1")
+syso(b)
+
+
+--查询，若不需要设置条件(status=1 order by _id desc LIMIT 0,1)可设为 nil 视为适用于执行所以数据
+
+-- LIMIT <跳过的数据数目>, <取数据数目>
+local table = "_id,url,filename,status,createTime"
+local sqlx = "status=1 order by _id desc LIMIT 0,1"
+local da = i:sql(sss.data, "info", "sele", table, sqlx)
+
+--自定义sql查询
+--local sqlx = "select _id,url,filename,status,createTime from info where status=1 order by _id desc LIMIT 0,1"
+--local da = i:sql(data, sqlx)
+
+--光标对象移到下一条数据
+local ee = i:sqlsele(da, "next")
+while ee do
+
+--获取光标对象的第一列数据
+local e = i:sqlsele(data, 0)
+syso(e)
+
+--获取光标对象的第二列数据
+local e = i:sqlsele(data, 1)
+syso(e)
+
+--光标对象移到下一条数据
+ee = i:sqlsele(data, "next")
+end
+
+
+--自定义的sql执行，需要对sql语法了解才能灵活运用
+local sqlx = "insert into info (url,filename,status,createTime) values ('http://abc.com/abc.apk', 'abc.apk', 1, '2016-7-31 10:31:21')"
+i:sql(sqlx, data)
+
+说明：
+数据表的操作。
+
+注意：
+在执行sql语句的时候，需要注意你的字符串的特殊字符的转义。
+     /   ->    //
+     '   ->    ''
+     [   ->    /[
+     ]   ->    /]
+     %   ->    /%
+     &   ->    /&
+     _   ->    /_
+     (   ->    /(
+     )   ->    /)
+
+【sqlsele 查询数据操作】
+用法：
+
+--获取光标对象的第一列数据
+local e = i:sqlsele(data, 0)
+
+--获取光标对象有多少列
+local e = i:sqlsele(data, "columncount")
+syso(e)
+
+--获取总共查询到多少条数据
+local e = i:sqlsele(data, "count")
+syso(e)
+
+--光标对象移到下一条数据
+local e = i:sqlsele(data, "next")
+
+--光标对象移到上一条数据
+local e = i:sqlsele(data, "previous")
+
+--光标对象移到第一条数据
+local e = i:sqlsele(data, "first")
+
+--光标对象移到最后第一条数据
+local e = i:sqlsele(data, "last")
+
+--光标对象移到指定第2条数据
+i:sqlsele(data, "position", 2)
+
+--获取光标对象当前位置
+local e = i:sqlsele(data, "getposition")
+syso(e)
+
+--释放数据查询
+i:sqlite(data, "re")
+
+说明：
+数据查询的操作。
+
+【dha 渐变透明度动画】
+用法：
+--创建一个渐变透明度动画，开始显示，然后渐变消失
+--输入动画开始是否透明，输入动画结束是否透明
+local dh = i:dha(true, false)
+i:dh(dh, "duration", 2000)
+i:us(2, "dh", dh)
+
+说明：
+常用于控件透明度动画。
+
+【dhs 渐变尺寸伸缩动画】
+用法：
+--创建一个渐变尺寸伸缩动画
+--0为没有，2.5为原始2.5倍
+
+--输入X开始尺寸比例，输入X结束尺寸比例，输入Y开始尺寸比例，输入Y结束尺寸比例
+local dh = i:dhs(0.5, 2.5, 0.5, 2.5)
+i:dh(dh, "duration", 2000)
+i:us(2, "dh", dh)
+
+--输入X开始尺寸比例，输入X结束尺寸比例，输入Y开始尺寸比例，输入Y结束尺寸比例，输入X位置类型，输入X坐标的开始位置，输入Y位置类型，输入Y坐标的开始位置
+local dh = i:dhs(0.5, 2.5, 0.5, 2.5, 1, 0.5, 1, 0.5)
+i:dh(dh, "duration", 2000)
+i:us(2, "dh", dh)
+
+说明：
+常用于控件伸缩动画。
+
+位置类型：
+0 默认
+1 以对象本身为基准位置类型
+2 以父控件为基准位置类型
+
+【dht 画面位置移动动画】
+用法：
+--创建一个画面位置移动动画
+--输入开始X坐标上的移动位置，结束X坐标上的移动位置，开始Y坐标上的移动位置，结束Y坐标上的移动位置
+local dh = i:dht(30, 80, 30, 80)
+i:dh(dh, "duration", 2000)
+i:us(2, "dh", dh)
+
+说明：
+常用于控件移动动画。
+
+【dhr 画面旋转动画】
+用法：
+--创建一个画面旋转动画
+--输入动画开始的旋转角度，输入动画旋转到的角度
+local dh = i:dhr(0, 180)
+i:dh(dh, "duration", 2000)
+i:us(2, "dh", dh)
+
+--输入动画开始的旋转角度，输入动画旋转到的角度，输入X位置类型，输入X坐标的开始位置，输入Y位置类型，输入Y坐标的开始位置
+local dh = i:dhr(0, 180, 1, 0.5, 1, 0.5)
+i:dh(dh, "duration", 2000)
+i:us(2, "dh", dh)
+
+说明：
+常用于控件旋转动画。
+
+位置类型：
+0 默认
+1 以对象本身为基准位置类型
+2 以父控件为基准位置类型
+
+【dhset 动画集合】
+用法：
+
+--渐变尺寸伸缩动画
+local dh1 = i:dhs(0.5, 2.5, 0.5, 2.5)
+i:dh(dh1, "duration", 2000)
+
+--画面位置移动动画
+local dh2 = i:dht(30, 80, 30, 80)
+i:dh(dh2, "duration", 2000)
+
+--画面旋转动画
+local dh3 = i:dhr(0, 180)
+i:dh(dh3, "duration", 2000)
+
+--创建一个动画集合
+--输入动画集合变量对象，输入是否使用动画集合的interpolator，输入动画...（可输入N个参数）
+local dhlist = i:dhset(false, {dh1, dh2, dh3, dh4})
+i:us(2, "dh", dhlist)
+	
+说明：
+常用于动画集合执行。
+
+提示：
+动画集合允许被其他动画集合添加成为子动画。
+
+提示：
+动画集合如果设置了动画控制属性，同时也会重置所有子控件的属性。
+
+【dhas 队列动画执行】
+用法：
+--旋转动画
+--输入动画变量对象，输入控件ID或控件对象，输入动画类型，输入旋转角度...（可输入N个参数）
+local dh = i:dhas(2, "rotation", {60, 180})
+--local dh = i:dhas(2, "rotationX", {30, 80, 60, 20, 60})
+--local dh = i:dhas(2, "rotationY", {30, 80})
+i:dh(dh, "duration", 2000)
+i:dh(dh, "start")
+
+--伸缩动画
+--输入动画变量对象，输入控件ID或控件对象，输入动画类型，输入伸缩尺寸比例...（可输入N个参数）
+local dh = i:dhas(2, "scaleX", {1.5, 2.5})
+--local dh = i:dhas(2, "scaleY", {1.5, 2.5, 1.2, 2.6, 1.3})
+i:dh(dh, "duration", 2000)
+i:dh(dh, "start")
+
+--移动动画
+--输入动画变量对象，输入控件ID或控件对象，输入动画类型，输入移动到位置...（可输入N个参数）
+local dh = i:dhas(2, "translationX", {0, 60})
+--local dh = i:dhas(2, "translationY", {0, 60, 30, 10, 60})
+i:dh(dh, "duration", 2000)
+i:dh(dh, "start")
+
+--透明度
+--输入动画变量对象，输入控件ID或控件对象，输入动画类型，可见度比例(0.0至1.0)...（可输入N个参数）
+local dh = i:dhas(2, "alpha", {1, 0.3, 1, 0.2, 1})
+i:dh(dh, "duration", 2000)
+i:dh(dh, "start")
+
+说明：
+自定义队列动画执行。
+
+
+【dhast 队列动画集合】
+用法：
+
+--旋转动画
+local dh1 = i:dhas(2, "rotation", {60, 180})
+i:dh(dh1, "duration", 2000)
+
+--伸缩动画
+local dh2 = i:dhas(2, "scaleX", {1.5, 2.5})
+i:dh(dh2, "duration", 2000)
+
+--移动动画
+local dh3 = i:dhas(2, "translationX", {0, 60})
+i:dh(dh3, "duration", 2000)
+
+--透明度
+local dh4 = i:dhas(2, "alpha", {1, 0.3, 1, 0.2, 1})
+i:dh(dh4, "duration", 2000)
+
+--顺序执行
+local dhlist = i:dhast("sequen", {dh1, dh2, dh3, dh4})
+
+--同时执行
+--local dhlist = i:dhast("together", {dh1, dh2, dh3, dh4})
+i:dh(dhlist, "start")
+
+说明：
+常用于动画集合执行。
+
+提示：
+队列动画集合允许被其他队列动画集合添加成为子动画。
+
+提示：
+动画集合如果设置了动画控制属性，同时也会重置所有子控件的属性。
+
+
+【dh 动画控制】
+用法：
+
+--========动画的属性（非队列动画）设置========================
+
+--取消动画，取消后若需要重新播放，需要先执行 reset 然后再执行 start 进行播放
+i:dh(dh, "cancel")
+
+--重置动画属性
+i:dh(dh, "reset")
+
+--启动动画
+i:dh(dh, "start")
+
+--动画持续时长
+i:dh(dh, "duration", 2000)
+
+--延迟执行，延迟指定时长后才执行动画
+i:dh(dh, "delay", 2000)
+
+--启动动画结束填充效果（如果设false 那么 after 与 before将无效）
+i:dh(dh, "enabled", true)
+
+--动画执行后，控件停留执行结束状态
+i:dh(dh, "after", true)
+
+--动画执行后，控件停留执行开始状态
+i:dh(dh, "before", true)
+
+--动画重复执行的次数
+i:dh(dh, "repeat", 20)
+
+local dh2 = i:dhas(2, "rotation", 60, 180)
+--动画集合添加动画，仅用于 dhset 动画集合追加更多的动画
+i:dh(dh, "add", dh2)
+
+--========队列动画的属性设置========================
+
+--取消动画
+i:dh(dh, "cancel")
+
+--播放动画
+i:dh(dh, "start")
+
+--动画持续时长
+i:dh(dh, "duration", 2000)
+
+--延迟执行，延迟指定时长后才执行动画
+i:dh(dh, "delay", 2000)
+
+--动画是否正在运行
+local b = i:dh(dh, "running")
+syso(b)
+
+--设置动画执行的控件ID或控件对象
+i:dh(dh, "target", 2)
+
+--克隆动画
+local dh2 = i:dh(dh, "clone")
+
+说明：
+常用于动画的控制管理。
+
+【dhon 动画监听事件】
+用法：
+--========动画（非队列动画）设置监听事件========================
+
+i:dhon(dh,
+function()
+syso("End")
+end
+,
+nil
+,
+nil
+)
+--或
+
+i:dhon(dh,
+function()
+syso("End")
+end
+,
+function()
+syso("Repeat")
+end
+,
+function()
+syso("Start")
+end
+)
+
+
+--========队列动画设置监听事件========================
+
+i:dhon(dh,
+function()
+--当结束动画时
+syso("End")
+end
+,
+function()
+--当重复动画时
+syso("Repeat")
+end
+,
+function()
+--当启动动画时
+syso("Start")
+end
+,
+function()
+--当取消动画时
+syso("Cancel")
+end
+)
+
+
+--或
+
+i:dhon(dh,
+function()
+--当结束动画时
+syso("End")
+end
+,
+nil
+,
+nil
+,
+nil
+)
+
+
+说明：
+常用于动画状态的监听。
+
+提示：
+该事件使用的选择性，可顺序选择性保留。
+
+【dhb 动画背景】
+用法：
+--创建动画背景
+--输入动画背景变量对象，输入是否重复执行
+local dh = i:dhb(true)
+
+--添加元素
+--输入动画背景变量对象，输入背景图像或图片变量或背景对象，输入显示时长
+i:dhb(dh, "@t1.png", 1000)
+i:dhb(dh, "@t2.png", 1000)
+i:dhb(dh, "@t3.png", 1000)
+
+--设为指定控件背景
+i:us(2, "background", dh)
+
+--启动动画
+i:dhb(dh, "start")
+
+--停止动画
+--i:dhb(dh, "stop")
+
+--是否在运行
+local b = i:dhb(dh, "running")
+syso(b)
+
+说明：
+常用于组合一个背景动画。
+
+【hsas 开启浏览器控件交互(裕语言+js+html5)】
+用法：
+--开启浏览器控件支持iapp交互
+--输入浏览器控件ID或对象，输入是否开启
+i:hsas(1, true)
+
+--i:hsas(1, false)
+
+说明：
+常用于浏览器中的JavaScript代码于iapp代码的互相调用。
+
+【has 裕语言交互JavaScript语言】
+用法：
+--首先将 web.html 放入用户文件中
+
+--设置浏览器控件显示的html内容
+local a = "@web.html"
+local b = "utf-8"
+local c = i:fr(a, b)
+
+local d = "utf-8"
+local e = "text/html"
+local f = i:us(1, "url", c, d, e)
+
+--因为浏览器加载内容属于异步操作，如果立刻执行下面的代码会执行失败
+--所以将下面的代码放入某项单击事件中
+
+local a = "go('呀！')"
+--输入浏览器控件ID或对象，输入JavaScript的方法
+i:has(1, a)
+
+--带返回值解决方案
+--local a = "go2('呀！')"
+--输入浏览器控件ID或对象，输入JavaScript的方法
+--i:has(1, a)
+
+说明：
+常用于浏览器中的JavaScript代码于iapp代码的互相调用。
+
+注意：
+在载入事件设置浏览器控件的加载html内容，它不会立刻加载完成。所以如果将 裕语言交互js的代码也写在载入事件，会导致交互调用失败。必须等待浏览器加载完毕html内容后，才能交互。
+
+注意：
+建议尽量使用JavaScript调用交互裕语言，效率较高。裕语言调用执行JavaScript的方法效率要慢数倍。
+
+注意：
+has 不应该放在新线程中，测试发现5.1系统has放入新线程中报错。
+
+注意：
+本例子需要注意编码，否则将乱码。
+
+html（web.html）文件（utf-8编码）例子：
+<html>
+<head>
+<script type="text/javascript">
+function go(o)
+{
+document.getElementById("sb").innerHTML += "打我" + o;
+}
+function go2(o)
+{
+document.getElementById("sb").innerHTML += "打我" + o;
+iapp.s("sss.sb", document.getElementById("sb").innerHTML);
+}
+</script>
+</head>
+<p id="sb">哈哈，你来</p>
+</html>
+
+
+【JavaScript交互裕语言】
+用法：
+--首先将 web.html 放入用户文件中
+
+--设置浏览器控件显示的html内容
+s a = "@web.html"
+s b = "utf-8"
+fr(a, b, c)
+
+s d = "utf-8"
+s e = "text/html"
+us(1, "url", c, d, e, f)
+
+--此方法，主要是在JavaScript中写交互代码哦
+--JavaScript中交互方法列表（用于交互裕语言）：
+
+/.
+
+//调用裕语言模块方法，不带返回变量的
+iapp.fn('a.b("' + o + '")');
+
+//调用裕语言模块方法，带返回变量的
+var value = iapp.fn2('a.c("' + o + '")', b);
+
+//设置裕语言变量数据
+iapp.s(o);
+
+//获取裕语言变量数据
+var value = iapp.g(o);
+./
+说明：
+常用于浏览器中的JavaScript代码于iapp代码的互相调用。
+
+注意：
+建议尽量使用JavaScript调用交互裕语言，效率较高。裕语言调用执行JavaScript的方法效率要慢数倍。
+
+注意：
+本例子需要注意编码，否则将乱码。
+
+
+html（web.html）文件（utf-8编码）例子：
+<html>
+<head>
+<script type="text/javascript">
+
+//不带返回变量的
+function go(o)
+{
+//调用的是 模块a.myu 中的 b方法
+iapp.fn('a.b("' + o + '")');
+}
+
+//带返回变量的
+//执行模块后，获取一个变量并返回到javascript方法里
+function go2(o, b)
+{
+//调用的是 模块a.myu 中的 c方法
+var value = iapp.fn2('a.c("' + o + '")', b);
+alert('变量 sss.abc：' + value);
+}
+
+//设置全局变量数据
+//同理，下面也有设置界面变量、设置局部变量的例子
+function ss(o, b)
+{
+iapp.s(o, b);
+}
+
+//获取全局变量数据
+//同理，下面也有获取界面变量、获取局部变量的例子
+function gs(o)
+{
+var value = iapp.g(o);
+alert('变量 sss.abc：' + value);
+}
+
+</script>
+</head>
+<p><a href="javascript:void(0)" onclick="go('呵呵')">调用裕语言的模块方法</a></p>
+<p></p>
+<p></p>
+<p><a href="javascript:void(0)" onclick="go2('呵呵', 'sss.abc')">调用裕语言的模块方法，并返回sss.abc变量内容</a></p>
+<p></p>
+<p></p>
+<p><a href="javascript:void(0)" onclick="ss('sss.abc', '呵呵')">设置裕语言的sss.abc全局变量数据</a></p>
+<p></p>
+<p></p>
+<p><a href="javascript:void(0)" onclick="gs('sss.abc')">获取裕语言的sss.abc全局变量数据</a></p>
+</html>
+
+模块（a.myu）例子：
+fn b(a)
+//打印出数据
+syso(a)
+end fn
+
+fn c(a)
+//打印出数据
+syso(a)
+sss abc = "666呵呵"
+end fn
+
+【uxf 显示悬浮窗】
+用法：
+
+--输入界面名，输入宽度，输入高度，输入对其方式，输入赋值变量
+local w = -1
+local h = -1
+local gravity = "top|right"
+v = i:uxf("a.ilua", w, h, gravity)
+
+
+--输入界面名，输入X显示位置，输入Y显示位置，输入宽度，输入高度，输入类型的窗口，输入对其方式，输入flags，输入format，输入赋值变量
+local x = 0
+local y = 0
+local w = -1
+local h = -1
+local type = 0
+local gravity = "top|right"
+local flags = 0
+local format = 0
+i:uxf("a.ilua", x, y, w, h, type, gravity, flags, format, v)
+
+
+--刷新悬浮窗口的布局，常用于通过us设置后的刷新
+--输入界面根控件的控件对象
+i:uxf(v)
+
+
+--移除悬浮窗口
+--输入界面根控件的控件对象，输入标识
+i:uxf(v, "del")
+
+
+--重置悬浮窗的属性
+--输入界面根控件的控件对象，输入标识，输入X显示位置，输入Y显示位置，输入宽度，输入高度，输入对其方式
+local x = 0
+local y = 0
+local w = -2
+local h = -2
+local gravity = "top|right"
+i:uxf(v, "set", x, y, w, h, gravity)
+
+--重置悬浮窗的属性
+--输入界面根控件的控件对象，输入标识，输入X显示位置，输入Y显示位置，输入宽度，输入高度，输入对其方式
+local x = 0
+local y = 0
+local w = -1
+local h = -1
+local type = 0
+local gravity = "top|right"
+local flags = 0
+local format = 0
+i:uxf(v, "set", x, y, w, h, type, gravity, flags, format)
+
+说明：
+常用于显示悬浮窗窗口。
+
+提示：
+可通过 local b = i:gvs(v, "a.1") 代码进行获取悬浮窗内的子控件，然后对其进行操作。
+
+提示：
+可通过下例代码，控制窗口位置的移动
+--更新窗口位置
+i:us(v, "x", 100)
+i:us(v, "y", 100)
+
+--获取窗口位置
+i:ug(v, "x", xx)
+i:ug(v, "y", yy)
+
+--通过us 更新后， 需要刷新悬浮窗口的布局
+i:uxf(v)
+
+
+对齐方式：
+center：居中
+top：顶
+bottom：底
+left：左
+right：右
+center_vertical：垂直居中
+center_horizontal：水平居中
+
+输入flags：
+0 不许获得焦点（编辑框输入法将无法弹出）
+1 可以获得焦点，返回键将不可用
+
+
+【tts 文本转换语音】
+用法：
+--创建一个TTS对象
+--输入赋值对象
+local a = i:tts()
+
+
+--创建一个TTS对象；并且直接设置播放
+--输入赋值对象，输入语言代码，输入语速率，输入音高率，输入播放文字（可传入nil）
+i:tts(a, "en", "I love you", 1, 1)
+
+
+--获取TTS对象初始化状态；赋值变量返回 0未完成初始化 1初始化成功 -1初始化失败 -2初始化语言失败 -3当前TTS对象不可用
+--输入TTS对象，输入标识，输入赋值变量
+local b = i:tts(a, "zt")
+syso(b)
+
+
+--播放文字；模式 0替换以前的任务 1队列追加至后面
+--输入TTS对象，输入标识，输入播放文字，输入模式，输入赋值变量
+local b = i:tts(a, "st", "I love you", 0)
+syso(b)
+
+
+--文字转换音频文件
+--输入TTS对象，输入标识，输入文字，输入保存路径，输入赋值变量
+local b = i:tts(a, "ft", "I love you", "123.wav")
+syso(b)
+
+
+--设置语言
+--输入TTS对象，输入标识，输入语言代码
+i:tts(a, "lg", "en")
+
+
+--设置语音播放速率。1为正常，值越低语速越慢（0.5是正常的一半），值越大语速越快（2是正常的两倍）
+--输入TTS对象，输入标识，输入小数
+i:tts(a, "se", 1)
+
+
+--设置音高率，值越大声音越高音，值越小声音越低音，正常为1.0
+--输入TTS对象，输入标识，输入小数
+i:tts(a, "ph", 1)
+
+
+--检查是否TTS正在播放
+--输入TTS对象，输入标识
+local b = i:tts(a, "ip")
+syso(b)
+
+
+--释放TTS使用的资源
+--输入TTS对象，输入标识
+i:tts(a, "re")
+
+
+--停止所有任务
+--输入TTS对象，输入标识，输入赋值变量
+local b = i:tts(a, "sp")
+syso(b)
+
+
+--检查是否一个可用的TTS对象
+--输入TTS对象，输入标识，输入赋值变量
+local b = i:tts(a, "is")
+syso(b)
+
+
+说明：
+常用于文本转化为音频，并且播放。
+
+
+语言代码：
+- 系统默认支持语言
+美国    en
+德国    de
+意大利  it
+法国    fr
+
+- 需安装第三方语言包（讯飞语音TTS），并且设置语言
+日本    ja
+韩国    ko
+中国    zh
+
+
+安装与设置中文语言：
+
+下载其中一个 
+(4.0系统)讯飞语音TTS http://m.yx93.com/app.aspx?id=28515  
+(2.2系统)讯飞语音TTS http://m.yx93.com/app.aspx?id=28513
+
+安装 讯飞语音TTS
+
+安卓手机》设置》语言和输入法》文本转语音输入》选择 讯飞语音合成 ,默认引擎 讯飞语音合成 , 语言 中文
+（设置因为各品牌细节不同，但是都大同小异）
+
+
+注意事项：
+单独TTS对象创建后，需要有一个异步初始化过程，如果创建TTS对象然后直接播放文本将无法成功。需要先完成初始化后，然后播放文本。
+
+注意事项：
+文字转语音TTS输出；默认语言状态：完全支持 中文
+
+
+【blp 录制屏幕】
+用法：
+local b = "123.mp4"
+--输入储存录制文件路径，输入视频宽度，输入视频高度，输入视频码率，输入视频帧率
+i:blp(b, 1280, 720, 1024000, 30)
+
+--开始录制
+local b = i:blp("st")
+syso(b)
+
+--停止录制
+local b = i:blp("sp")
+syso(b)
+
+--释放资源
+local b = i:blp("re")
+syso(b)
+
+--判断是否正在录制
+local b = i:blp("ip")
+syso(b)
+
+说明：
+用于手机屏幕录制。
+
+注意：
+仅支持系统Android 5.0以及以上才有效果！
+Android 5.0以下的系统，无效果！
+
+
+【otob 转换为字节组】
+用法：
+--将文件转换为字节组，字节组将为字符串形式返回赋值给“b”
+local b = i:otob("%abc.txt")
+syso(b)
+
+--将字符串转换为字节组
+local b = i:otob("utf-8", "nihao")
+syso(b)
+
+--不设置编码
+local b = i:otob(nil, "nihao")
+
+--将文件转换成 byte[] 字节数组对象
+local b = i:otob("file", nil, "%abc.txt")
+syso(b)
+
+--将字符串转换成 byte[] 字节数组对象
+local b = i:otob("str", "utf-8", "nihao")
+syso(b)
+
+说明：
+将字符或文件转换为字节组
+
+【btoo 字节组还原】
+用法：
+local b = i:otob("%abc.txt")
+--将字节组转换为文件
+--输入字节组，文件路径，是否覆盖，变量 b 可为byte[] 字节数组对象
+i:btoo(b, "%abc2.txt", true)
+
+
+local b = i:otob("utf-8", "nihao")
+--字节组转换为字符串，变量 b 可为byte[] 字节数组对象
+local c = i:btoo("utf-8", b)
+syso(c)
+
+--不设置编码
+local c = i:btoo(nil, b)
+
+说明：
+将字节组转换为字符或文件
+
+【sot Socket网络通信】
+用法：
+--服务端
+--服务端口，临时文件目录，接受客户超时，客户连接超时，是否覆盖文件
+local b = i:sot(8668, "%iApp/tempSocket", 0, 0, false,
+function(st_msG,st_ssR)
+--消息内容
+syso(st_msG)
+--连接对象
+syso(st_ssR)
+
+end
+)
+
+--客户端
+--服务地址，服务端口，服务连接超时，是否覆盖文件
+local b = i:sot("192.168.1.100", 8668, 0, false,
+function(st_msG,st_ssR)
+--消息内容
+syso(st_msG)
+--连接对象
+syso(st_ssR)
+
+end
+)
+
+--发送字符串，必须放在线程内
+i:sot(b, "str", "nihao")
+
+--发送文件，必须放在线程内
+i:sot(b, "file", "%abc.txt")
+
+--发送字节组，必须放在线程内
+local c = i:otob("nihao", "utf-8")
+i:sot(b, "bt", c)
+
+--发送不带信息头 byte[]字节组，必须放在线程内
+i:sot(b, "bt2", bytes)
+
+--关闭释放sot
+i:sot(b, "re")
+
+--获取sot是否已释放
+local c = i:sot(b, "ip")
+
+--获取ID总数
+local c = i:sot(b, "id")
+
+--获取连接对象列表
+local c = i:sot(b, "list")
+
+--获取连接对象列表的第一位
+local c = i:sot(b, "list", 0)
+
+--获取连接总数
+local c = i:sot(b, "size")
+
+--是否允许接受新连接
+i:sot(b, "new", true)
+
+
+说明：
+Socket 管理操作。服务端发送消息将批量发送给所有连接。
+
+服务端说明：
+要求：
+1.能连接公共网络 或 内网
+2.拥有固定IP作为客户端连接的目标
+3.电脑、手机、平板电脑等设备上运行服务端。
+4.可使用iapp在自己的手机上面开发服务端，并运行服务端。
+
+客户端说明：
+要求：
+1.能连接公共网络 或 内网
+2.可使用iapp在自己的手机上面开发客户端，并连接服务端。
+
+常见开发：
+使用手机或电脑作为服务端，手机客户端与服务端相互传递文件、数据等。
+
+【sota 单个Socket通信操作】
+用法：
+--获取连接对象列表的第一位，变量“c”属于单个Socket通信
+local c = i:sot(b, "sl", 0)
+
+--获取通信对方的IP
+local d = i:sota(c, "ht")
+
+--获取sota是否已释放
+local d = i:sota(c, "ip")
+
+--关闭释放sota
+i:sota(c, "re")
+
+--获取socket对象
+local d = i:sota(c, "socket")
+
+--获取连接对象ID
+local d = i:sota(c, "id")
+
+--发送字符串，必须放在线程内
+i:sota(c, "str", "nihao")
+
+--发送文件，必须放在线程内
+i:sota(c, "file", "%abc.txt")
+
+--发送字节组，必须放在线程内
+local d = i:otob("utf-8", "nihao")
+i:sota(c, "bt", d)
+
+--发送不带信息头 byte[]字节组，必须放在线程内
+i:sota(c, "bt2", bytes)
+
+说明：
+常用于单个Socket通信的操作管理
+
+
+【loadso 加载动态库】
+用法：
+--比如加载 libabc.so
+i:loadso("abc")
+
+说明：
+加载SO动态链接库。
+
+
+【loadjar 加载jar库】
+用法：
+--比如加载 abc.jar
+--返回变量 库对象
+local b = i:loadjar("abc.jar")
+syso(b)
+
+--比如加载 abc.apk
+--包含Activity需要传入true，赋值变量 库对象
+local b = i:loadjar("abc.apk", true)
+syso(b)
+
+说明：
+用于加载一些jar，dex，apk 的 sdk。需要把jar文件导入至项目资源的lib目录里，jar加载过程将联网校验。
+如果附带SO动态链接库，需要把SO文件载入至项目资源。
+
+
+【cls 获取完整接口类】
+用法：
+--获取一个类，输入完整类名如 java.lang.Math
+--赋值变量 类对象
+local a = i:cls("java.lang.Math")
+syso(a)
+
+--获取一个字符串类，常用类型可直接输入类名如 String
+local b = i:cls("String")
+syso(b)
+
+--加载SDK abc.jar，并获取SDK里一个类 输入完整类名 com.sdk.abc
+local a = i:loadjar("abc.jar")
+local c = i:cls(a, "com.sdk.ceshi")
+syso(c)
+
+用法：
+获取一个类；或从 jar SDK包获取类；
+
+注意：完整类名区分大小写
+
+【clssm 获取类的所有接口】
+用法：
+local b = i:cls("String")
+
+--获取所有构造函数
+local c = i:clssm(b, "init")
+
+--获取所有函数方法
+local c = i:clssm(b, "method")
+
+--获取所有变量
+local c = i:clssm(b, "field")
+
+
+说明：
+返回一个数组。
+
+
+【java 调用java代码方法】
+用法：
+--调用java api java.lang.String.indexOf(String string) 查询字符56 在123456789 中位置
+local c = i:cls("String")
+local a = i:javax("123456789", c, "indexOf", {"String", "56"})
+syso(a)
+
+
+--初始化一个StringBuilderd
+local a = i:javanew("java.lang.StringBuilder", {"String", "12345"})
+local b = i:java(a, "java.lang.StringBuilder.append", {"String", "6789"})
+local c = i:java(a, "java.lang.StringBuilder.toString")
+syso(c)
+
+
+local jar = i:loadjar("test.jar")
+local c1 = i:cls(jar, "com.sdk.ceshi")
+--调用静态方法 com.sdk.ceshi类 c 方法
+local c = i:javax(nil, c1, "c", {"int", 123})
+syso(c)
+
+--调用静态变量 com.sdk.ceshi类 a 变量
+local c = i:javags(nil, c1, "a")
+syso(c)
+
+--初始化com.sdk.ceshi类
+--返回对象变量，输入完整类名或 cls方法的返回变量
+local a = i:javanew(c1)
+
+--访问变量，com.sdk.ceshi类 b变量
+local c = i:javags(a, c1, "b")
+syso(c)
+
+--设置变量，com.sdk.ceshi类 b变量
+local c = i:javass(a, c1, "b", "123456")
+syso(c)
+
+
+--设置回调方法
+local a = i:javanew("android.widget.TextView", {"Context", activity})
+local b = i:java(a, "android.widget.TextView.setText", {"CharSequence", "我是文本控件"})
+--注意回调接口类名前面需要加一个“.”，如.android.view.View.OnClickListener
+local b = i:java(a, "android.view.View.setOnClickListener", {".android.view.View$OnClickListener", nil},
+function(st_mD,st_aS)
+
+--系统赋值
+syso(st_mD)
+syso(st_aS)
+end
+)
+
+
+说明：
+支持 android 所有的api；以及 自加载的jar SDK 的 api
+
+注意：完整类名或 方法名 或 变量名 区分大小写
+
+传递参数：
+要传递的参数可设置多个，格式为一个数组 {  } 括起来的，参数为格式：类名， 值，类名， 值...
+
+activity：默认变量 Activity组件
+
+javax 与 java 方法区别：
+javax：第3位参数完整类名，第4位参数方法名。类名可传入 cls方法的赋值变量；总共6位参数
+java：第3位参数 完整类名和方法名。总共5位参数。
+
+
+【javacb 自定义回调】
+用法：
+
+local jar = i:loadjar("test.jar")
+local c1 = i:cls(jar, "com.ceshi.dex.main")
+local o = i:javanew(c1)
+local c2 = i:cls(jar, "com.ceshi.dex.main$huidiao")
+
+--设置回调方法
+local hd = i:javacb(c2, 
+function(st_mD,st_aS)
+
+--系统赋值
+syso(st_mD)
+syso(st_aS)
+end
+)
+--设置回调
+local a = i:javax(o, c1, "sethuidiao", {c2, hd})
+--调用回调方法
+local a = i:javax(o, c1, "get", {"String", "666"})
+
+说明：
+常用于设置自定义SDK的回调方法。
+
+
+【res 安装包资源管理器】
+用法：
+--获取应用自己的对象
+local a = i:res()
+
+--获取其他apk安装包内的资源对象，只支持加载SD卡上的apk
+local a = i:res("%abc.apk")
+
+--获取资源
+--输入资源对象，输入资源标识或文件名(没后缀)，输入资源类型
+local b = i:res(a, "ic_launcher", "drawable")
+
+--获取资源ID，打包测试才有效
+local b = i:res(a, "ic_launcher", "drawable", false)
+
+--获取 AssetManager 或 Resources 对象
+local b = i:res(a, "asset")
+local b = i:res(a, "resources")
+
+说明：
+可获取的资源类型 drawable、string、color、stringarray、layout
+
+
+【src 自定义代码】
+用法：
+
+--[[
+SDK自定义的 com.sdk.ceshia类 源码
+package com.sdk;
+public class ceshia {
+
+	public String cs(String sm)
+	{
+		return sm;
+	}
+}
+--]]
+
+--初始化SDK自定义的 com.sdk.ceshia类
+local a = i:javanew("com.sdk.ceshia")
+--将自定义类添加到代码块里
+i:src("ceshia", a)
+--代码里调用com.sdk.ceshi类 里的这个方法
+local b = ceshia:cs("abcde")
+syso(b)
+
+说明：
+支持可以自己写java 的SDK，封装成代码。然后再自定义代码提示，把自己封装的代码加上去就可以了。
+
+
+【call 交互式语言调用】
+用法：
+
+--输入语言类型，模块m的abc方法，输入一个数组
+i:call("myu", "m.abc", {"nihao", 66})
+
+
+--输入语言类型，模块mk的abc方法，输入一个数组
+local a = i:call("mlua", "mk.abcd", { 123 })
+
+--输入语言类型，模块mk的abc方法，输入一个数组
+local a = i:call("mjava", "mk.abcd", { 123, 456, 789 })
+
+--没有参数的
+--输入语言类型，模块mk的abc方法
+i:call("mjs", "mk.abcdf")
+
+说明：
+用于多语言的代码交互。
+
+注意：
+此方法只能调用模块方法，输入是字符串如 m.abc 模块m 的abc方法
+
+注意：
+参数数量要与实际模块方法的参数的数量一致。
+
+注意：
+四种语言，只有 mlua 和 mjava 可以返回赋值变量，裕语言可以通过设置全局变量变相返回变量， mjs设置赋值变量无效。
+
+
+【json json数据解析】
+用法：
+--解析json数据，双引号要加 \ 进行转义
+local text = "{\"id\":1, \"name\":\"xiaobai\", \"age\":16}"
+local jo = i:json(text)
+
+--获取id
+local a = i:json(jo, "get", "id")
+syso(a)
+--获取name
+local b = i:json(jo, "get", "name")
+syso(b)
+--获取age
+local c = i:json(jo, "get", "age")
+syso(c)
+
+--修改age数据
+i:json(jo, "set", "age", 20)
+
+--删除id数据
+i:json(jo, "del", "id")
+
+--打印json数据
+local text = i:json(jo, "json")
+syso(text)
+
+
+
+--解析json列表数据
+local text = "{\"userlist\":[{\"id\":1, \"name\":\"niubi\", \"age\":16},{\"id\":2, \"name\":\"wangba\", \"age\":18},{\"id\":3, \"name\":\"goudan\", \"age\":17}]}"
+local jo = i:json(text)
+
+--打印json数据
+local list = i:json(jo, "list", "userlist")
+local size = i:json(list, "size")
+while size > 0 do
+
+size = size - 1
+
+local item = i:json(list, "data", size)
+
+--获取id
+local a = i:json(item, "get", "id")
+syso(a)
+--获取name
+local b = i:json(item, "get", "name")
+syso(b)
+--获取age
+local c = i:json(item, "get", "age")
+syso(c)
+
+end
+
+说明：
+常用于解析服务器反馈的数据。
+
+
+【utb Toolbar工具栏设置】
+用法：
+
+--设置自定义的工具栏 为当前界面的工具栏
+--输入Toolbar工具栏的 控件id或控件对象
+i:utb(3)
+
+
+--绑定侧滑控件，侧滑控件内需要包含左侧滑，绑定后可以在Toolbar工具栏的左图标 控制左边侧滑
+--输入Toolbar工具栏的 控件id或控件对象，输入侧滑的 控件id或控件对象
+i:utb(3, 2)
+
+
+--设置参数
+
+i:utb("set", "dshe", true)
+
+--设置左图标，可以设置事件监听
+i:utb("left", 3, "@a.png")
+
+--设置左图标的点击事件，注意此代码需在 i:utb(id) 后，否则事件将无效。
+i:utb("set", "leftck", 3,
+
+function(v)
+
+--系统赋值
+syso(v)
+end
+)
+
+--设置右菜单图标，无事件。可使用界面菜单事件
+i:utb("right", 3, "@b.png")
+
+
+--标题
+i:utb("set", "title", "apptitle")
+
+--子标题
+i:utb("set", "subtitle", "appsubtitle")
+
+--自定义布局可输入View类型布局
+i:utb("set", "cv", v)
+
+--显示选项
+i:utb("set", "do", 0)
+
+--显示或隐藏 标题
+i:utb("set", "dste", true)
+
+--显示或隐藏 自定义布局
+i:utb("set", "dsce", true)
+
+--显示或隐藏 主页图标
+i:utb("set", "dshe", true)
+
+
+--获取参数
+
+--标题
+local c = i:utb("get", "title")
+
+--子标题
+local c = i:utb("get", "subtitle")
+
+--自定义布局可输入View类型布局
+local c = i:utb("get", "cv")
+
+--显示选项
+local c = i:utb("get", "do")
+
+--动作栏布局高度
+local c = i:utb("get", "height")
+
+
+说明：
+常用于设计应用顶部工具栏。
+
+【tws 弹窗提醒】
+用法：
+--获取展示的控件对象，提醒将在这个控件里展示
+local v = i:gvs(1)
+
+--无按钮弹出提醒
+--输入控件对象可设置null，输入字符，输入显示时长（值0 -1 -2）
+i:tws(v, "ni hao!", 0)
+
+
+--有按钮弹出提醒
+--输入控件对象可设置null，输入字符，输入显示时长（值0 -1 -2），输入按钮标题
+i:tws(v, "ni hao ma?", 0, "hao",
+
+function(v)
+
+--系统赋值
+syso(v)
+end
+)
+
+
+【uht 滑动窗体控制】
+用法：
+
+--添加新的页面，设置的界面会执行载入事件里的代码
+--输入滑动窗体的 控件id或控件对象，输入标识，输入插入序号 如-1为尾部 0为头部，输入标题，输入界面名，输入控件对应的数据项...不限制数量可参考代码ula
+i:uht(2, "add", -1, "标题", "a.iyu", {1,2,3}, {"abc","bac","bbc"})
+
+--删除界面
+--输入滑动窗体的 控件id或控件对象，输入标识，输入界面序号 序号以0开始 -1为尾部
+i:uht(2, "del", 0)
+
+--修改界面标题
+--输入滑动窗体的 控件id或控件对象，输入标识，输入界面序号 序号以0开始 -1为尾部
+i:uht(2, "title", 0, "标题2")
+
+--获取页面总数
+local b = i:uht(2, "size", b)
+syso(b)
+
+--释放内存
+i:uht(2, "close")
+
+
+--绑定标签布局，绑定后滑动界面时标签布局会跟随运动，需要注意 标签布局 和 滑动窗体 的子项数量应一致，新增子项时也需要同时增加
+--输入滑动窗体的 控件id或控件对象，输入标识，输入标签布局的 控件id或控件对象，是否应刷新其内容
+i:uht(2, "bd", 3, true)
+--注意：如果绑定前 标签布局 如有设置子项，绑定时会被清空。绑定后需使用 i:us(3, "app_tablist", "选项1|选项2|选项3") 代码设置
+
+--增加标签布局 的子项
+i:us(3, "app_tabadd", "选项")
+
+--添加滑动窗体 的子项
+i:uht(2, "add", -1, "标题", "a.iyu", {1,2,3}, {"abc","bac","bbc"})
+
+
+说明：
+用于动态管理控制滑动窗体和垂直滑动窗体的 新增页面、删除页面、绑定标签布局等。
+
+
+【cast 强制转换数据类型】
+用法：
+
+local a = 123
+--转换数据类型并直接赋值
+--输入完整类名 或 类对象，输入需要转换的数据变量
+local b = i:cast("String", a)
+syso(b)
+
+
+说明：
+常用于数据强制转换。
+
+
+【yul 加载yul布局】
+用法：
+
+--将布局加载展示到指定的布局控件里
+--输入控件id或控件对象（比如输入线性布局ID），输入 yul 布局文件名
+i:yul(1, "a.yul")
+
+
+--返回布局对象
+--输入 yul 布局文件名 返回一个View对象
+local a = i:yul("a.yul")
+syso(a)
+
+
+说明：
+yul布局是以 android 的 xml布局为基础，用于动态加载布局到应用界面。和安卓xml布局用法和代码都是一致的。
+
+在设计 yul布局 时需要自定义控件ID，如设置控件ID:123 编写代码 android:id="123" 或 android:id="@+id/s123" 两种写法都可以，效果都是ID为 123
+
+
+【luajava 对象方法】
+代码：
+
+--newInstance实例化
+--输入类名，构造方法参数
+local a = luajava.newInstance(className, ....)
+
+
+--bindClass绑定类，返回一个 class 类对象
+--输入类名
+local a = luajava.bindClass(className)
+
+
+--new, 需配合bindClass实例化对象
+local a = luajava.bindClass("java.lang.String")
+--输入类对象
+local b = luajava.new(a)
+
+
+--createProxy java接口，可以多个接口同时调用。
+local a = luajava.newInstance("java.awt.Button", "execute")
+b = {}
+function b.actionPerformed(ev)
+. . .
+end
+--输入类名，方法
+local c = luajava.createProxy("java.awt.ActionListener", b)
+
+a:addActionListener(c)
+
+
+【无障碍服务】
+用法：
+固定模块名为 ays_service 可创建模块 ays_service.mjava，代码如下：
+
+--事件方法 on 实时回调变化事件
+function on(e)
+
+--获取事件类型
+local b = ays:gtype(e)
+--如果事件类型
+if b == 32 or b == 2048 then
+
+  --获取事件源的对象节点列表
+  local node = ays:gall(e)
+  --判断事件来源是不是包名为com.iapp.app的应用
+  local gpn = ays:gpn(e)
+  if "com.iapp.app" == gpn then
+  
+     --判断类名，根据指定的类名进行不同的操作
+     local gcn = ays:gcn(e)
+     if "com.iapp.app.HomeMian" == gcn then
+     
+        --从对象列表搜索文本为“创建”的对象，并点击该对象
+        ays:cktext(node, 16, "创建")
+     
+     elseif "com.iapp.app.HomeAdd" == gcn then
+     
+        --根据ID获取指定的节点
+        local b = ays:id(node, "com.iapp.app:id/ui_home_add_title")
+	--设置节点的文本框输入指定字符
+        ays:enter(b, "name")
+        --根据ID获取指定的节点
+        b = ays:id(node, "com.iapp.app:id/ui_home_add_remark")
+	--设置节点的文本框输入指定字符
+        ays:enter(b, "remark")
+        --从对象列表搜索指定ID的对象，并点击该节点对象
+        ays:ckid(node, 16, "com.iapp.app:id/ui_home_add_go")
+     end
+  end
+  --释放根源节点
+  ays:re(node)
+
+end
+end
+
+
+--初始化事件方法 onsc 启动时回调一次
+function onsc()
+
+import 'com.iapp.app.ays'
+
+local pns = "com.iapp.app"
+--设置监听指定的包名，可以设置多个包名用逗号隔开如"com.xxx.a,com.xxx.b"
+ays.pns = pns
+--设置相应时间
+ays.nt = 1000
+end
+
+
+然后 权限配置管理》application配置 将下面的配置粘贴进去：
+	<service
+            android:name="com.iapp.app.ays"
+            android:label="iapp开发工具无障碍辅助功能"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/aya_config"/>
+        </service>
+
+最后，【正式打包发布】打包完成后，安装测试。记得自行去设置》辅助功能》打开我们的服务《iapp开发工具无障碍辅助功能》。
+注意：直接在iapp里测试无效。
+
+
+更多代码示范：
+
+--------静态调用
+--获取无障碍功能是否已经授权
+import 'com.iapp.app.ays'
+ays:isas(activity)
+
+--如果没有授权，可跳转设置界面
+import 'com.iapp.app.ays'
+ays:goset(activity)
+
+
+--------事件源操作
+--获取Context功能类
+local a = ays:gbc()
+
+--获取无障碍功能配置信息
+local a = ays:gsi()
+
+--设置无障碍功能配置信息
+ays:ssi(a)
+
+--调用全局事件
+--输入值：1. 返回键 2. HOME键 3. 最近打开应用列表 4. 打开通知栏 5. 设置 6. 锁屏
+local a = ays:pga(1)
+
+--获取事件类型
+--值：32 打开PopupWindow，Menu，Dialog等的事件  64 显示通知的事件  2048 更改窗口内容的事件  4194304 屏幕上显示的窗口中的事件更改
+local a = ays:gtype(e)
+
+--获取事件源类的类型
+local a = ays:gcn(e)
+
+--获取事件源的包名
+local a = ays:gpn(e)
+
+--获取事件源的是否可用
+local a = ays:ised(e)
+
+--获取事件源的节点总数
+local a = ays:gsl(e)
+
+--获取事件源的整数ID
+local a = ays:gwid(e)
+
+--获取事件源的时间
+local a = ays:gtime(e)
+
+--释放资源
+ays:re(e)
+
+
+--------节点的操作
+--获取事件源的节点对象列表
+local node = ays:gall(e)
+
+--获取窗口的对象节点列表，需要Android 4.1及以上才可调用
+local node = ays:gall()
+
+--根据序号；获取对象的子节点
+local a = ays:gi(node, 0)
+
+--获取对象的子节点总数
+local a = ays:gi(node)
+
+--根据当前焦点向某个方向进行搜索可以获得输入焦点的最近控件
+--输入值：33 向上  130 向下  17 向左  66 向右
+local a = ays:focussearch(node, 130)
+
+--根据文本查询控件，返回节点列表
+local nodelist = ays:text(node, "创建")
+
+--根据id查询控件，返回节点列表
+local nodelist = ays:id(node, "com.iapp.app:id/ui_home_add_go")
+
+--根据焦点查询
+--输入值：1 输入焦点  2 可访问性焦点
+local a = ays:focus(node, 1)
+
+--获取节点文本
+local a = ays:gt(node)
+
+--获取节点类的类型
+local a = ays:gcn(node)
+
+--获取节点整数ID
+local a = ays:gwid(node)
+
+--获取节点ID
+local a = ays:gid(node)
+
+--获取可以在节点上执行的操作
+local list = ays:gal(node)
+
+--获取节点在屏幕上坐标
+local a = ays:gbis(node)
+
+--获取父节点在屏幕上坐标
+local a = ays:gbip(node)
+
+--获取节点的包名
+local a = ays:gpn(node)
+
+--获取节点的父节点
+local a = ays:gp(node)
+
+--获取此节点是否可点击
+local a = ays:isck(node)
+
+--获取此节点是否已启用
+local a = ays:ised(node)
+
+--获取此节点是否已选中
+local a = ays:iscd(node)
+
+--获取这个节点是否被聚焦
+local a = ays:isfd(node)
+
+--获取此节点是否可以长时间点击
+local a = ays:islck(node)
+
+--获取此节点是否是密码
+local a = ays:ispd(node)
+
+--获取节点是否可滚动
+local a = ays:isse(node)
+
+--获取是否选择此节点
+local a = ays:issd(node)
+
+
+
+--根据文本查询；模拟控件点击控件
+local a = ays:cktext(node, 16, "创建")
+
+--根据ID查询；模拟控件点击控件
+local a = ays:ckid(node, 16, "com.iapp.app:id/ui_home_add_go")
+
+--根据焦点查询；模拟控件点击控件
+--输入值：1 输入焦点  2 可访问性焦点
+local a = ays:ckfocus(node, 16, 1)
+
+
+	/.
+	  模拟执行操作
+	  1 将输入焦点输入到节点的操作
+	  16 点击节点信息的动作
+	  32 长时间点击节点的动作
+	  32768 操作来粘贴当前的剪贴板内容
+	 ./
+--开始模拟控件点击
+--输入节点列表
+local a = ays:ck(nodelist, 16)
+
+--开始模拟控件点击
+--输入节点列表，输入自定义的Bundle
+local a = ays:ck(nodelist, 16, bundle)
+
+--对单项模拟控件点击
+--输入节点列表
+local a = ays:ck(node, 16)
+
+--对单项模拟控件点击
+--输入节点列表，输入自定义的Bundle
+local a = ays:ck(node, 16, bundle)
+
+--对单项模拟执行输入文本,Android 4.3 版本及以上
+local a = ays:enter(node, "nihao")
+
+--开始模拟执行输入文本,Android 4.3 版本及以上
+local a = ays:enter(nodelist, "nihao")
+
+--获取节点所有子节点列表
+local nodelist = ays:ganiall(node)
+
+--释放节点资源
+ays:re(node)
+
+说明：
+无障碍功能（辅助功能）常用于简化操作，使应用或 系统的变得更智能、简便。
+
+
+【zj 组件控制】
+用法：
+--如有米广告组件，首先下载有米的组件，并且设置好组件。
+
+--初始化有米SDK，放在第一个界面的载入事件里
+--输入赋值变量，标识，发布 ID，密钥，是否开启有米的Log输出（需要换自己的渠道信息）
+local a = i:zj("init", {"String", "85aa56a59eac8b3d", "String", "a14006f66f58d5d7", "boolean", true})
+
+--初始化积分墙
+--输入赋值变量，标识
+local a = i:zj("initjfq")
+
+--展示积分墙
+local a = i:zj("jfqgo")
+
+
+说明：
+用于控制组件。
+
+
+
+
+
+

@@ -13,6 +13,8 @@
     <string name="tools">快捷工具</string>
 
     <string name="tieCode">结绳4.0</string>
+    <string name="android">安卓原生</string>
+    <string name="compose">Jetpack Compose</string>
     <string name="iv5">iApp-V5</string>
     <string name="iv5_cn">iApp-V5-中文</string>
     <string name="iGame">iApp-Game</string>
@@ -27,4 +29,22 @@
 
     <string name="navigation">导航</string>
     <string name="more">更多</string>
+    <string name="watch">查看</string>
+    <string name="search_app">搜索内容</string>
+    <string name="no_msg">暂无数据</string>
+    <string name="none_data">暂无数据</string>
+    <string name="author">作者：</string>
+
+    <!--toast-->
+    <string name="clip">已将文本复制到剪切板</string>
+
+    <!--net-->
+    <string name="common_error_net">网络异常,请检查网络连接！</string>
+    <string name="common_error_net_time_out">网络超时</string>
+    <string name="common_error_do_something_fail">操作异常</string>
+    <string name="common_error_request">请求错误</string>
+    <string name="common_error_server">服务器错误</string>
+    <string name="common_error_server_json">服务器错误:Json格式错误</string>
+    <string name="copy">复制</string>
+
 </resources>

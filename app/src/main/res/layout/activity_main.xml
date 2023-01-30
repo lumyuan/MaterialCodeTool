@@ -15,13 +15,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.MaterialToolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:elevation="0dp"
                 app:title="@string/app_name"
                 tools:ignore="PrivateResource"
+                android:background="@android:color/transparent"
                 android:layout_marginTop="@dimen/dp_40"/>
 
         </com.google.android.material.appbar.AppBarLayout>

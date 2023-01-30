@@ -8,9 +8,9 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.animation.DecelerateInterpolator
 
-const val duration = 180L
+const val duration = 150L
 const val onLongTime = 750L
-const val onDownScale = 0.85f
+const val onDownScale = 0.9f
 const val onUpScale = 1f
 private val interpolator = DecelerateInterpolator()
 

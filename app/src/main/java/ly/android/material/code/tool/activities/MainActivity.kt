@@ -2,16 +2,17 @@ package ly.android.material.code.tool.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Gravity
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.activities.fragments.MainDrawerFragment
 import ly.android.material.code.tool.activities.fragments.MainFragment
+import ly.android.material.code.tool.common.dip2px
+import ly.android.material.code.tool.common.height
+import ly.android.material.code.tool.common.width
 import ly.android.material.code.tool.data.MainViewModel
 import ly.android.material.code.tool.databinding.ActivityMainBinding
 import ly.android.material.code.tool.ui.common.*

@@ -1,0 +1,12 @@
+# ninja log v5
+1	2474	6967746391339468	CMakeFiles/natives.dir/natives.cpp.o	27731cd4dbdf1fb6
+2479	3343	6967746398786923	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/Debug/6a3r1p33/obj/arm64-v8a/libnatives.so	65f200704f60418b
+1	21	0	clean	ce376697d34b1a80
+17	1251	6967934681588521	CMakeFiles/natives.dir/natives.cpp.o	27731cd4dbdf1fb6
+1252	1783	6967934686673344	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/Debug/6a3r1p33/obj/arm64-v8a/libnatives.so	65f200704f60418b
+0	23	0	clean	ce376697d34b1a80
+3	1204	6967950239045731	CMakeFiles/natives.dir/natives.cpp.o	27731cd4dbdf1fb6
+1205	1709	6967950243868671	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/Debug/6a3r1p33/obj/arm64-v8a/libnatives.so	65f200704f60418b
+0	21	0	clean	ce376697d34b1a80
+4	873	6967952809486977	CMakeFiles/natives.dir/natives.cpp.o	27731cd4dbdf1fb6
+875	1238	6967952812885248	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/Debug/6a3r1p33/obj/arm64-v8a/libnatives.so	65f200704f60418b

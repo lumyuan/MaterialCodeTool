@@ -1,0 +1,10 @@
+# ninja log v5
+0	20	0	clean	ce376697d34b1a80
+1	738	6967935167853764	CMakeFiles/natives.dir/natives.cpp.o	4477c5a7d7c3a9
+741	966	6967935169916647	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/Debug/6a3r1p33/obj/x86/libnatives.so	8d17ae08afeb6ac3
+1	21	0	clean	ce376697d34b1a80
+7	1231	6967950279494981	CMakeFiles/natives.dir/natives.cpp.o	4477c5a7d7c3a9
+1232	1797	6967950284877512	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/Debug/6a3r1p33/obj/x86/libnatives.so	8d17ae08afeb6ac3
+0	21	0	clean	ce376697d34b1a80
+8	1200	6967952869749233	CMakeFiles/natives.dir/natives.cpp.o	4477c5a7d7c3a9
+1201	1515	6967952872669757	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/Debug/6a3r1p33/obj/x86/libnatives.so	8d17ae08afeb6ac3

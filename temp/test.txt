@@ -1,0 +1,14 @@
+【标题一】
+正文
+正文正文
+<mct_author>作者</mct_author>
+
+【标题二】
+正文2
+正文2正文2
+<mct_author>作者</mct_author>
+
+【标题三】
+正文3
+正文3正文3
+<mct_author>作者</mct_author>

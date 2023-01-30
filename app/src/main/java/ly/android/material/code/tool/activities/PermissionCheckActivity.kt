@@ -8,10 +8,12 @@ import android.view.View
 import android.view.View.OnClickListener
 import androidx.activity.viewModels
 import ly.android.io.common.Permissions
+import ly.android.io.util.DocumentUtil
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.data.PermissionCheckViewModel
 import ly.android.material.code.tool.databinding.ActivityPermissionCheckBinding
 import ly.android.material.code.tool.ui.common.bind
+import ly.android.material.code.tool.ui.view.setOnFeedbackListener
 import ly.android.material.code.tool.util.ToastUtils
 
 class PermissionCheckActivity : AppCompatActivity(), OnClickListener {
@@ -22,9 +24,18 @@ class PermissionCheckActivity : AppCompatActivity(), OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Permissions.hasCallExternalStorage() && Permissions.hasCallAllFile()){
-            start()
-            return
+        if (DocumentUtil.atLeastR()){
+            binding.getESP.visibility = View.GONE
+            if (Permissions.hasCallAllFile()){
+                start()
+                return
+            }
+        }else {
+            binding.getMSP.visibility = View.GONE
+            if (Permissions.hasCallExternalStorage()){
+                start()
+                return
+            }
         }
 
         setSupportActionBar(binding.toolbar)
@@ -43,6 +54,10 @@ class PermissionCheckActivity : AppCompatActivity(), OnClickListener {
                 binding.msp.isChecked = it
             }
         }
+
+        binding.getESP.setOnFeedbackListener(clickable = true)
+        binding.getMSP.setOnFeedbackListener(clickable = true)
+        binding.start.setOnFeedbackListener(clickable = true)
 
         binding.getESP.setOnClickListener(this)
         binding.getMSP.setOnClickListener(this)
@@ -72,10 +87,18 @@ class PermissionCheckActivity : AppCompatActivity(), OnClickListener {
                 }
             }
             binding.start -> {
-                if (viewModel.externalStoragePermission.value == true && viewModel.manageStoragePermission.value == true){
-                    start()
+                if (DocumentUtil.atLeastR()){
+                    if (viewModel.manageStoragePermission.value == true){
+                        start()
+                    }else {
+                        ToastUtils.toast(R.string.please_allow_permission)
+                    }
                 }else {
-                    ToastUtils.toast(R.string.please_allow_permission)
+                    if (viewModel.externalStoragePermission.value == true){
+                        start()
+                    }else {
+                        ToastUtils.toast(R.string.please_allow_permission)
+                    }
                 }
             }
         }

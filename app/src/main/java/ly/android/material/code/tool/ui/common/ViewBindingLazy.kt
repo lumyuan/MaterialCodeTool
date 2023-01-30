@@ -30,6 +30,7 @@ fun fullScreen(activity: AppCompatActivity){
     ImmersionBar.with(activity)
         .transparentStatusBar()
         .transparentNavigationBar()
+        .navigationBarEnable(false)
         .statusBarDarkFont(darkMode)
         .navigationBarDarkIcon(darkMode)
         .keyboardEnable(true)

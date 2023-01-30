@@ -3,15 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.fragments.reference.ReferenceItemFragment">
 
     <com.scwang.smart.refresh.header.MaterialHeader
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/listView"/>
+        android:animateLayoutChanges="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listView"
+            android:layout_marginStart="@dimen/medium"
+            android:layout_marginEnd="@dimen/medium"/>
+
+        <ly.android.material.code.tool.ui.view.MaterialSearchView
+            android:id="@+id/searchView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/large"
+            android:layout_marginTop="@dimen/large"
+            android:layout_marginEnd="@dimen/large"
+            android:layout_marginBottom="@dimen/large"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:cardElevation="@dimen/m3_sys_elevation_level3"
+            app:strokeWidth="@dimen/dp_0"
+            app:cardCornerRadius="12dp"
+            tools:ignore="PrivateResource" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:text="@string/none_data"
+            android:id="@+id/noneData"/>
+
+    </RelativeLayout>
 
 </com.scwang.smart.refresh.layout.SmartRefreshLayout>

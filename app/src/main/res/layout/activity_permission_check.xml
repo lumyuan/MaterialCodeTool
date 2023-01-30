@@ -16,7 +16,7 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
+            android:layout_height="wrap_content"
             android:elevation="0dp"
             app:layout_collapseMode="pin"
             app:title="@string/welcome"

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.reference.ReferenceActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:background="?attr/colorSurface"
+        app:elevation="@dimen/m3_sys_elevation_level2"
+        android:layout_height="wrap_content"
+        tools:ignore="PrivateResource">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:id="@+id/toolbar"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/large"
+        app:cardCornerRadius="@dimen/medium"
+        app:strokeWidth="@dimen/dp_1"
+        android:layout_weight="1">
+
+        <io.github.rosemoe.sora.widget.CodeEditor
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/editor"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/action"
+        android:layout_marginBottom="@dimen/large"
+        android:layout_marginEnd="@dimen/large"
+        android:text="@string/copy"
+        android:layout_gravity="end"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

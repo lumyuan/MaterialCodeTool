@@ -1,0 +1,3 @@
+C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/arm64-v8a/CMakeFiles/natives.dir
+C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/arm64-v8a/CMakeFiles/rebuild_cache.dir

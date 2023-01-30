@@ -1,8 +1,12 @@
-package ly.android.material.code.tool.ui.common
+package ly.android.material.code.tool.common
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Point
 import android.view.WindowManager
+import ly.android.io.common.IOUtils
+import java.io.IOException
 
 fun Context.width(): Int {
     val windowManager = this.getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -40,4 +44,15 @@ fun Context.px2sp(pxValue: Float): Int {
 fun Context.sp2px(spValue: Float): Int {
     val fontScale = this.resources.displayMetrics.scaledDensity
     return (spValue * fontScale + 0.5f).toInt()
+}
+
+@Throws(IOException::class)
+fun Context.readByte(fileName: String) : ByteArray {
+    val open = assets.open(fileName)
+    return IOUtils.readBytes(open)
+}
+
+fun Context.clip(content: CharSequence){
+    val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    clipboardManager.setPrimaryClip(ClipData.newPlainText(null, content))
 }
