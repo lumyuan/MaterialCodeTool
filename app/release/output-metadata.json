@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 1,
-      "versionName": "1.0",
-      "outputFile": "MaterialCodeTool-1.0-release.apk"
+      "versionCode": 2301311,
+      "versionName": "1.0.1",
+      "outputFile": "MaterialCodeTool-1.0.1-release.apk"
     }
   ],
   "elementType": "File"

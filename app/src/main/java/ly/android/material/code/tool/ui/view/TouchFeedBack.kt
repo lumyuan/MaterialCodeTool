@@ -56,7 +56,6 @@ fun View.setOnFeedbackListener(
                 MotionEvent.ACTION_MOVE -> {
                     val x = event.x
                     val y = event.y
-                    println("x: $x\t\ty: $y")
                     if (x < 0 || y < 0 || x > v.measuredWidth || y > v.measuredHeight) {
                         onUp(v)
                         cancel = false

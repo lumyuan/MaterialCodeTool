@@ -34,29 +34,20 @@ class ReferenceFragment : BaseFragment() {
         super.initView(root)
         pages = arrayOf(
             PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "",
-                        urlType = UrlType.NET
-                    )
+                fragment = AndroidDeveloperFragment.newInstance(
+                    "http://www.tiecode.cn/"
                 ),
                 title = MaterialCodeToolApplication.application.getString(R.string.tieCode)
             ),
             PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "",
-                        urlType = UrlType.NET
-                    )
+                fragment = AndroidDeveloperFragment.newInstance(
+                    "https://developer.android.google.cn/training/basics/firstapp"
                 ),
                 title = MaterialCodeToolApplication.application.getString(R.string.android)
             ),
             PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "",
-                        urlType = UrlType.NET
-                    )
+                fragment = AndroidDeveloperFragment.newInstance(
+                    "https://developer.android.google.cn/courses/pathways/compose"
                 ),
                 title = MaterialCodeToolApplication.application.getString(R.string.compose)
             ),
@@ -139,6 +130,7 @@ class ReferenceFragment : BaseFragment() {
                 pages,
                 childFragmentManager
             )
+            offscreenPageLimit = pages.size
         }
 
         binding.tabLayout.setupWithViewPager(binding.viewpager)

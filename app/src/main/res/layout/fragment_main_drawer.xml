@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <FrameLayout
+        <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_40"/>
 
@@ -72,6 +72,19 @@
             android:text="@string/more"
             android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
             android:layout_margin="@dimen/large"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:text="@string/join_us"
+            android:id="@+id/joinUs"
+            android:paddingTop="@dimen/large"
+            android:paddingBottom="@dimen/large"
+            android:paddingStart="@dimen/extra_large"
+            android:paddingEnd="@dimen/extra_large"
+            android:background="?android:selectableItemBackground"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -18,7 +18,8 @@ class MainViewModel: ViewModel() {
     private val _titles = MutableLiveData<Array<String>>().apply {
         value = arrayOf(
             MaterialCodeToolApplication.application.getString(R.string.reference),
-            MaterialCodeToolApplication.application.getString(R.string.tools)
+            MaterialCodeToolApplication.application.getString(R.string.tools),
+            MaterialCodeToolApplication.application.getString(R.string.notes)
         )
     }
     val titles: LiveData<Array<String>> = _titles

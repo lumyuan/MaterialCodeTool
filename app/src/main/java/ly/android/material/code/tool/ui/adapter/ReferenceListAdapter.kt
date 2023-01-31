@@ -57,6 +57,11 @@ class ReferenceListAdapter(
             }
             it.context.startActivity(intent)
         }
+        if (position >= itemCount - 2){
+            binding.perchView.visibility = View.VISIBLE
+        }else {
+            binding.perchView.visibility = View.GONE
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

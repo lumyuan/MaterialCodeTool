@@ -1,5 +1,7 @@
 package ly.android.material.code.tool.activities.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,8 @@ import ly.android.material.code.tool.data.MainViewModel
 import ly.android.material.code.tool.databinding.FragmentMainDrawerBinding
 import ly.android.material.code.tool.ui.base.BaseFragment
 import ly.android.material.code.tool.ui.common.bind
+import ly.android.material.code.tool.ui.view.setOnFeedbackListener
+import ly.android.material.code.tool.util.ToastUtils
 
 class MainDrawerFragment : BaseFragment() {
 
@@ -41,6 +45,9 @@ class MainDrawerFragment : BaseFragment() {
                     R.id.nav_tools -> {
                         1
                     }
+                    R.id.nav_notes -> {
+                        2
+                    }
                     else -> 0
                 }
             )
@@ -56,11 +63,28 @@ class MainDrawerFragment : BaseFragment() {
                     1 -> {
                         R.id.nav_tools
                     }
+                    2 -> R.id.nav_notes
                     else -> {
                         R.id.nav_reference
                     }
                 }
             )
         }
+
+        binding.joinUs.setOnFeedbackListener(
+            clickable = true,
+            click = {
+                val url =
+                    "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=749196050&card_type=group&source=qrcode"
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    startActivity(intent)
+                }catch (e: Exception){
+                    e.printStackTrace()
+                    ToastUtils.toast(e.toString())
+                }
+            }
+        )
     }
 }

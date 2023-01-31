@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import ly.android.material.code.tool.R
+import ly.android.material.code.tool.activities.fragments.notes.NotesFragment
 import ly.android.material.code.tool.activities.fragments.reference.ReferenceFragment
 import ly.android.material.code.tool.activities.fragments.toos.ToolsFragment
 import ly.android.material.code.tool.data.MainViewModel
@@ -43,6 +44,10 @@ class MainFragment : BaseFragment() {
             PagerAdapterForFragment.Page(
                 fragment = ToolsFragment.newInstance(),
                 title = activity?.getString(R.string.tools)
+            ),
+            PagerAdapterForFragment.Page(
+                fragment = NotesFragment.newInstance(),
+                title = activity?.getString(R.string.notes)
             )
         )
         binding.viewpager.apply {

@@ -9,7 +9,8 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="功能页"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"/>
+        android:text="快捷工具\n（功能开发中...）"
+        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+        android:gravity="center"/>
 
 </LinearLayout>

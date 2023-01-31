@@ -84,4 +84,9 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_65"
+        android:id="@+id/perchView"/>
+
 </LinearLayout>

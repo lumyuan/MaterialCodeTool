@@ -8,9 +8,11 @@
     <string name="manage_storage_permission">所有文件访问权限</string>
     <string name="manage_storage_permission_tip">受沙盒存储机制的影响，App需要授予【所有文件访问权限】才能正常运行</string>
     <string name="please_allow_permission">请先授予对应权限！</string>
+    <string name="kill_self">再按一次退出程序</string>
 
     <string name="reference">参考文档</string>
     <string name="tools">快捷工具</string>
+    <string name="notes">质感笔记</string>
 
     <string name="tieCode">结绳4.0</string>
     <string name="android">安卓原生</string>
@@ -35,6 +37,12 @@
     <string name="none_data">暂无数据</string>
     <string name="author">作者：</string>
 
+    <string name="toast">提示</string>
+    <string name="arrow">同意</string>
+    <string name="definite">确定</string>
+    <string name="cannot_go_back">已经不能回退啦~</string>
+    <string name="go_back">回退</string>
+
     <!--toast-->
     <string name="clip">已将文本复制到剪切板</string>
 
@@ -46,5 +54,7 @@
     <string name="common_error_server">服务器错误</string>
     <string name="common_error_server_json">服务器错误:Json格式错误</string>
     <string name="copy">复制</string>
+    <string name="load_failed">加载失败</string>
+    <string name="join_us">加入我们</string>
 
 </resources>
