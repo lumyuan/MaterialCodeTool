@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 static def releaseTime() {
@@ -18,8 +19,8 @@ android {
         applicationId "ly.android.material.code.tool"
         minSdk 21
         targetSdk 33
-        versionCode 2301311
-        versionName "1.0.1"
+        versionCode 2302012
+        versionName "1.0.2"
 
         renderscriptTargetApi 33
         renderscriptSupportModeEnabled true
@@ -65,7 +66,11 @@ android {
         jvmTarget = '11'
     }
     buildFeatures {
+        compose true
         viewBinding true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.2.0'
     }
     sourceSets {
         main {
@@ -75,6 +80,9 @@ android {
         }
     }
     packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
         pickFirst "license/README.dom.txt"
         pickFirst "license/LICENSE.dom-documentation.txt"
         pickFirst "license/NOTICE"
@@ -84,6 +92,8 @@ android {
 }
 
 dependencies {
+
+    implementation fileTree(includes: [ '*.aar', '*.jar' ], dir: 'libs')
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.0'
@@ -95,9 +105,18 @@ dependencies {
 
     implementation 'androidx.activity:activity-ktx:1.6.1'
 
+    implementation 'androidx.activity:activity-compose:1.4.0'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.compose.material3:material3:1.0.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.3.3'
+
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.6-androidx' // (必选)
     implementation 'com.github.Justson.AgentWeb:agentweb-filechooser:v5.0.6-androidx' // (可选)
@@ -166,4 +185,14 @@ dependencies {
 
     //language tieCode
     implementation project(":language-tiecode")
+
+    //Svg loader
+    implementation 'com.guardanis:imageloader:2.0.0'
+
+    // room
+    implementation 'androidx.room:room-runtime:2.4.3'
+    annotationProcessor 'androidx.room:room-compiler:2.4.3'
+    kapt("androidx.room:room-compiler:2.4.3")
+    implementation("androidx.room:room-ktx:2.4.3")
+    implementation "androidx.room:room-rxjava3:2.4.3"
 }

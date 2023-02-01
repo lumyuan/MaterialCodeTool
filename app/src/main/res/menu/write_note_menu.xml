@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/undo"
+        android:icon="@drawable/ic_undo"
+        app:showAsAction="always"
+        android:title="" />
+
+    <item
+        android:id="@+id/redo"
+        android:icon="@drawable/ic_redo"
+        app:showAsAction="always"
+        android:title="" />
+
+    <item
+        android:id="@+id/finished"
+        android:icon="@drawable/ic_finished"
+        app:showAsAction="always"
+        android:title="" />
+
+    <!--<item
+        android:id="@+id/lineWrap"
+        app:showAsAction="never"
+        android:title="@string/line_wrap" />-->
+
+</menu>

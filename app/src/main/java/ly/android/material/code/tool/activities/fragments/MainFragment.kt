@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import ly.android.material.code.tool.MaterialCodeToolApplication
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.activities.fragments.notes.NotesFragment
 import ly.android.material.code.tool.activities.fragments.reference.ReferenceFragment
@@ -54,6 +55,11 @@ class MainFragment : BaseFragment() {
             adapter = PagerAdapterForFragment(
                 pages, childFragmentManager
             )
+            offscreenPageLimit = if (MaterialCodeToolApplication.highPerformanceMode){
+                pages.size
+            }else {
+                1
+            }
         }
 
         binding.viewpager.addOnPageChangeListener(object : OnPageChangeListener {

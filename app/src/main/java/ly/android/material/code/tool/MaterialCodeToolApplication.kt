@@ -10,6 +10,7 @@ class MaterialCodeToolApplication : Application() {
     companion object {
         lateinit var application: Application
         const val isEncode = true
+        var highPerformanceMode = true
     }
 
     override fun onCreate() {

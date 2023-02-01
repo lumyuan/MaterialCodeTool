@@ -130,7 +130,11 @@ class ReferenceFragment : BaseFragment() {
                 pages,
                 childFragmentManager
             )
-            offscreenPageLimit = pages.size
+            offscreenPageLimit = if (MaterialCodeToolApplication.highPerformanceMode){
+                pages.size
+            }else {
+                2
+            }
         }
 
         binding.tabLayout.setupWithViewPager(binding.viewpager)

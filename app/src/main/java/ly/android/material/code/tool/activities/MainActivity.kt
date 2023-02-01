@@ -69,8 +69,6 @@ class MainActivity : AppCompatActivity() {
         viewMode.drawerState.observe(this){
             if (it == false){
                 binding.root.closeDrawer(GravityCompat.START)
-
-
             }
         }
     }

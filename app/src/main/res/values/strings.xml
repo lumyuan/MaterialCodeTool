@@ -57,4 +57,25 @@
     <string name="load_failed">加载失败</string>
     <string name="join_us">加入我们</string>
 
+    <string name="lang_java">Java</string>
+    <string name="lang_kt">Kotlin</string>
+    <string name="lang_tie_lang">TieLang</string>
+    <string name="lang_cpp">C++</string>
+    <string name="lang_html">HTML</string>
+    <string name="lang_py">Python</string>
+    <string name="lang_js">JS</string>
+    <string name="lang_xml">XML</string>
+    <string name="lang_lua">Lua</string>
+    <string name="lang_md">MD</string>
+    <string name="lang_iyu">裕语言</string>
+
+    <string name="date_format">yyyy年MM月dd日</string>
+
+    <string name="choose_note_type">选择笔记语言</string>
+    <string name="lang_tip">语言：</string>
+    <string name="charset_utf8">UTF-8</string>
+    <string name="note_title">标题</string>
+    <string name="line_wrap">自动换行</string>
+    <string name="no_note">开始写入你的第一个笔记吧~</string>
+
 </resources>

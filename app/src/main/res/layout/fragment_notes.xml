@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.fragments.notes.NotesFragment">
 
-    <TextView
+    <androidx.compose.ui.platform.ComposeView
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:id="@+id/composeView"/>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="质感笔记\n（功能开发中...）"
-        android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-        android:gravity="center" />
+        android:paddingStart="@dimen/medium"
+        android:paddingEnd="@dimen/medium"
+        android:clipToPadding="false"
+        android:id="@+id/listView"/>
 
-</FrameLayout>
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:text="@string/no_note"
+        android:layout_centerInParent="true"
+        android:id="@+id/noData"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/large"
+        android:id="@+id/addButton"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:srcCompat="@drawable/ic_add"
+        tools:ignore="ContentDescription" />
+
+</RelativeLayout>

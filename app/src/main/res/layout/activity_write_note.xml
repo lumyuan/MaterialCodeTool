@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.notes.WriteNoteActivity"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:animateLayoutChanges="true"
+            android:id="@+id/toolbar"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/note_title"
+                android:layout_marginStart="@dimen/large"
+                android:layout_marginEnd="@dimen/large"
+                android:layout_marginTop="@dimen/small"
+                android:layout_marginBottom="@dimen/small"
+                android:id="@+id/title"
+                android:singleLine="true"
+                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/dp_3">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_13"
+                    android:id="@+id/langType"
+                    android:layout_centerVertical="true"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                    android:text="@string/lang_tip"
+                    tools:ignore="RelativeOverlap" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/dp_13">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/dp_13"
+                        android:id="@+id/textPosition"
+                        android:layout_centerVertical="true"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        tools:ignore="RelativeOverlap" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small"
+                        android:id="@+id/date"
+                        android:layout_centerVertical="true"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        tools:ignore="RelativeOverlap" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small"
+                        android:id="@+id/charset"
+                        android:layout_centerVertical="true"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        android:text="@string/charset_utf8"
+                        tools:ignore="RelativeOverlap" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <io.github.rosemoe.sora.widget.CodeEditor
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/editor"
+        android:layout_weight="1"
+        app:lnPanelPosition="center"
+        app:lnPanelPositionMode="follow"/>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <io.github.rosemoe.sora.widget.SymbolInputView
+            android:id="@+id/symbol_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </HorizontalScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
