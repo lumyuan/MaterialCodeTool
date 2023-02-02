@@ -1,11 +1,18 @@
 package ly.android.material.code.tool.activities.fragments.notes
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,14 +30,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.activities.notes.WriteNoteActivity
 import ly.android.material.code.tool.common.DataBase
+import ly.android.material.code.tool.data.MainViewModel
 import ly.android.material.code.tool.data.NotesViewModel
 import ly.android.material.code.tool.data.entity.ChooseLangBean
+import ly.android.material.code.tool.data.entity.NoteItemBean
 import ly.android.material.code.tool.databinding.FragmentNotesBinding
 import ly.android.material.code.tool.ui.adapter.NotesListAdapter
 import ly.android.material.code.tool.ui.base.BaseFragment
@@ -38,11 +49,13 @@ import ly.android.material.code.tool.ui.common.SimpleItemTouchHelperCallback
 import ly.android.material.code.tool.ui.common.bind
 import ly.android.material.code.tool.ui.theme.MaterialCodeToolTheme
 import ly.android.material.code.tool.ui.view.setOnFeedbackListener
+import ly.android.material.code.tool.util.ToastUtils
 
 class NotesFragment : BaseFragment() {
 
     private val binding by bind(FragmentNotesBinding::inflate)
     private val viewModel by viewModels<NotesViewModel>()
+    private val activityViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +65,8 @@ class NotesFragment : BaseFragment() {
     }
 
     companion object {
+        const val NOTE_REQ_CODE = 202302
+
         @JvmStatic
         fun newInstance() =
             NotesFragment()
@@ -122,7 +137,7 @@ class NotesFragment : BaseFragment() {
 
         binding.listView.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            this@NotesFragment.adapter = NotesListAdapter()
+            this@NotesFragment.adapter = NotesListAdapter(activityViewModel, this@NotesFragment)
             adapter = this@NotesFragment.adapter
 
             val callback: ItemTouchHelper.Callback =
@@ -131,43 +146,116 @@ class NotesFragment : BaseFragment() {
             touchHelper.attachToRecyclerView(this)
         }
 
-        binding.addButton.setOnFeedbackListener(
-            clickable = true
-        ) {
+        binding.addButton.setOnFeedbackListener {
             viewModel.addDialogState.value = true
         }
 
-        viewModel.list.observe(this){
+        viewModel.list.observe(this) {
+            if (activityViewModel.noteLangClickState.value == false) {
+                //TODO
+
+            }
             adapter.updateList(it)
-            binding.noData.visibility = if (it.isEmpty()){
+            initAnimate(requireContext())
+            binding.noData.visibility = if (it.isEmpty()) {
                 View.VISIBLE
-            }else {
+            } else {
                 View.GONE
+            }
+        }
+
+        activityViewModel.noteLangClickState.observe(this) {
+            if (it) {
+                binding.addButton.visibility = View.GONE
+            } else {
+                binding.addButton.visibility = View.VISIBLE
+                adapter.checkAll(false)
+            }
+            adapter.changeState()
+        }
+
+        activityViewModel.checkAllBoxState.observe(this){
+            adapter.checkAll(it)
+        }
+
+        activityViewModel.removeCheckedState.value = 0
+        activityViewModel.removeCheckedState.observe(this) {
+            val checkedNote = adapter.getCheckedNote()
+            if (it != 0L){
+                if (checkedNote.isEmpty()){
+                    ToastUtils.toast(R.string.no_checked)
+                }else {
+                    MaterialAlertDialogBuilder(requireContext()).apply {
+                        this.setTitle(R.string.toast)
+                        this.setMessage(R.string.arrow_remove)
+                        this.setPositiveButton(R.string.delete){_,_ ->
+                            adapter.removeCheckedUI()
+                            checkedNote.forEach {bean ->
+                                DataBase.noteDataBase.noteDao().deleteNote(bean)
+                            }
+                            ToastUtils.toast(R.string.delete_finished)
+                            activityViewModel.noteLangClickState.value = false
+                            viewModel.setValues(adapter.getList())
+                        }
+                        this.setNegativeButton(R.string.cancel, null)
+                    }.show()
+                }
             }
         }
     }
 
-    override fun loadData() {
-        super.loadData()
+    private val handler = Handler(Looper.getMainLooper())
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        handler.postDelayed(
+            this::queryData, 500
+        )
+    }
+
+    override fun loadSingleData() {
+        super.loadSingleData()
+        queryData()
+    }
+
+    private fun queryData(){
         DataBase.noteDataBase.noteDao().queryAllNote()?.let {
+            val list = ArrayList<NoteItemBean>()
+            it.forEach { item ->
+                list.add(
+                    NoteItemBean(
+                        false, item
+                    )
+                )
+            }
             viewModel.setValues(
-                it
+                list = list
             )
         }
     }
 
+    private fun initAnimate(context: Context) {
+        val animation: Animation = AnimationUtils.loadAnimation(context, R.anim.animate_list)
+        val layoutAnimationController = LayoutAnimationController(animation)
+        layoutAnimationController.order = LayoutAnimationController.ORDER_NORMAL
+        layoutAnimationController.delay = 0.2f
+        binding.listView.layoutAnimation = layoutAnimationController
+    }
+
     @Composable
-    private fun AddNoteDialog(){
+    private fun AddNoteDialog() {
         val state = viewModel.addDialogState.observeAsState()
-        if (state.value == true){
+        if (state.value == true) {
             Dialog(
                 onDismissRequest = { viewModel.addDialogState.value = false },
                 content = {
-                    DialogContentView{
-                        val intent = Intent(requireActivity(), WriteNoteActivity::class.java).apply {
-                            putExtra("lang", it)
-                        }
-                        requireActivity().startActivity(intent)
+                    DialogContentView {
+                        startActivityForResult(
+                            Intent(requireActivity(), WriteNoteActivity::class.java).apply {
+                                putExtra("lang", it)
+                            },
+                            NOTE_REQ_CODE
+                        )
                     }
                 }
             )
@@ -215,7 +303,7 @@ class NotesFragment : BaseFragment() {
     private fun LangItem(
         langBean: ChooseLangBean,
         onClick: (String) -> Unit
-    ){
+    ) {
         val title = stringResource(id = langBean.title)
         Column(
             modifier = Modifier
@@ -230,7 +318,7 @@ class NotesFragment : BaseFragment() {
                 modifier = Modifier
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
-            ){
+            ) {
                 Spacer(modifier = Modifier.size(16.dp))
                 Image(
                     painter = painterResource(id = langBean.icon),
@@ -250,7 +338,7 @@ class NotesFragment : BaseFragment() {
 
     @Preview(showBackground = true)
     @Composable
-    private fun DefaultPreview(){
+    private fun DefaultPreview() {
         MaterialCodeToolTheme {
             DialogContentView()
         }

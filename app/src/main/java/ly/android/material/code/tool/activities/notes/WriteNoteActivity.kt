@@ -2,9 +2,11 @@ package ly.android.material.code.tool.activities.notes
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
@@ -195,6 +197,9 @@ class WriteNoteActivity : AppCompatActivity() {
     override fun onDestroy() {
         saveData()
         binding.editor.release()
+        setResult(RESULT_OK, Intent().apply {
+            putExtra("savaType", "finished")
+        })
         super.onDestroy()
     }
 

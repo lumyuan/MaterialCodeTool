@@ -27,11 +27,12 @@ fun View.setOnFeedbackListener(
     click: (View) -> Unit = {}
 ) {
     var cancel = true
+    var isLong = false
     val longTouchRunnable = Runnable {
-        onLongClick(this)
+        isLong = true
         vibrationLong(this)
         cancel = false
-        onUp(this)
+//        onUp(this)
     }
     if (clickable){
         isClickable = true
@@ -40,11 +41,15 @@ fun View.setOnFeedbackListener(
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             when (event.action) {
                 MotionEvent.ACTION_UP -> {
-                    if (cancel) {
-                        performClick()
-                        click(v)
-                        vibrationUp(v)
+                    if (isLong){
+                        onLongClick(this@setOnFeedbackListener)
+                    }else {
+                        if (cancel) {
+                            performClick()
+                            click(v)
+                        }
                     }
+                    vibrationUp(v)
                     onUp(v)
                     handler.removeCallbacks(longTouchRunnable)
                     return if (!clickable){
@@ -70,6 +75,7 @@ fun View.setOnFeedbackListener(
                 MotionEvent.ACTION_CANCEL -> {
                     onUp(v)
                     cancel = false
+                    isLong = false
                     handler.removeCallbacks(longTouchRunnable)
                     return if (!clickable){
                         true

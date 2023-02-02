@@ -86,6 +86,10 @@ class MainFragment : BaseFragment() {
                 binding.viewpager.currentItem = it
             }
         }
+
+        viewModel.noteLangClickState.observe(this){
+            binding.viewpager.setScroll(it)
+        }
     }
 
 }

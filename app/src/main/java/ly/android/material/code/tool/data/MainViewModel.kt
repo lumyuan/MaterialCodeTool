@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ly.android.material.code.tool.MaterialCodeToolApplication
 import ly.android.material.code.tool.R
+import org.jetbrains.annotations.NotNull
 
 class MainViewModel: ViewModel() {
 
@@ -30,4 +31,9 @@ class MainViewModel: ViewModel() {
     fun setDrawerState(state: Boolean){
         _drawerState.value = state
     }
+
+    val noteLangClickState = MutableLiveData(false)
+    val isCheckAll = MutableLiveData(false)
+    val checkAllBoxState = MutableLiveData(false)
+    val removeCheckedState = MutableLiveData(0L)
 }

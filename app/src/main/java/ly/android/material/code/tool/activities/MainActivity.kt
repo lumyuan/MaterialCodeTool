@@ -4,15 +4,19 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import com.google.android.material.checkbox.MaterialCheckBox
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.activities.fragments.MainDrawerFragment
 import ly.android.material.code.tool.activities.fragments.MainFragment
+import ly.android.material.code.tool.common.DataBase
 import ly.android.material.code.tool.common.dip2px
 import ly.android.material.code.tool.common.height
 import ly.android.material.code.tool.common.width
@@ -64,11 +68,19 @@ class MainActivity : AppCompatActivity() {
                 val title = viewMode.titles.value?.get(it)
                 supportActionBar?.title = title
             }
+            invalidateOptionsMenu()
         }
 
         viewMode.drawerState.observe(this){
             if (it == false){
                 binding.root.closeDrawer(GravityCompat.START)
+            }
+        }
+
+        viewMode.noteLangClickState.observe(this){
+            invalidateOptionsMenu()
+            if (it == false){
+                viewMode.isCheckAll.value = false
             }
         }
     }
@@ -81,14 +93,85 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus && viewMode.pageCurrent.value == 2){
+            invalidateOptionsMenu()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_activity_menu, menu)
+        val checkBox = menu.findItem(R.id.checkAll).actionView as MaterialCheckBox
+        viewMode.isCheckAll.observe(this){
+            checkBox.isChecked = it
+        }
+        checkBox.setOnClickListener {
+            viewMode.checkAllBoxState.value = checkBox.isChecked
+        }
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.checkMore -> {
+                viewMode.noteLangClickState.value = true
+            }
+            R.id.checkAll -> {
+                val checkBox = item.actionView as MaterialCheckBox
+                viewMode.checkAllBoxState.value = checkBox.isChecked
+            }
+            R.id.close -> {
+                viewMode.noteLangClickState.value = false
+            }
+            R.id.checkedRemove -> {
+                viewMode.removeCheckedState.value = System.currentTimeMillis()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
+        if (viewMode.pageCurrent.value == 2){
+            if (DataBase.noteDataBase.noteDao().queryAllNote()?.isEmpty() == true) {
+                menu.findItem(R.id.checkAll).isVisible = false
+                menu.findItem(R.id.checkedRemove).isVisible = false
+                menu.findItem(R.id.close).isVisible = false
+                menu.findItem(R.id.checkMore).isVisible = false
+            }else {
+                if (viewMode.noteLangClickState.value == true){
+                    menu.findItem(R.id.checkAll).isVisible = true
+                    menu.findItem(R.id.checkedRemove).isVisible = true
+                    menu.findItem(R.id.close).isVisible = true
+                    menu.findItem(R.id.checkMore).isVisible = false
+                }else {
+                    menu.findItem(R.id.checkAll).isVisible = false
+                    menu.findItem(R.id.checkedRemove).isVisible = false
+                    menu.findItem(R.id.close).isVisible = false
+                    menu.findItem(R.id.checkMore).isVisible = true
+                }
+            }
+        }else {
+            menu.findItem(R.id.checkAll).isVisible = false
+            menu.findItem(R.id.checkedRemove).isVisible = false
+            menu.findItem(R.id.close).isVisible = false
+            menu.findItem(R.id.checkMore).isVisible = false
+        }
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     private var keyDownTimer = 0L
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
                 val currentTimeMillis = System.currentTimeMillis()
                 if (currentTimeMillis - keyDownTimer >= 2000){
-                    ToastUtils.toast(R.string.kill_self, Toast.LENGTH_SHORT)
-                    keyDownTimer = currentTimeMillis
+                    if (viewMode.noteLangClickState.value!!){
+                        viewMode.noteLangClickState.value = false
+                    }else {
+                        ToastUtils.toast(R.string.kill_self, Toast.LENGTH_SHORT)
+                        keyDownTimer = currentTimeMillis
+                    }
                 }else {
                     keyDownTimer = 0
                     this.finish()

@@ -3,15 +3,15 @@ package ly.android.material.code.tool.data
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ly.android.material.code.tool.data.entity.NoteBean
+import ly.android.material.code.tool.data.entity.NoteItemBean
 
 class NotesViewModel: ViewModel() {
 
-    private val _list = MutableLiveData<List<NoteBean>>()
+    private val _list = MutableLiveData<List<NoteItemBean>>()
 
-    val list: LiveData<List<NoteBean>> = _list
+    val list: LiveData<List<NoteItemBean>> = _list
 
-    fun setValues(list: List<NoteBean>){
+    fun setValues(list: List<NoteItemBean>){
         this._list.value = list
     }
 

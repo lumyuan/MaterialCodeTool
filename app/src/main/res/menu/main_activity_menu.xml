@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/checkAll"
+        android:title="@string/check_all"
+        app:actionViewClass="com.google.android.material.checkbox.MaterialCheckBox"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/checkedRemove"
+        android:icon="@drawable/ic_remove"
+        android:title="@string/remove_checked"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/close"
+        android:icon="@drawable/ic_close"
+        android:title="关闭"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/checkMore"
+        android:icon="@drawable/ic_check_more"
+        android:title="@string/check_more"
+        app:showAsAction="never"/>
+
+</menu>
