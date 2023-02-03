@@ -8,7 +8,6 @@ static def releaseTime() {
     return new Date().format("yyyyMMddHHmmss", TimeZone.getDefault())
 }
 
-
 ext.appName = "MaterialCodeTool"
 
 android {
@@ -16,11 +15,12 @@ android {
     compileSdk 33
 
     defaultConfig {
+//        applicationId "ly.android.material.code.tool.debug"
         applicationId "ly.android.material.code.tool"
         minSdk 21
         targetSdk 33
-        versionCode 2302031
-        versionName "1.0.3"
+        versionCode 2302032
+        versionName "1.0.4"
 
         renderscriptTargetApi 33
         renderscriptSupportModeEnabled true

@@ -20,7 +20,13 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keepattributes Exceptions,SourceFile,LineNumberTable,EnclosingMethod,Signature,*Annotation*,InnerClasses,Deprecated
+-optimizationpasses 5
+-dontskipnonpubliclibraryclassmembers
+-printmapping proguardMapping.txt
+-optimizations !code/simplification/cast,!field/*,!class/merging/*
+-keepattributes *Annotation*,InnerClasses
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
 
 # 保留四大组件，自定义的Application等等这些类不被混淆
 -keep public class * extends android.app.Activity

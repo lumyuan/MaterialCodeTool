@@ -195,7 +195,7 @@ class NotesFragment : BaseFragment() {
                             }
                             ToastUtils.toast(R.string.delete_finished)
                             activityViewModel.noteLangClickState.value = false
-                            viewModel.setValues(adapter.getList())
+                            queryData()
                         }
                         this.setNegativeButton(R.string.cancel, null)
                     }.show()

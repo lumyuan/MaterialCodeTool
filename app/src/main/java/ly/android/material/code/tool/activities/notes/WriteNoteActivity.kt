@@ -55,7 +55,8 @@ class WriteNoteActivity : AppCompatActivity() {
     private var keyBoardState = false
 
     @SuppressLint("SimpleDateFormat")
-    private val dateFormat = SimpleDateFormat(MaterialCodeToolApplication.application.getString(R.string.date_format))
+    private val dateFormat =
+        SimpleDateFormat(MaterialCodeToolApplication.application.getString(R.string.date_format))
     private var createDate: Long = -1
 
     @SuppressLint("SetTextI18n")
@@ -107,7 +108,7 @@ class WriteNoteActivity : AppCompatActivity() {
             subscribeEvent<ContentChangeEvent> { _, _ ->
                 postDelayedInLifecycle(
                     {
-                    viewModel.content.value = this.text.toString()
+                        viewModel.content.value = this.text.toString()
                     },
                     50
                 )
@@ -203,29 +204,34 @@ class WriteNoteActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    private fun loadData(){
+    private fun loadData() {
         if (baseId != -1L) {
             noteBean = noteDao.queryNote(baseId)
         }
     }
 
-    private fun saveData(){
-        if (TextUtils.isEmpty(viewModel.title.value) && TextUtils.isEmpty(viewModel.content.value)){
+    private fun saveData() {
+        if (TextUtils.isEmpty(viewModel.title.value) && TextUtils.isEmpty(viewModel.content.value)) {
             // finish
-        }else {
-            if (noteBean == null){
+        } else {
+            val noteBeanList = noteDao.queryAllNote()
+            if (noteBean == null) {
                 val bean = NoteBean(
                     id = System.currentTimeMillis(),
                     title = viewModel.title.value,
                     content = viewModel.content.value,
                     createDate = createDate,
                     language = langType,
-                    rank = noteDao.length() + 1,
+                    rank = if (noteBeanList == null || noteBeanList.isEmpty()) {
+                        0
+                    } else {
+                        noteDao.queryAllNote()!![0].rank!! + 1
+                    },
                     classify = 0
                 )
                 baseId = bean.id!!
                 noteDao.addNote(bean)
-            }else {
+            } else {
                 noteBean?.let {
                     it.title = viewModel.title.value
                     it.content = viewModel.content.value
@@ -404,7 +410,7 @@ class WriteNoteActivity : AppCompatActivity() {
             text += if (idx == -1) {
                 "($matchText)"
             } else {
-                "(${idx+1} of $matchText)"
+                "(${idx + 1} of $matchText)"
             }
         }
         binding.textPosition.text = text
