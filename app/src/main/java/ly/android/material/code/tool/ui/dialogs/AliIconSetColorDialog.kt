@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -80,6 +82,7 @@ class AliIconSetColorDialog(
         ) {
             Column(
                 modifier = Modifier.padding(16.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
                 Text(text = stringResource(id = R.string.edit_color), style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.size(16.dp))
