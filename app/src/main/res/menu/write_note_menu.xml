@@ -7,19 +7,19 @@
         android:id="@+id/undo"
         android:icon="@drawable/ic_undo"
         app:showAsAction="always"
-        android:title="" />
+        android:title="@string/undo" />
 
     <item
         android:id="@+id/redo"
         android:icon="@drawable/ic_redo"
         app:showAsAction="always"
-        android:title="" />
+        android:title="redo`" />
 
     <item
         android:id="@+id/finished"
         android:icon="@drawable/ic_finished"
         app:showAsAction="always"
-        android:title="" />
+        android:title="@string/save" />
 
     <!--<item
         android:id="@+id/lineWrap"

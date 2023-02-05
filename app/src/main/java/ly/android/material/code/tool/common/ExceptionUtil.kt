@@ -23,6 +23,7 @@ object ExceptionUtil {
      */
     fun catchException(e: Throwable) {
         e.printStackTrace()
+        println(e)
         when (e) {
             is ApiException -> showToast(
                 e.message!!

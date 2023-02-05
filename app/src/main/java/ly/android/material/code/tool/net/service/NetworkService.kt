@@ -8,7 +8,11 @@ import ly.android.material.code.tool.net.factory.ApiFactory
  */
 object NetworkService {
     // 接口API服务(挂起)
-    val api by lazy {
-        ApiFactory.createService(MaterialCodeToolNative.getIp(), ApiService::class.java)
+    val encodeApi by lazy {
+        ApiFactory.createEncodeService(MaterialCodeToolNative.getIp(), EncodeApiService::class.java)
+    }
+
+    val aliIconApi by lazy {
+        ApiFactory.createAliIconService("https://www.iconfont.cn", AliIconApiService::class.java)
     }
 }

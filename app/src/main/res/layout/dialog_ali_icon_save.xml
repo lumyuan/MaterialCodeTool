@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/rootView">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/dp_30"
+        app:strokeWidth="@dimen/dp_0"
+        app:cardBackgroundColor="?attr/colorSecondaryContainer"
+        android:layout_margin="@dimen/large"
+        app:cardElevation="@dimen/dp_6">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:animateLayoutChanges="true"
+                android:layout_margin="@dimen/large">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:id="@+id/icon"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/derive_to"
+                    android:layout_marginTop="@dimen/small"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/small">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="@string/pic_svg"
+                        android:id="@+id/svg"/>
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pic_png"
+                        android:id="@+id/png"
+                        android:layout_marginStart="@dimen/small"/>
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pic_vector"
+                        android:id="@+id/vector"
+                        android:visibility="gone"
+                        android:layout_marginStart="@dimen/small"/>
+
+                </RadioGroup>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small"
+                    android:text="@string/edit_color"
+                    android:id="@+id/color_edit"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/file_name"
+                    android:layout_marginTop="@dimen/large"
+                    app:boxCornerRadiusTopStart="@dimen/medium"
+                    app:boxCornerRadiusTopEnd="@dimen/medium"
+                    app:boxCornerRadiusBottomStart="@dimen/medium"
+                    app:boxCornerRadiusBottomEnd="@dimen/medium">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iconName"
+                        android:singleLine="true"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/sizeLayout"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/small">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/width"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="@dimen/dp_4"
+                        app:boxCornerRadiusTopStart="@dimen/medium"
+                        app:boxCornerRadiusTopEnd="@dimen/medium"
+                        app:boxCornerRadiusBottomStart="@dimen/medium"
+                        app:boxCornerRadiusBottomEnd="@dimen/medium">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/setWidth"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="高"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/dp_4"
+                        app:boxCornerRadiusTopStart="@dimen/medium"
+                        app:boxCornerRadiusTopEnd="@dimen/medium"
+                        app:boxCornerRadiusBottomStart="@dimen/medium"
+                        app:boxCornerRadiusBottomEnd="@dimen/medium">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/setHeight"
+                            android:singleLine="true"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/save_path"
+                    android:layout_marginTop="@dimen/large"
+                    app:boxCornerRadiusTopStart="@dimen/medium"
+                    app:boxCornerRadiusTopEnd="@dimen/medium"
+                    app:boxCornerRadiusBottomStart="@dimen/medium"
+                    app:boxCornerRadiusBottomEnd="@dimen/medium">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/savePath"
+                        android:singleLine="true"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"
+                    android:layout_marginTop="@dimen/small"
+                    android:id="@+id/saveButton"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

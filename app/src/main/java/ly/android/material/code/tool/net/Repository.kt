@@ -1,6 +1,8 @@
 package ly.android.material.code.tool.net
 
 import ly.android.material.code.tool.net.pojo.BaseBean
+import ly.android.material.code.tool.net.pojo.SearchAliIconBean
+import ly.android.material.code.tool.net.service.NetworkService
 
 
 /**
@@ -22,4 +24,8 @@ object Repository {
         }
 
 
+    suspend fun getHtml(): String = NetworkService.aliIconApi.getCookie()
+
+    suspend fun searchIcon(searchAliIconBean: SearchAliIconBean) = NetworkService
+        .aliIconApi.searchIcon(searchAliIconBean)
 }

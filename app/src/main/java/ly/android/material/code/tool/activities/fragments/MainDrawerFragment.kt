@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import ly.android.material.code.tool.R
+import ly.android.material.code.tool.activities.SettingsActivity
 import ly.android.material.code.tool.data.MainViewModel
 import ly.android.material.code.tool.databinding.FragmentMainDrawerBinding
 import ly.android.material.code.tool.ui.base.BaseFragment
@@ -86,5 +87,12 @@ class MainDrawerFragment : BaseFragment() {
                 }
             }
         )
+
+        binding.settings.setOnFeedbackListener(
+            clickable = true
+        ) {
+            val intent = Intent(requireContext(), SettingsActivity::class.java)
+            requireActivity().startActivity(intent)
+        }
     }
 }

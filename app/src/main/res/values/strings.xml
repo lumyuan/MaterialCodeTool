@@ -86,5 +86,41 @@
     <string name="delete">删除</string>
     <string name="cancel">取消</string>
     <string name="delete_finished">删除完成</string>
+    <string name="undo">撤回</string>
+    <string name="redo">重做</string>
+    <string name="save">保存</string>
+
+    <string name="ali_icon">阿里矢量图标</string>
+    <string name="download_icon">下载图标</string>
+    <string name="ali_icon_repository">阿里矢量图标库</string>
+    <string name="ali_icon_tips">本功能由iconfont.cn提供云计算服务</string>
+    <string name="search_icon">搜索图标</string>
+    <string name="please_input">请输入搜索内容</string>
+    <string name="load_fail">加载失败</string>
+    <string name="not_find">暂无图标</string>
+    <string name="to_bottom">到底啦</string>
+    <string name="derive_to">导出为：</string>
+    <string name="pic_svg">SVG图片</string>
+    <string name="pic_png">PNG图片</string>
+    <string name="width">宽</string>
+    <string name="height">高</string>
+    <string name="save_path">保存路径</string>
+    <string name="file_name">文件名</string>
+
+    <string name="please_input_path">请输入保存路径</string>
+    <string name="save_success">保存成功</string>
+    <string name="save_fail">保存失败</string>
+    <string name="please_input_wh">请输入宽高</string>
+    <string name="please_input_name">请输入文件名</string>
+    
+    <string name="analysis_fail">解析失败</string>
+    <string name="edit_color">编辑颜色</string>
+    <string name="color">设置颜色</string>
+    <string name="pic_vector">安卓矢量图</string>
+    <string name="settings">设置</string>
+
+    <string name="ali_icon_path">阿里矢量图标库保存路径</string>
+    <string name="set_path">自定义路径</string>
+    <string name="path">路径</string>
 
 </resources>

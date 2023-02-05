@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     tools:context=".activities.fragments.toos.ToolsFragment">
 
-    <ImageView
-        android:layout_width="@dimen/dp_300"
-        android:layout_height="@dimen/dp_300"
-        android:id="@+id/imageView"/>
+    <androidx.compose.ui.platform.ComposeView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/composeView"/>
 
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

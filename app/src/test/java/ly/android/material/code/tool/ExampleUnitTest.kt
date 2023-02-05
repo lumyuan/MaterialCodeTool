@@ -15,6 +15,6 @@ import java.io.FileOutputStream
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-
+        println(System.currentTimeMillis())
     }
 }

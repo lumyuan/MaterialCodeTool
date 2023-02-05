@@ -21,15 +21,16 @@ class BusinessErrorInterceptor: Interceptor {
         val contentType = responseBody.contentType()
         val charset: Charset = contentType?.charset(UTF_8) ?: UTF_8
         val resultString = buffer.clone().readString(charset)
-        if (response.code() in 500 until 600 && validate(resultString)){
-            val springBootErrorBean = Gson().fromJson(resultString, SpringBootErrorBean::class.java)
-            throw ApiException(
-                status = response.code(),
-                timestamp = springBootErrorBean.timestamp,
-                message = springBootErrorBean.message,
-                error = springBootErrorBean.error
-            )
-        }
+//        if (response.code() in 500 until 600 && validate(resultString)){
+//            val springBootErrorBean = Gson().fromJson(resultString, SpringBootErrorBean::class.java)
+//            throw ApiException(
+//                status = response.code(),
+//                timestamp = springBootErrorBean.timestamp,
+//                message = springBootErrorBean.message,
+//                error = springBootErrorBean.error
+//            )
+//        }
+        println("resultString: $resultString")
         return response
     }
 
