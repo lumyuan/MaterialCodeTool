@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ly.android.io.common.IOUtils
 import ly.android.material.code.tool.R
@@ -287,7 +288,9 @@ class ColorSchemeActivity : ComponentActivity() {
                     Column(
                         verticalArrangement = Arrangement.Bottom,
                         horizontalAlignment = Alignment.End,
-                        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight()
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_bucket),

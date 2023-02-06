@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MaterialCodeTool"
         tools:targetApi="31">
         <activity
+            android:name=".activities.tools.ColorPickerActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.tools.ColorSchemeActivity"
             android:exported="false"
             android:label="@string/title_activity_color_scheme"

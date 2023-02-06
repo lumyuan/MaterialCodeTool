@@ -92,6 +92,7 @@
 
     <string name="ali_icon">阿里矢量图标</string>
     <string name="md_color_scheme">MD配色参考</string>
+    <string name="color_picker">图片取色器</string>
 
     <string name="download_icon">下载图标</string>
     <string name="ali_icon_repository">阿里矢量图标库</string>
@@ -129,4 +130,9 @@
     <string name="data_error">数据解析失败</string>
     <string name="copied_color">已将颜色码复制到剪切板</string>
     <string name="long_touch_copy">长按复制颜色</string>
+    <string name="choose_pic">选择图片</string>
+    <string name="zoom">缩放</string>
+    <string name="get_color">取色</string>
+    <string name="copy_color">复制颜色</string>
+    <string name="please_choose_pic">请先选择图片</string>
 </resources>
