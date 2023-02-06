@@ -117,7 +117,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/setWidth"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:inputType="number"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -136,7 +137,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/setHeight"
-                            android:singleLine="true"/>
+                            android:singleLine="true"
+                            android:inputType="number"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
 

@@ -35,12 +35,16 @@ class AliIconSaveDialog(
     private lateinit var binding: DialogAliIconSaveBinding
     private lateinit var viewModel: AliIconSetColorViewModel
     private var sharp: Sharp? = null
+    private var ratio: Float = 1f
+    @SuppressLint("DefaultLocale")
     override fun onCreate() {
         super.onCreate()
         viewModel = AliIconSetColorViewModel()
         binding = DialogAliIconSaveBinding.bind(rootView.findViewById(R.id.rootView))
 
         viewModel.svg.value = icon.show_svg
+
+        ratio = icon.width.toFloat() / icon.height.toFloat()
 
         viewModel.svg.observe((context as AppCompatActivity)){
             sharp = Sharp.loadString(it)
@@ -57,13 +61,21 @@ class AliIconSaveDialog(
 
         binding.setWidth.addTextChangedListener {
             if (binding.setWidth.hasFocus()) {
-                binding.setHeight.text = it
+                try {
+                    binding.setHeight.setText(java.lang.String.format("%.0f", it.toString().toFloat() / ratio))
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
 
         binding.setHeight.addTextChangedListener {
             if (binding.setHeight.hasFocus()) {
-                binding.setWidth.text = it
+                try {
+                    binding.setWidth.setText(java.lang.String.format("%.0f", it.toString().toFloat() * ratio))
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
             }
         }
 

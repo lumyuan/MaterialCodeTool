@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">质感代码工具</string>
+    <string name="app_name">质感代码助手</string>
     <string name="first_usage">在首次使用之前，我们需要以下权限</string>
     <string name="welcome">欢迎使用</string>
     <string name="start">开始使用</string>
@@ -91,6 +91,8 @@
     <string name="save">保存</string>
 
     <string name="ali_icon">阿里矢量图标</string>
+    <string name="md_color_scheme">MD配色参考</string>
+
     <string name="download_icon">下载图标</string>
     <string name="ali_icon_repository">阿里矢量图标库</string>
     <string name="ali_icon_tips">本功能由iconfont.cn提供云计算服务</string>
@@ -112,7 +114,7 @@
     <string name="save_fail">保存失败</string>
     <string name="please_input_wh">请输入宽高</string>
     <string name="please_input_name">请输入文件名</string>
-    
+
     <string name="analysis_fail">解析失败</string>
     <string name="edit_color">编辑颜色</string>
     <string name="color">设置颜色</string>
@@ -122,5 +124,9 @@
     <string name="ali_icon_path">阿里矢量图标库保存路径</string>
     <string name="set_path">自定义路径</string>
     <string name="path">路径</string>
+    <string name="title_activity_color_scheme">ColorSchemeActivity</string>
 
+    <string name="data_error">数据解析失败</string>
+    <string name="copied_color">已将颜色码复制到剪切板</string>
+    <string name="long_touch_copy">长按复制颜色</string>
 </resources>
