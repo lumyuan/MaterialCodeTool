@@ -12,3 +12,27 @@
 正文3
 正文3正文3
 <mct_author>作者</mct_author>
+
+{
+    "reason":"成功的返回",
+    "result":{
+        "stat":"1",
+        "data":[
+            {
+                "uniquekey":"4aa8ba3a720a12f1ac9b0ea2b7c1bb8b",
+                "title":"中国贸促会：加强投资 推动“一带一路”建设",
+                "date":"2018-04-12 18:09",
+                "category":"头条",
+                "author_name":"央视网",
+
+            },
+            {
+                "uniquekey":"d53883da51e856c2c96c8b219c6d06e7",
+                "title":"冯俊：人类命运共同体 全球治理的中国方案",
+                "date":"2018-04-12 16:06",
+                "category":"头条",
+
+            }
+        ]
+    }
+}

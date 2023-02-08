@@ -47,34 +47,19 @@ class CoordinateView: View {
 
     private var colorString: String = "#00000000"
     private var inverse = Color.WHITE
+    private var borderColor = Color.BLACK
 
-    //垂直线
-    private val lineVerticalBefore: Paint = Paint().apply {
-        style = Paint.Style.FILL
-        strokeWidth = context.dip2px(1f).toFloat()
-        color = Color.BLACK
-    }
-    private var lineVerticalAfter: Paint = Paint().apply {
-        style = Paint.Style.FILL
-        strokeWidth = context.dip2px(1f).toFloat()
-        color = Color.BLACK
-    }
-
-    //水平线
-    private var lineHorizontalBefore: Paint = Paint().apply {
-        style = Paint.Style.FILL
-        strokeWidth = context.dip2px(1f).toFloat()
-        color = Color.BLACK
-    }
-    private var lineHorizontalAfter: Paint = Paint().apply {
-        style = Paint.Style.FILL
-        strokeWidth = context.dip2px(1f).toFloat()
-        color = Color.BLACK
-    }
+    private val borderWidth = context.dip2px(2f).toFloat()
 
     private var textCard = Paint().apply {
-        style = Paint.Style.FILL_AND_STROKE
+        style = Paint.Style.FILL
         this.color = inverse
+    }
+
+    private var border = Paint().apply {
+        style = Paint.Style.STROKE
+        this.color = borderColor
+        this.strokeWidth = borderWidth
     }
 
     private val rectF = RectF()
@@ -92,26 +77,21 @@ class CoordinateView: View {
     private val radius = context.dip2px(12f).toFloat()
     private val spacer = context.dip2px(10f).toFloat()
 
+    private val circleRectF = RectF()
+    private val circleRadius = context.dip2px(2f).toFloat()
+    private val circleStrokeWidth = context.dip2px(1f).toFloat()
+    private var pointCenter = Paint().apply {
+        style = Paint.Style.STROKE
+        strokeWidth = circleStrokeWidth
+    }
+
+    private var line = Paint().apply {
+        style = Paint.Style.STROKE
+        strokeWidth = circleStrokeWidth
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        //竖线01
-        val v1 = lineX - lineVerticalBefore.strokeWidth
-        canvas.drawLine(
-            v1, 0f, v1, height.toFloat(), lineVerticalBefore
-        )
-        //竖线02
-        val v2 = lineX + context.dip2px(1f) + lineVerticalAfter.strokeWidth
-        canvas.drawLine(
-            v2, 0f, v2, height.toFloat(), lineVerticalAfter
-        )
-
-        //横线01
-        val h1 = lineY - lineHorizontalBefore.strokeWidth
-        canvas.drawLine(0f, h1, width.toFloat(), h1, lineHorizontalBefore)
-        //横线02
-        val h2 = lineY + context.dip2px(1f) + lineHorizontalAfter.strokeWidth
-        canvas.drawLine(0f, h2, width.toFloat(), h2, lineHorizontalBefore)
 
         val cx = width / 2
         val cy = height / 2
@@ -123,28 +103,47 @@ class CoordinateView: View {
 
         if (lineX < cx && lineY < cy){
             //应右下 T
-            rectF.left = v2 + spacer
+            rectF.left = lineX + spacer
             rectF.right = rectF.left + cw
-            rectF.top = h2 + spacer
+            rectF.top = lineY + spacer
             rectF.bottom = rectF.top + ch
         }else if (lineX > cx && lineY < cy){
             //应左下 T
-            rectF.left = v1 - (spacer + cw)
+            rectF.left = lineX - (spacer + cw)
             rectF.right = rectF.left + cw
-            rectF.top = h2 + spacer
+            rectF.top = lineY + spacer
             rectF.bottom = rectF.top + ch
         }else if (lineX < cx && lineY > cy){
             //应右上 T
-            rectF.left = v2 + spacer
+            rectF.left = lineX + spacer
             rectF.right = rectF.left + cw
-            rectF.top = h1 - (spacer + ch)
+            rectF.top = lineY - (spacer + ch)
             rectF.bottom = rectF.top + ch
         }else {
-            rectF.left = v1 - (spacer + cw)
+            rectF.left = lineX - (spacer + cw)
             rectF.right = rectF.left + cw
-            rectF.top = h1 - (spacer + ch)
+            rectF.top = lineY - (spacer + ch)
             rectF.bottom = rectF.top + ch
         }
+
+        //准星中心点
+        circleRectF.apply {
+            left = lineX - circleRadius
+            right = lineX + circleRadius
+            top = lineY - circleRadius
+            bottom = lineY + circleRadius
+        }
+        canvas.drawRoundRect(circleRectF, circleRadius, circleRadius, pointCenter)
+
+        //准星线
+        canvas.drawLine(0f, lineY, circleRectF.left, lineY, line)
+        canvas.drawLine(circleRectF.right, lineY, width.toFloat(), lineY, line)
+        canvas.drawLine(lineX, 0f, lineX, circleRectF.top, line)
+        canvas.drawLine(lineX, circleRectF.bottom, lineX, height.toFloat(), line)
+
+        //边框
+        canvas.drawRoundRect(rectF, radius, radius, border)
+        //卡片
         canvas.drawRoundRect(rectF, radius, radius, textCard)
 
         val fontMetrics = textPaint.fontMetrics
@@ -229,10 +228,8 @@ class CoordinateView: View {
             Color.BLACK
         }
 
-        lineVerticalBefore.color = inverse
-        lineVerticalAfter.color = inverse
-        lineHorizontalBefore.color = inverse
-        lineHorizontalAfter.color = inverse
+        pointCenter.color = inverse
+        line.color = inverse
 
         textPaint.color = if (isNotGone){
             colorNumber
@@ -240,5 +237,10 @@ class CoordinateView: View {
             Color.WHITE
         }
         textCard.color = inverse
+        border.color = if (inverse == Color.WHITE){
+            Color.BLACK
+        }else {
+            Color.WHITE
+        }
     }
 }

@@ -1,5 +1,6 @@
 package ly.android.material.code.tool.activities.tools
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -9,6 +10,9 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.common.clip
 import ly.android.material.code.tool.data.ColorPickerViewModel
@@ -26,6 +30,7 @@ class ColorPickerActivity : AppCompatActivity() {
     private var imageColor = Color.TRANSPARENT
     private var colorString = "#00000000"
 
+    @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,7 +54,14 @@ class ColorPickerActivity : AppCompatActivity() {
             if (it){
                 binding.imageView.buildDrawingCache(true)
                 binding.imageView.buildDrawingCache()
-                bitmap = binding.imageView.drawingCache
+                Observable.create { emitter ->
+                    emitter.onNext(binding.imageView.drawingCache)
+                    emitter.onComplete()
+                }.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe { b ->
+                        bitmap = b
+                    }
             }else {
                 binding.imageView.destroyDrawingCache()
             }

@@ -135,4 +135,9 @@
     <string name="get_color">取色</string>
     <string name="copy_color">复制颜色</string>
     <string name="please_choose_pic">请先选择图片</string>
+
+    <string name="feedback_bug">可点击右上角复制按钮复制，并提交给开发者，QQ：2205903933</string>
+    <string name="app_error">软件发生错误</string>
+    <string name="crash_handler">异常捕捉器</string>
+    <string name="copy_error">已将闪退日志复制带剪切板</string>
 </resources>

@@ -50,6 +50,7 @@ class ToolsFragment : BaseFragment() {
 
     override fun initView(root: View) {
         super.initView(root)
+
         binding.composeView.setContent {
             MaterialCodeToolTheme {
                 Surface(

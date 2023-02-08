@@ -15,8 +15,8 @@ android {
     compileSdk 33
 
     defaultConfig {
-//        applicationId "ly.android.material.code.tool.debug"
-        applicationId "ly.android.material.code.tool"
+        applicationId "ly.android.material.code.tool.debug"
+//        applicationId "ly.android.material.code.tool"
         minSdk 21
         targetSdk 33
         versionCode 2302071

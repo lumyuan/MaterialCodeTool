@@ -3,6 +3,7 @@ package ly.android.material.code.tool
 import android.app.Application
 import com.google.android.material.color.DynamicColors
 import ly.android.io.FileApplication
+import ly.android.material.code.tool.activities.crash.MaterialCrashHandler
 import ly.android.material.code.tool.core.Settings
 
 
@@ -18,6 +19,7 @@ class MaterialCodeToolApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         application = this
+        MaterialCrashHandler.init(this, "${filesDir.absolutePath}/logs/error")
         //配置动态颜色主题
         DynamicColors.applyToActivitiesIfAvailable(this)
         FileApplication.init(this)
