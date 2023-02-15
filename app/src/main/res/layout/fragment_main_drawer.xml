@@ -91,6 +91,19 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:text="@string/open_source_address"
+            android:id="@+id/openSourceAddress"
+            android:paddingTop="@dimen/large"
+            android:paddingBottom="@dimen/large"
+            android:paddingStart="@dimen/extra_large"
+            android:paddingEnd="@dimen/extra_large"
+            android:background="?android:selectableItemBackground"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
             android:text="@string/join_us"
             android:id="@+id/joinUs"
             android:paddingTop="@dimen/large"

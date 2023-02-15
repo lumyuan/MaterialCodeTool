@@ -14,6 +14,7 @@ import ly.android.material.code.tool.databinding.FragmentMainDrawerBinding
 import ly.android.material.code.tool.ui.base.BaseFragment
 import ly.android.material.code.tool.ui.common.bind
 import ly.android.material.code.tool.ui.view.setOnFeedbackListener
+import ly.android.material.code.tool.util.AndroidInfo
 import ly.android.material.code.tool.util.ToastUtils
 
 class MainDrawerFragment : BaseFragment() {
@@ -87,6 +88,12 @@ class MainDrawerFragment : BaseFragment() {
                 }
             }
         )
+
+        binding.openSourceAddress.setOnFeedbackListener(
+            clickable = true
+        ){
+            AndroidInfo.startWeb(requireActivity(), "https://github.com/lumyuan/MaterialCodeTool")
+        }
 
         binding.settings.setOnFeedbackListener(
             clickable = true
