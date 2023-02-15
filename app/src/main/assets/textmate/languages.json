@@ -13,6 +13,12 @@
       "languageConfiguration": "textmate/kotlin/language-configuration.json"
     },
     {
+      "grammar": "textmate/json/syntaxes/json.tmLanguage.json",
+      "name": "JSON",
+      "scopeName": "source.json",
+      "languageConfiguration": "textmate/json/language-configuration.json"
+    },
+    {
       "grammar": "textmate/lua/syntaxes/lua.tmLanguage.json",
       "name": "Lua",
       "scopeName": "source.lua",

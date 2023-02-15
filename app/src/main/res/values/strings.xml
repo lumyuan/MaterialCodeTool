@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">质感代码助手</string>
+    <string name="app_name">质感编程助手</string>
     <string name="first_usage">在首次使用之前，我们需要以下权限</string>
     <string name="welcome">欢迎使用</string>
     <string name="start">开始使用</string>
@@ -22,6 +22,7 @@
     <string name="iGame">iApp-Game</string>
     <string name="iGame_cn">iApp-Game-中文</string>
     <string name="iv3">iApp-V3</string>
+    <string name="iv6">iApp-V6</string>
     <string name="iv3_java">iApp-V3-iJava</string>
     <string name="iv3_lua">iApp-V3-iLua</string>
     <string name="iv3_js">iApp-V3-iJS</string>
@@ -68,6 +69,7 @@
     <string name="lang_lua">Lua</string>
     <string name="lang_md">MD</string>
     <string name="lang_iyu">裕语言</string>
+    <string name="lang_json">JSON</string>
 
     <string name="date_format">yyyy年MM月dd日</string>
 
@@ -93,6 +95,7 @@
     <string name="ali_icon">阿里矢量图标</string>
     <string name="md_color_scheme">MD配色参考</string>
     <string name="color_picker">图片取色器</string>
+    <string name="shearing_board">快捷剪切板</string>
 
     <string name="download_icon">下载图标</string>
     <string name="ali_icon_repository">阿里矢量图标库</string>
@@ -140,4 +143,46 @@
     <string name="app_error">软件发生错误</string>
     <string name="crash_handler">异常捕捉器</string>
     <string name="copy_error">已将闪退日志复制带剪切板</string>
+
+    <string name="show_window">显示悬浮窗</string>
+    <string name="clip_service_id">快捷剪切板核心服务</string>
+    <string name="process_name">核心进程服务</string>
+    <string name="clip_service_title">快捷剪切板</string>
+    <string name="title_activity_post_dev">PostDevActivity</string>
+
+    <string name="post_dev">POST DEV</string>
+    <string name="request">请求</string>
+    <string name="response">响应</string>
+    <string name="fun_get">GET</string>
+    <string name="request_url">请求网址</string>
+    <string name="send">发送</string>
+
+    <string name="params">参数</string>
+    <string name="headers">请求头</string>
+    <string name="request_body">请求体</string>
+    <string name="key">键</string>
+    <string name="params_value">值</string>
+    <string name="add">添加</string>
+    <string name="body_none">none</string>
+    <string name="body_form_data">form-data</string>
+    <string name="body_x_www_form_urlencoded">x-www-form-urlencoded</string>
+    <string name="body_raw">raw</string>
+    <string name="body_binary">binary</string>
+    <string name="form_data_text">TEXT</string>
+    <string name="form_data_file">FILE</string>
+    <string name="choose_file">选择文件</string>
+    <string name="none_content">此请求没有正文</string>
+    <string name="raw_type">正文类型：</string>
+    <string name="open_file_failed">文件打开失败</string>
+    <string name="file_is_large">文件过大</string>
+    <string name="file_is_reading">文件读取中</string>
+    <string name="file_info">文件名：%1$s\n文件大小：%2$s\n修改时间：%3$s</string>
+    <string name="body_result">响应体</string>
+    <string name="posting">请求数据中……</string>
+
+    <string name="temporarily_not_supported">暂不支持此请求方法</string>
+    <string name="please_input_url">请输入网址</string>
+    <string name="open_failed">打开失败</string>
+
+    <string name="response_state">状态：%1$s\t\t\t时间：%2$s毫秒\t\t\t大小：%3$s</string>
 </resources>

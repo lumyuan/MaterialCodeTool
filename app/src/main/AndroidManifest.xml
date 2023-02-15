@@ -4,6 +4,36 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission
+        android:name="android.permission.READ_CLIPBOARD_IN_BACKGROUND"
+        tools:ignore="ProtectedPermissions" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+
+            <data android:scheme="mailto" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="smsto" />
+        </intent>
+    </queries>
 
     <application
         android:name=".MaterialCodeToolApplication"
@@ -16,6 +46,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialCodeTool"
         tools:targetApi="31">
+
+        <activity
+            android:name=".activities.tools.postdev.PostDevActivity"
+            android:exported="false"
+            android:label="@string/title_activity_post_dev"
+            android:theme="@style/Theme.MaterialCodeTool.NoActionBar" />
+
+        <service
+            android:name=".services.MaterialClipBoardService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="ly.android.material.code.tool.services.MaterialClipBoardService" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".activities.tools.QuickShearingBoardActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.tools.ColorPickerActivity"
             android:exported="false" />

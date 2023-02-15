@@ -436,7 +436,7 @@
     <dimen name="sp_40">40sp</dimen>
     <dimen name="sp_42">42sp</dimen>
     <dimen name="sp_48">48sp</dimen>
-    
+
     <!--Shape Style-->
     <dimen name="none">@dimen/dp_0</dimen>
     <dimen name="extra_small">@dimen/dp_4</dimen>

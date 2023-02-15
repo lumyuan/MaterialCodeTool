@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_4"
+        android:animateLayoutChanges="true"
+        app:cardBackgroundColor="?attr/colorSecondaryContainer"
+        android:layout_marginStart="@dimen/large"
+        android:layout_marginEnd="@dimen/large"
+        app:strokeWidth="@dimen/dp_0">
+
+        <LinearLayout
+            android:id="@+id/addView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/large"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="@dimen/extra_large"
+                android:layout_height="@dimen/extra_large"
+                android:layout_marginEnd="@dimen/small"
+                android:src="@drawable/ic_add"
+                android:tint="?attr/colorOnBackground"
+                tools:ignore="UseAppTint" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/add_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge" />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/paramLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/large">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:layout_weight="1"
+                    android:hint="@string/key">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/key"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionUnspecified"
+                        android:singleLine="true"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_4"
+                    android:text="@string/form_data_text"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_weight="1"
+                    android:animateLayoutChanges="true">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/paramTextLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/params_value">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/value"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionUnspecified"
+                            android:singleLine="true"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/chooseFileLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/chooseFile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/choose_file" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/fileInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/small"
+                            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                            android:visibility="gone" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/remove"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_marginStart="@dimen/small"
+                    android:src="@drawable/ic_close" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

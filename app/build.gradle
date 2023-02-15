@@ -19,8 +19,8 @@ android {
 //        applicationId "ly.android.material.code.tool"
         minSdk 21
         targetSdk 33
-        versionCode 2302071
-        versionName "1.0.6"
+        versionCode 2302168
+        versionName "1.0.7"
 
         renderscriptTargetApi 33
         renderscriptSupportModeEnabled true
@@ -206,4 +206,6 @@ dependencies {
     //图片缩放
     implementation 'com.github.chrisbanes.photoview:library:1.2.4'
 
+    //lifecycle-service
+    implementation 'androidx.lifecycle:lifecycle-service:2.5.1'
 }

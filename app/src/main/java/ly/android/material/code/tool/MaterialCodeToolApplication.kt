@@ -2,9 +2,12 @@ package ly.android.material.code.tool
 
 import android.app.Application
 import com.google.android.material.color.DynamicColors
+import kotlinx.coroutines.*
 import ly.android.io.FileApplication
 import ly.android.material.code.tool.activities.crash.MaterialCrashHandler
 import ly.android.material.code.tool.core.Settings
+import ly.android.material.code.tool.services.MaterialClipBoardService
+import ly.android.material.code.tool.util.ServiceUtils
 
 
 class MaterialCodeToolApplication : Application() {
@@ -19,11 +22,17 @@ class MaterialCodeToolApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         application = this
-        MaterialCrashHandler.init(this, "${filesDir.absolutePath}/logs/error")
+        if (!packageName.contains("debug")){
+            MaterialCrashHandler.init(this, "${filesDir.absolutePath}/logs/error")
+        }
         //配置动态颜色主题
         DynamicColors.applyToActivitiesIfAvailable(this)
         FileApplication.init(this)
         setting = Settings.loadSetting()
+
+//        if (!ServiceUtils.isServiceRunning(application, MaterialClipBoardService::class.java.name)){
+//            ServiceUtils.startForegroundService(application, MaterialClipBoardService::class.java)
+//        }
     }
 
 }

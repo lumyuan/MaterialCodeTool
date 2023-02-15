@@ -19,14 +19,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ly.android.material.code.tool.R
-import ly.android.material.code.tool.activities.tools.AliIconActivity
-import ly.android.material.code.tool.activities.tools.ColorPickerActivity
-import ly.android.material.code.tool.activities.tools.ColorSchemeActivity
+import ly.android.material.code.tool.activities.tools.*
+import ly.android.material.code.tool.activities.tools.postdev.PostDevActivity
 import ly.android.material.code.tool.databinding.FragmentToolsBinding
 import ly.android.material.code.tool.ui.base.BaseFragment
 import ly.android.material.code.tool.ui.common.bind
@@ -96,8 +96,8 @@ class ToolsFragment : BaseFragment() {
                 }
                 Spacer(modifier = Modifier.size(8.dp))
                 FunctionView(modifier = Modifier
-                    .weight(1f).height(0.dp), iconId = R.drawable.ic_color_scheme, titleId = R.string.md_color_scheme) {
-                    val intent = Intent(requireContext(), ColorSchemeActivity::class.java)
+                    .weight(1f), iconId = R.drawable.ic__post_dev, titleId = R.string.post_dev) {
+                    val intent = Intent(requireContext(), PostDevActivity::class.java)
                     requireActivity().startActivity(intent)
                 }
                 Spacer(modifier = Modifier.size(16.dp))
@@ -126,6 +126,9 @@ fun FunctionView(
         .background(
             color = MaterialTheme.colorScheme.secondaryContainer,
             shape = RoundedCornerShape(12.dp)
+        )
+        .clip(
+            RoundedCornerShape(12.dp)
         )
         .clickable {
             onClick()

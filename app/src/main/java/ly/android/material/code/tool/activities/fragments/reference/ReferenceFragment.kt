@@ -63,6 +63,15 @@ class ReferenceFragment : BaseFragment() {
             PagerAdapterForFragment.Page(
                 fragment = ReferenceItemFragment.newInstance(
                     ReferenceIntent(
+                        title = "iyu-helpV6.0.txt",
+                        urlType = UrlType.ASSETS
+                    )
+                ),
+                title = MaterialCodeToolApplication.application.getString(R.string.iv6)
+            ),
+            PagerAdapterForFragment.Page(
+                fragment = ReferenceItemFragment.newInstance(
+                    ReferenceIntent(
                         title = "iyu-helpV3.0.txt",
                         urlType = UrlType.ASSETS
                     )

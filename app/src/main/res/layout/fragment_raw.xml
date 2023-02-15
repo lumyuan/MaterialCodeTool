@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".activities.tools.postdev.request.body.RawFragment">
+
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/typeChip"
+        android:text="@string/raw_type"
+        app:chipIcon="@drawable/ic_http"
+        android:layout_marginStart="@dimen/large"/>
+
+    <io.github.rosemoe.sora.widget.CodeEditor
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/editor"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
