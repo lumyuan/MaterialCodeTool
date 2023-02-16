@@ -2,6 +2,7 @@ package ly.android.material.code.tool.activities.fragments.reference
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -68,6 +69,7 @@ class AndroidDeveloperFragment : BaseFragment() {
         agentWeb.webCreator.webView.apply {
             this.webViewClient = mWebViewClient
             this.webChromeClient = mWebChromeClient
+            setBackgroundColor(Color.TRANSPARENT)
         }
 
         binding.floatActionButton.setOnFeedbackListener(

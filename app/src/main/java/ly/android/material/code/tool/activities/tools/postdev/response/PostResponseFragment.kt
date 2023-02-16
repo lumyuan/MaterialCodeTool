@@ -13,6 +13,7 @@ import ly.android.material.code.tool.data.PostDevViewModel
 import ly.android.material.code.tool.databinding.FragmentPostResponseBinding
 import ly.android.material.code.tool.ui.base.BaseFragment
 import ly.android.material.code.tool.ui.common.bind
+import ly.android.material.code.tool.ui.view.setOnFeedbackListener
 
 class PostResponseFragment : BaseFragment() {
 
@@ -37,12 +38,22 @@ class PostResponseFragment : BaseFragment() {
             BodyResultFragment.newInstance()
         )
     }
+    private val previewFragment by lazy {
+        PreviewFragment.newInstance()
+    }
     override fun initView(root: View) {
         super.initView(root)
         binding.tabLayout.apply {
             addTab(
                 newTab().apply {
                     this.text = getString(R.string.body_result)
+//                    this.view.setOnClickListener {
+//                        for (i in 0 until tabCount){
+//                            if (getTabAt(i) == this) {
+//                                viewModel.pageState.value = i
+//                            }
+//                        }
+//                    }
                 }
             )
             addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -59,7 +70,11 @@ class PostResponseFragment : BaseFragment() {
                 }
 
                 override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                    for (i in 0 until tabCount){
+                        if (getTabAt(i) == tab) {
+                            viewModel.pageState.value = i
+                        }
+                    }
                 }
 
             })
@@ -75,6 +90,10 @@ class PostResponseFragment : BaseFragment() {
         viewModel.responseState.observe(this) {
             if (it == null){
                 binding.responseState.visibility = View.GONE
+                replaceFragment(
+                    binding.bodyFrame.id,
+                    fragments[viewModel.pageState.value ?: 0]
+                )
             }else {
                 binding.responseState.visibility = View.VISIBLE
                 val format = String.format(
@@ -87,6 +106,12 @@ class PostResponseFragment : BaseFragment() {
                 )
                 binding.responseState.text = format
             }
+        }
+
+        binding.preview.setOnFeedbackListener {
+            replaceFragment(
+                binding.bodyFrame.id, previewFragment
+            )
         }
     }
 }

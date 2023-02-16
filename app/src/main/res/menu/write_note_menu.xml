@@ -21,9 +21,10 @@
         app:showAsAction="always"
         android:title="@string/save" />
 
-    <!--<item
-        android:id="@+id/lineWrap"
+    <item
+        android:id="@+id/preview"
         app:showAsAction="never"
-        android:title="@string/line_wrap" />-->
+        android:icon="@drawable/ic_preview"
+        android:title="@string/preview" />
 
 </menu>

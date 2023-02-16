@@ -166,8 +166,10 @@ class MainActivity : AppCompatActivity() {
             KeyEvent.KEYCODE_BACK -> {
                 val currentTimeMillis = System.currentTimeMillis()
                 if (currentTimeMillis - keyDownTimer >= 2000){
-                    if (viewMode.noteLangClickState.value!!){
+                    if (viewMode.noteLangClickState.value == true){
                         viewMode.noteLangClickState.value = false
+                    }else if (!binding.root.isDrawerOpen(GravityCompat.START)){
+                        binding.root.openDrawer(GravityCompat.START)
                     }else {
                         ToastUtils.toast(R.string.kill_self, Toast.LENGTH_SHORT)
                         keyDownTimer = currentTimeMillis

@@ -3,14 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:animateLayoutChanges="true"
     tools:context=".activities.tools.postdev.response.PostResponseFragment">
 
-    <com.google.android.material.tabs.TabLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tabLayout"/>
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:animateLayoutChanges="true">
+
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tabLayout"
+            app:tabMode="scrollable"
+            android:layout_weight="1"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/preview"
+            android:id="@+id/preview"
+            android:layout_marginEnd="@dimen/large"
+            android:layout_marginStart="@dimen/small"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
@@ -20,7 +40,10 @@
         android:layout_marginTop="@dimen/small"
         android:layout_marginBottom="@dimen/small"
         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:visibility="gone"
         android:id="@+id/responseState"/>
+
+
 
     <FrameLayout
         android:layout_width="match_parent"

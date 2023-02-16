@@ -78,6 +78,8 @@
     <string name="charset_utf8">UTF-8</string>
     <string name="note_title">标题</string>
     <string name="line_wrap">自动换行</string>
+    <string name="preview">预览</string>
+    <string name="note_preview">笔记预览</string>
     <string name="no_note">开始写入你的第一个笔记吧~</string>
     <string name="check_all">选择全部</string>
     <string name="check_more">多选</string>

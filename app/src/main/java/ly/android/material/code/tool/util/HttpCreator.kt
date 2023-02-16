@@ -75,31 +75,31 @@ class HttpCreator(
             }
             RequestFunction.POST -> {
                 requestBuilder.url(url)
-                requestBuilder.method(viewModel.requestFunctionState.toString(), setPart())
+                requestBuilder.method(viewModel.requestFunctionState.value.toString(), setPart())
             }
             RequestFunction.PUT -> {
                 requestBuilder.url(url)
-                requestBuilder.method(viewModel.requestFunctionState.toString(), setPart())
+                requestBuilder.method(viewModel.requestFunctionState.value.toString(), setPart())
             }
             RequestFunction.HEAD -> {
                 requestBuilder.url(url)
-                requestBuilder.method(viewModel.requestFunctionState.toString(), setPart())
+                requestBuilder.method(viewModel.requestFunctionState.value.toString(), null)
             }
             RequestFunction.DELETE -> {
                 requestBuilder.url(url)
-                requestBuilder.method(viewModel.requestFunctionState.toString(), setPart())
+                requestBuilder.method(viewModel.requestFunctionState.value.toString(), setPart())
             }
             RequestFunction.OPTIONS -> {
                 requestBuilder.url(url)
-                requestBuilder.method(viewModel.requestFunctionState.toString(), setPart())
+                requestBuilder.method(viewModel.requestFunctionState.value.toString(), setPart())
             }
             RequestFunction.TRACE -> {
                 requestBuilder.url(url)
-                requestBuilder.method(viewModel.requestFunctionState.toString(), setPart())
+                requestBuilder.method(viewModel.requestFunctionState.value.toString(), setPart())
             }
             RequestFunction.CONNECT -> {
                 requestBuilder.url(url)
-                requestBuilder.method(viewModel.requestFunctionState.toString(), setPart())
+                requestBuilder.method(viewModel.requestFunctionState.value.toString(), setPart())
             }
         }
     }
@@ -110,8 +110,10 @@ class HttpCreator(
                 null
             }
             1 -> {
+//                requestBuilder.addHeader("Content-Type", "application/json")
                 val formDataBeans = viewModel.bodyFormData.value
-                if (formDataBeans != null && formDataBeans.isNotEmpty()) {
+                val params = viewModel.params.value
+                if (formDataBeans != null && formDataBeans.isNotEmpty() && params != null && params.isNotEmpty()) {
                     val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
                     formDataBeans.onEach {
                         val key = it.key
@@ -138,10 +140,6 @@ class HttpCreator(
                                             documentFile?.type?.let { type -> MediaType.parse(type) },
                                             inputStream
                                         )
-                                        /*RequestBody.create(
-                                            documentFile?.type?.let { type -> MediaType.parse(type) },
-                                            inputStream
-                                        )*/
                                         documentFile?.name?.let { name ->
                                             builder.addFormDataPart(key, name, requestBody)
                                         }
@@ -152,6 +150,13 @@ class HttpCreator(
                             }
                         }
                     }
+                    params.onEach {
+                        val key = it.key
+                        val value = it.value
+                        if (it.isChecked && key != null && value != null){
+                            builder.addFormDataPart(key, value)
+                        }
+                    }
                     builder.build()
                 } else {
                     null
@@ -159,12 +164,20 @@ class HttpCreator(
             }
             2 -> {
                 val beans = viewModel.bodyFormUrl.value
-                if (beans != null && beans.isNotEmpty()){
+                val params = viewModel.params.value
+                if (beans != null && beans.isNotEmpty() && params != null && params.isNotEmpty()){
                     val builder = FormBody.Builder()
                     beans.onEach {
                         val key = it.key
                         val value = it.value
                         if (it.isChecked && key != null && value != null) {
+                            builder.addEncoded(key, value)
+                        }
+                    }
+                    params.onEach {
+                        val key = it.key
+                        val value = it.value
+                        if (it.isChecked && key != null && value != null){
                             builder.addEncoded(key, value)
                         }
                     }

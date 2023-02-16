@@ -65,6 +65,8 @@ class FormDataAdapter(
         val binding = holder.binding
         val formDataBean = list[position]
 
+        binding.root.tag = position
+
         when (formDataBean.type) {
             ParamType.ADD -> {
                 binding.addView.visibility = View.VISIBLE
@@ -129,13 +131,13 @@ class FormDataAdapter(
                 }
 
                 binding.key.addTextChangedListener {
-                    if (binding.key.hasFocus()){
+                    if (binding.key.hasFocus() && binding.root.tag == position){
                         formDataBean.key = it.toString()
                     }
                 }
 
                 binding.value.addTextChangedListener {
-                    if (binding.value.hasFocus()){
+                    if (binding.value.hasFocus() && binding.root.tag == position){
                         formDataBean.value = it.toString()
                     }
                 }

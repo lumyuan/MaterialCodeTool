@@ -43,6 +43,8 @@ class RequestParamsAdapter(
         val binding = holder.binding
         val paramBean = list[position]
 
+        binding.root.tag = position
+
         when (paramBean.type) {
             ParamType.ADD -> {
                 binding.addView.visibility = View.VISIBLE
@@ -65,13 +67,13 @@ class RequestParamsAdapter(
                 }
 
                 binding.key.addTextChangedListener {
-                    if (binding.key.hasFocus()){
+                    if (binding.key.hasFocus() && binding.root.tag == position){
                         paramBean.key = it.toString()
                     }
                 }
 
                 binding.value.addTextChangedListener {
-                    if (binding.value.hasFocus()){
+                    if (binding.value.hasFocus() && binding.root.tag == position){
                         paramBean.value = it.toString()
                     }
                 }

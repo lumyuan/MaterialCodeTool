@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
@@ -179,14 +178,26 @@ class WriteNoteActivity : AppCompatActivity() {
                 binding.editor.redo()
             }
             R.id.finished -> {
-                val inputMethodManager =
-                    getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(binding.editor.windowToken, 0)
-                saveData()
-                loadData()
+                finishSave()
+            }
+            R.id.preview -> {
+                finishSave()
+                val intent = Intent(this, PreviewActivity::class.java).apply {
+                    putExtra("lang", langType)
+                    putExtra("text", viewModel.content.value)
+                }
+                startActivity(intent)
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun finishSave(){
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(binding.editor.windowToken, 0)
+        saveData()
+        loadData()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
