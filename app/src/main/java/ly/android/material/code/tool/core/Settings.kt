@@ -5,10 +5,16 @@ import ly.android.io.File
 import ly.android.io.common.IOUtils
 import ly.android.material.code.tool.MaterialCodeToolApplication
 import ly.android.material.code.tool.R
+import ly.android.material.code.tool.data.entity.HomePageBean
+import ly.android.material.code.tool.data.entity.State
 
 object Settings {
     data class Setting(
-        var iconSavePath: String? = "/storage/emulated/0/Pictures/${MaterialCodeToolApplication.application.getString(R.string.app_name)}/ali icon"
+        var iconSavePath: String? = "/storage/emulated/0/Pictures/${MaterialCodeToolApplication.application.getString(R.string.app_name)}/ali icon",
+        var isVibrate: Boolean = true,
+        var homePageBean: HomePageBean = HomePageBean(
+            0, State.POSITION
+        )
     )
 
     private val dir = MaterialCodeToolApplication.application.filesDir.absolutePath + "/settings"

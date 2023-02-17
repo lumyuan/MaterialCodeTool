@@ -54,7 +54,7 @@ import ly.android.material.code.tool.util.ToastUtils
 class NotesFragment : BaseFragment() {
 
     private val binding by bind(FragmentNotesBinding::inflate)
-    private val viewModel by viewModels<NotesViewModel>()
+    private val viewModel by activityViewModels<NotesViewModel>()
     private val activityViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(

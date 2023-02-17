@@ -41,10 +41,17 @@
             android:orientation="vertical"
             android:id="@+id/frameLayout">
 
-            <ly.android.material.code.tool.ui.MarkdownWebView
+            <ly.android.material.code.tool.ui.view.MarkdownWebView
                 android:id="@+id/markdownView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/large"
+                android:textIsSelectable="true"
+                android:id="@+id/textView"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

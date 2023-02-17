@@ -24,7 +24,7 @@ interface NoteDao {
     @Query("select * from NoteBean Order by rank desc")
     fun queryAllNote(): List<NoteBean>?
 
-    @Query("select * from NoteBean where content like '%' || :regex || '%' Order by rank desc")
+    @Query("select * from NoteBean where (content like '%' || :regex || '%') or (title like '%' || :regex || '%') Order by rank desc")
     fun queryNotes(regex: String): List<NoteBean>?
 
     @Query("select * from NoteBean where id = :id")

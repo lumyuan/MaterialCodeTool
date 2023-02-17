@@ -90,6 +90,7 @@ class FormDataAdapter(
                     }
                     BodyParamType.FILE -> {
                         binding.paramTextLayout.visibility = View.GONE
+                        binding.chooseFileLayout.visibility = View.VISIBLE
                         if (formDataBean.file != null){
                             binding.fileInfo.visibility = View.VISIBLE
                             val documentFile = DocumentFile.fromSingleUri(binding.root.context, Uri.parse(formDataBean.file))
@@ -192,6 +193,8 @@ class FormDataAdapter(
         return arrayList
     }
 
-    fun getList(): ArrayList<FormDataBean> = ArrayList(this.list)
+    fun getList(): ArrayList<FormDataBean> = ArrayList<FormDataBean>().apply {
+        addAll(list)
+    }
 
 }

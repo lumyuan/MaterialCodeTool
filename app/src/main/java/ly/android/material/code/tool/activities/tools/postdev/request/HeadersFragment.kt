@@ -52,7 +52,8 @@ class HeadersFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         viewModel.sendState.value = System.currentTimeMillis()
+        viewModel.headers.value = adapter.getList()
+        super.onDestroy()
     }
 }

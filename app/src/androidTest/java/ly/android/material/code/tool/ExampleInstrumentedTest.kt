@@ -1,5 +1,7 @@
 package ly.android.material.code.tool
 
+import android.net.Uri
+import android.text.Html
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.*
@@ -24,5 +26,10 @@ class ExampleInstrumentedTest {
     @Test
     fun myTest(){
 
+    }
+
+    @Test
+    fun androidEncodeTest(){
+        println(Html.escapeHtml("<a>"))
     }
 }

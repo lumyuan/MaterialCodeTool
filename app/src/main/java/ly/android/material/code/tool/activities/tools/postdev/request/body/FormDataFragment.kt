@@ -61,8 +61,9 @@ class FormDataFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         viewModel.sendState.value = System.currentTimeMillis()
+        viewModel.bodyFormData.value = adapter.getList()
+        super.onDestroy()
     }
 
     @SuppressLint("SimpleDateFormat")

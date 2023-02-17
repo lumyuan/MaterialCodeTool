@@ -52,7 +52,8 @@ class ParamsFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         viewModel.sendState.value = System.currentTimeMillis()
+        viewModel.params.value = adapter.getList()
+        super.onDestroy()
     }
 }

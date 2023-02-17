@@ -166,7 +166,8 @@ class RawFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         viewModel.sendState.value = System.currentTimeMillis()
+        viewModel.bodyRaw.value = binding.editor.text.toString()
+        super.onDestroy()
     }
 }

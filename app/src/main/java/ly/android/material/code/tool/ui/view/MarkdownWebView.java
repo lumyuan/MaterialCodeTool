@@ -1,10 +1,11 @@
-package ly.android.material.code.tool.ui;
+package ly.android.material.code.tool.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.webkit.WebResourceRequest;

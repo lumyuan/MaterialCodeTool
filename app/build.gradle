@@ -19,8 +19,8 @@ android {
         applicationId "ly.android.material.code.tool"
         minSdk 21
         targetSdk 33
-        versionCode 2302172
-        versionName "1.0.8"
+        versionCode 2302175
+        versionName "1.0.9"
 
         renderscriptTargetApi 33
         renderscriptSupportModeEnabled true
@@ -44,8 +44,8 @@ android {
         }
     }
 
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
                 def fileName
@@ -103,8 +103,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
 
     implementation 'androidx.activity:activity-ktx:1.6.1'
 
@@ -208,4 +208,12 @@ dependencies {
 
     //lifecycle-service
     implementation 'androidx.lifecycle:lifecycle-service:2.5.1'
+
+    //MarkDown
+    implementation "io.noties.markwon:core:4.6.2"
+    implementation 'io.noties.markwon:image:4.6.2'
+    implementation 'io.noties.markwon:image-glide:4.6.2'
+    implementation 'io.noties.markwon:html:4.6.2'
+    implementation 'io.noties.markwon:linkify:4.6.2'
+
 }

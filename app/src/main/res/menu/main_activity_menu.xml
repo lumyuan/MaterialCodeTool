@@ -21,6 +21,18 @@
         app:showAsAction="always"/>
 
     <item
+        android:id="@+id/searchView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        android:title="@string/search_note"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/noteCatalogue"
+        android:icon="@drawable/ic_note_catalogue"
+        android:title="@string/note_catalogue"
+        app:showAsAction="never"/>
+
+    <item
         android:id="@+id/checkMore"
         android:icon="@drawable/ic_check_more"
         android:title="@string/check_more"

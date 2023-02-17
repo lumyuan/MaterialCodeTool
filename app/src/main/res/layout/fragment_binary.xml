@@ -15,6 +15,16 @@
         android:padding="@dimen/large"
         android:visibility="gone"/>
 
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/remove"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:gravity="center"
+        android:text="@string/clear_choose"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/small"/>
+
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

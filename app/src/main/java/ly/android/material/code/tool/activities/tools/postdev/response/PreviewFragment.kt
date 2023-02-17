@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
+import ly.android.material.code.tool.R
 import ly.android.material.code.tool.data.PostDevViewModel
 import ly.android.material.code.tool.databinding.FragmentPreviewBinding
 import ly.android.material.code.tool.ui.base.BaseFragment
 import ly.android.material.code.tool.ui.common.bind
+import ly.android.material.code.tool.ui.view.setOnFeedbackListener
+import ly.android.material.code.tool.util.ToastUtils
 
 class PreviewFragment : BaseFragment() {
 
@@ -34,5 +38,19 @@ class PreviewFragment : BaseFragment() {
                 binding.webView.loadDataWithBaseURL(null, it, "text/html", "utf-8", null)
             }
         }
+
+        binding.floatActionButton.setOnFeedbackListener(
+            callOnLongClick = true,
+            click = {
+                if (binding.webView.canGoBack()){
+                    binding.webView.goBack()
+                }else {
+                    ToastUtils.toast(R.string.cannot_go_back)
+                }
+            },
+            onLongClick = {
+                ToastUtils.toast(R.string.go_back, Toast.LENGTH_SHORT)
+            }
+        )
     }
 }

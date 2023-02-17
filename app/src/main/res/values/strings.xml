@@ -14,6 +14,8 @@
     <string name="tools">快捷工具</string>
     <string name="notes">质感笔记</string>
 
+    <string name="page_flow">上次页面</string>
+
     <string name="tieCode">结绳4.0</string>
     <string name="android">安卓原生</string>
     <string name="compose">Jetpack Compose</string>
@@ -80,10 +82,11 @@
     <string name="line_wrap">自动换行</string>
     <string name="preview">预览</string>
     <string name="note_preview">笔记预览</string>
-    <string name="no_note">开始写入你的第一个笔记吧~</string>
+    <string name="no_note">暂无笔记</string>
     <string name="check_all">选择全部</string>
     <string name="check_more">多选</string>
     <string name="remove_checked">删除选中</string>
+    <string name="search_note">搜索笔记</string>
 
     <string name="no_checked">您还没有选择要删除的笔记哦</string>
     <string name="arrow_remove">确定要删除选择的笔记吗</string>
@@ -132,6 +135,12 @@
     <string name="set_path">自定义路径</string>
     <string name="path">路径</string>
     <string name="title_activity_color_scheme">ColorSchemeActivity</string>
+
+    <string name="can_vibrate">物理触感反馈</string>
+    <string name="can_vibrate_tip">打开后点击某按钮会触发振动，搭载了线性马达的设备体验更佳</string>
+
+    <string name="set_home_page">设置首页</string>
+    <string name="set_home_page_tip">自定义启动APP后的显示页面</string>
 
     <string name="data_error">数据解析失败</string>
     <string name="copied_color">已将颜色码复制到剪切板</string>
@@ -188,4 +197,9 @@
     <string name="open_failed">打开失败</string>
 
     <string name="response_state">状态：%1$s\t\t\t时间：%2$s毫秒\t\t\t大小：%3$s</string>
+    <string name="clear_choose">取消选择</string>
+
+    <string name="note_catalogue">笔记目录</string>
+    <string name="no_title">无标题</string>
+
 </resources>

@@ -1,5 +1,6 @@
 package ly.android.material.code.tool
 
+import android.net.Uri
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.*

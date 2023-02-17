@@ -5,8 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import ly.android.material.code.tool.MaterialCodeToolApplication
@@ -87,7 +85,6 @@ class NotesListAdapter(
             clickable = true,
             callOnLongClick = true,
             click = {
-                println(noteBean.title)
                 val state = viewModel.noteLangClickState.value!!
                 if (state) {
                     val ic = !binding.radioButton.isChecked

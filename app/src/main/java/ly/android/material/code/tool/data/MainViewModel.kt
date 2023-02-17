@@ -5,14 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ly.android.material.code.tool.MaterialCodeToolApplication
 import ly.android.material.code.tool.R
+import ly.android.material.code.tool.data.entity.State
 import org.jetbrains.annotations.NotNull
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
-    private val _pageCurrent = MutableLiveData(0)
+    private val _pageCurrent = MutableLiveData(
+        MaterialCodeToolApplication.setting?.homePageBean?.position ?: 0
+    )
     val pageCurrent: LiveData<Int> = _pageCurrent
 
-    fun setCurrent(current: Int){
+    fun setCurrent(current: Int) {
         _pageCurrent.value = current
     }
 
@@ -28,7 +31,7 @@ class MainViewModel: ViewModel() {
     private val _drawerState = MutableLiveData(false)
     val drawerState: LiveData<Boolean> = _drawerState
 
-    fun setDrawerState(state: Boolean){
+    fun setDrawerState(state: Boolean) {
         _drawerState.value = state
     }
 
@@ -36,4 +39,6 @@ class MainViewModel: ViewModel() {
     val isCheckAll = MutableLiveData(false)
     val checkAllBoxState = MutableLiveData(false)
     val removeCheckedState = MutableLiveData(0L)
+
+    val searchState = MutableLiveData(false)
 }

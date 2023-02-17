@@ -107,14 +107,26 @@ class HttpCreator(
     private fun setPart(): RequestBody? {
         return when (viewModel.bodyTypeState.value) {
             0 -> {
-                null
+                val params = viewModel.params.value
+                if (params.isNullOrEmpty()){
+                    null
+                }else {
+                    val builder = FormBody.Builder()
+                    params.onEach {
+                        val key = it.key
+                        val value = it.value
+                        if (it.isChecked && key != null && value != null){
+                            builder.add(key, value)
+                        }
+                    }
+                    builder.build()
+                }
             }
             1 -> {
-//                requestBuilder.addHeader("Content-Type", "application/json")
+                val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
                 val formDataBeans = viewModel.bodyFormData.value
                 val params = viewModel.params.value
-                if (formDataBeans != null && formDataBeans.isNotEmpty() && params != null && params.isNotEmpty()) {
-                    val builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                if (!formDataBeans.isNullOrEmpty()) {
                     formDataBeans.onEach {
                         val key = it.key
                         val value = it.value
@@ -150,6 +162,11 @@ class HttpCreator(
                             }
                         }
                     }
+                    if (params.isNullOrEmpty()){
+                        return builder.build()
+                    }
+                }
+                if (!params.isNullOrEmpty()) {
                     params.onEach {
                         val key = it.key
                         val value = it.value
@@ -157,15 +174,14 @@ class HttpCreator(
                             builder.addFormDataPart(key, value)
                         }
                     }
-                    builder.build()
-                } else {
-                    null
+                    return builder.build()
                 }
+                return null
             }
             2 -> {
                 val beans = viewModel.bodyFormUrl.value
                 val params = viewModel.params.value
-                if (beans != null && beans.isNotEmpty() && params != null && params.isNotEmpty()){
+                if (!beans.isNullOrEmpty()){
                     val builder = FormBody.Builder()
                     beans.onEach {
                         val key = it.key
@@ -174,6 +190,12 @@ class HttpCreator(
                             builder.addEncoded(key, value)
                         }
                     }
+                    if (params.isNullOrEmpty()){
+                        return builder.build()
+                    }
+                }
+                if (!params.isNullOrEmpty()){
+                    val builder = FormBody.Builder()
                     params.onEach {
                         val key = it.key
                         val value = it.value
@@ -181,10 +203,9 @@ class HttpCreator(
                             builder.addEncoded(key, value)
                         }
                     }
-                    builder.build()
-                }else {
-                    null
+                    return builder.build()
                 }
+                return null
             }
             3 -> {
                 val raw = viewModel.bodyRaw.value

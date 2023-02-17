@@ -3,6 +3,7 @@ package ly.android.material.code.tool.activities.tools.postdev.request.body
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import androidx.fragment.app.Fragment
@@ -57,6 +58,31 @@ class BinaryFragment : BaseFragment() {
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             startActivityForResult(intent, 100)
         }
+
+        binding.remove.setOnClickListener {
+            viewModel.binaryData.value = null
+        }
+
+        viewModel.binaryData.observe(this) {
+            if (it?.file == null) {
+                binding.fileInfo.visibility = View.GONE
+                binding.remove.visibility = View.GONE
+            }else {
+                val documentFile = DocumentFile.fromSingleUri(requireContext(), Uri.parse(it.file))
+                documentFile?.apply {
+                    val fileInfo = getString(R.string.file_info)
+                    val format = String.format(
+                        fileInfo,
+                        name,
+                        FileUtil.readableFileSize(length()),
+                        dataFormat.format(lastModified())
+                    )
+                    binding.fileInfo.text = format
+                    binding.fileInfo.visibility = View.VISIBLE
+                    binding.remove.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     @SuppressLint("SimpleDateFormat")
@@ -69,15 +95,6 @@ class BinaryFragment : BaseFragment() {
 
         val documentFile = DocumentFile.fromSingleUri(requireContext(), uri)
         documentFile?.apply {
-            val fileInfo = getString(R.string.file_info)
-            val format = String.format(
-                fileInfo,
-                name,
-                FileUtil.readableFileSize(length()),
-                dataFormat.format(lastModified())
-            )
-            binding.fileInfo.text = format
-            binding.fileInfo.visibility = View.VISIBLE
             viewModel.binaryData.value = FormDataBean(
                 isChecked = true,
                 file = documentFile.uri.toString(),

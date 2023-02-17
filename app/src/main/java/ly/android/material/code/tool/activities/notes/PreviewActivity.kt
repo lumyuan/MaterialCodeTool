@@ -4,7 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.MenuItem
+import android.view.View
 import com.just.agentweb.AgentWeb
+import io.noties.markwon.Markwon
+import io.noties.markwon.html.HtmlPlugin
+import io.noties.markwon.image.glide.GlideImagesPlugin
+import io.noties.markwon.linkify.LinkifyPlugin
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.databinding.ActivityPreviewBinding
 import ly.android.material.code.tool.ui.common.bind
@@ -13,7 +18,6 @@ class PreviewActivity : AppCompatActivity() {
 
     private val binding by bind(ActivityPreviewBinding::inflate)
 
-    private lateinit var agentWeb: AgentWeb
     private var langType: String? = null
     private var text: String? = null
 
@@ -26,30 +30,26 @@ class PreviewActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
 
         supportActionBar?.apply {
-            this.setTitle(R.string.note_preview)
-            this.subtitle = langType
             this.setDisplayHomeAsUpEnabled(true)
         }
 
+        binding.toolbar.setTitle(R.string.note_preview)
+
         when (langType) {
             getString(R.string.lang_md) -> {
-                binding.markdownView.setText(text)
+                binding.markdownView.visibility = View.GONE
+                binding.textView.visibility = View.VISIBLE
+
+                val markdown = Markwon.builder(this)
+                    .usePlugin(GlideImagesPlugin.create(this))
+                    .usePlugin(HtmlPlugin.create())
+                    .usePlugin(LinkifyPlugin.create(true))
+                    .build()
+                text?.let { markdown.setMarkdown(binding.textView, it) }
             }
             else -> {
-//                binding.frameLayout.removeAllViews()
-//                agentWeb = AgentWeb.with(this)
-//                    .setAgentWebParent(binding.frameLayout,
-//                        LinearLayout.LayoutParams(
-//                            LinearLayout.LayoutParams.MATCH_PARENT,
-//                            LinearLayout.LayoutParams.MATCH_PARENT
-//                        )
-//                    )
-//                    .useDefaultIndicator()
-//                    .createAgentWeb()
-//                    .ready()
-//                    .get()
-//                text?.let { agentWeb.webCreator.webView.loadDataWithBaseURL(null,
-//                    it, "text/html", "utf-8", null) }
+                binding.markdownView.visibility = View.VISIBLE
+                binding.textView.visibility = View.GONE
                 text?.let {
                     binding.markdownView.loadDataWithBaseURL(
                         null,

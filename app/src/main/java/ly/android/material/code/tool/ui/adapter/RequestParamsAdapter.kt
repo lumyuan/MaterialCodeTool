@@ -122,5 +122,7 @@ class RequestParamsAdapter(
         return arrayList
     }
 
-    fun getList(): ArrayList<RequestParamBean> = ArrayList(this.list)
+    fun getList(): ArrayList<RequestParamBean> = ArrayList<RequestParamBean>().apply {
+        addAll(list)
+    }
 }

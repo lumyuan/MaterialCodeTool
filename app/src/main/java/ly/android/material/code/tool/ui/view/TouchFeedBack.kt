@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.animation.DecelerateInterpolator
+import ly.android.material.code.tool.MaterialCodeToolApplication
 
 const val duration = 150L
 const val onLongTime = 750L
@@ -128,17 +129,26 @@ private fun onUp(view: View) {
 }
 
 private fun vibrationDown(view: View) {
+    if (MaterialCodeToolApplication.setting?.isVibrate != true) {
+        return
+    }
     val flag =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) HapticFeedbackConstants.GESTURE_START else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) HapticFeedbackConstants.KEYBOARD_PRESS else HapticFeedbackConstants.VIRTUAL_KEY
     view.performHapticFeedback(flag)
 }
 
 private fun vibrationUp(view: View) {
+    if (MaterialCodeToolApplication.setting?.isVibrate != true) {
+        return
+    }
     val flag =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) HapticFeedbackConstants.GESTURE_END else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) HapticFeedbackConstants.KEYBOARD_RELEASE else HapticFeedbackConstants.VIRTUAL_KEY
     view.performHapticFeedback(flag)
 }
 
 private fun vibrationLong(view: View) {
+    if (MaterialCodeToolApplication.setting?.isVibrate != true) {
+        return
+    }
     view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
 }
