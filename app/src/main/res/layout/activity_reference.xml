@@ -35,6 +35,23 @@
             android:layout_height="match_parent"
             android:id="@+id/editor"/>
 
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/nestScrollView">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/large"
+                android:textIsSelectable="true"
+                android:lineSpacingExtra="5sp"
+                android:letterSpacing="0.12"
+                android:fontFamily="@font/font_jetbrains_mono_regular"
+                android:id="@+id/textView"/>
+
+        </androidx.core.widget.NestedScrollView>
+
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton

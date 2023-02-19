@@ -4,7 +4,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class SimpleItemTouchHelperCallback(
-    private var mAdapter: ItemTouchHelperAdapter
+    private var mAdapter: ItemTouchHelperAdapter,
+    private val dragFlags: Int = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
 ): ItemTouchHelper.Callback() {
     override fun getMovementFlags(
         recyclerView: RecyclerView,
@@ -17,8 +18,6 @@ class SimpleItemTouchHelperCallback(
         //int swipeFlags = ItemTouchHelper.DOWN; //只允许从上向下侧滑
         //一般使用makeMovementFlags(int,int)或makeFlag(int, int)来构造我们的返回值
         //makeMovementFlags(dragFlags, swipeFlags)
-        val dragFlags =
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT //允许上下左右的拖动
 
         return makeMovementFlags(dragFlags, 0)
     }

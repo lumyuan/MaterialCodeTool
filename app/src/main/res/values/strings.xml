@@ -202,4 +202,9 @@
     <string name="note_catalogue">笔记目录</string>
     <string name="no_title">无标题</string>
 
+    <string name="sort_reference_page">自定义参考文档页面</string>
+    <string name="sort_reference_page_tip">隐藏或排序参考文档页面</string>
+    <string name="sort_reference_dialog_title">长按拖动排序</string>
+    <string name="save_sort_reference">设置成功！重启APP后生效</string>
+
 </resources>

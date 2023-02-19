@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import com.google.gson.Gson
 import io.github.rosemoe.sora.lang.Language
 import io.github.rosemoe.sora.langs.textmate.TextMateColorScheme
@@ -15,10 +16,15 @@ import io.github.rosemoe.sora.langs.textmate.registry.ThemeRegistry
 import io.github.rosemoe.sora.langs.textmate.registry.model.ThemeModel
 import io.github.rosemoe.sora.langs.textmate.registry.provider.AssetsFileResolver
 import io.github.rosemoe.sora.widget.CodeEditor
+import io.noties.markwon.Markwon
+import io.noties.markwon.html.HtmlPlugin
+import io.noties.markwon.image.glide.GlideImagesPlugin
+import io.noties.markwon.linkify.LinkifyPlugin
 import ly.android.material.code.langs.tiecode.TieCodeLanguage
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.common.clip
 import ly.android.material.code.tool.data.entity.ReferenceBean
+import ly.android.material.code.tool.data.entity.ReferenceFileType
 import ly.android.material.code.tool.data.enums.ReferenceLanguage
 import ly.android.material.code.tool.databinding.ActivityReferenceBinding
 import ly.android.material.code.tool.ui.common.bind
@@ -48,38 +54,76 @@ class ReferenceActivity : AppCompatActivity() {
             this.subtitle = "${getString(R.string.author)}${referenceBean.author}"
         }
 
-        binding.editor.apply {
-            typefaceText = Typeface.createFromAsset(assets, "JetBrainsMono-Regular.ttf")
-            setText(referenceBean.content)
-            isEditable = false
-            setLineSpacing(2f, 1.1f)
-            nonPrintablePaintingFlags =
-                CodeEditor.FLAG_DRAW_WHITESPACE_LEADING or CodeEditor.FLAG_DRAW_LINE_SEPARATOR or CodeEditor.FLAG_DRAW_WHITESPACE_IN_SELECTION
-            this.updateCompletionWindowPosition()
-            postDelayedInLifecycle({
-                formatCodeAsync()
-            }, 1000)
-        }
+        when (referenceBean.referenceFileType) {
+            ReferenceFileType.CODE -> {
+                binding.editor.visibility = View.VISIBLE
+                binding.nestScrollView.visibility = View.GONE
+                binding.editor.apply {
+                    typefaceText = Typeface.createFromAsset(assets, "JetBrainsMono-Regular.ttf")
+                    setText(referenceBean.content)
+                    isEditable = false
+                    setLineSpacing(2f, 1.1f)
+                    nonPrintablePaintingFlags =
+                        CodeEditor.FLAG_DRAW_WHITESPACE_LEADING or CodeEditor.FLAG_DRAW_LINE_SEPARATOR or CodeEditor.FLAG_DRAW_WHITESPACE_IN_SELECTION
+                    this.updateCompletionWindowPosition()
+                    postDelayedInLifecycle({
+                        formatCodeAsync()
+                    }, 1000)
+                    isWordwrap = true
+                }
 
-        loadDefaultThemes()
-        loadDefaultLanguages()
-        ensureTextmateTheme()
+                loadDefaultThemes()
+                loadDefaultLanguages()
+                ensureTextmateTheme()
 
-        val language: Language = when(language){
-            ReferenceLanguage.TIE_CODE.toString() -> TieCodeLanguage()
-            ReferenceLanguage.KOTLIN.toString() -> TextMateLanguage.create("source.kotlin", true)
-            ReferenceLanguage.JAVA.toString() -> TextMateLanguage.create("source.java", true)
-            ReferenceLanguage.C.toString() -> TextMateLanguage.create("source.c", true)
-            ReferenceLanguage.CPP.toString() -> TextMateLanguage.create("source.cpp", true)
-            ReferenceLanguage.IYU.toString() -> TextMateLanguage.create("source.java", true)
-            ReferenceLanguage.HTML.toString() -> TextMateLanguage.create("text.html.basic", true)
-            else -> TextMateLanguage.create("source.java", true)
+                val language: Language = when (language) {
+                    ReferenceLanguage.TIE_CODE.toString() -> TieCodeLanguage()
+                    ReferenceLanguage.KOTLIN.toString() -> TextMateLanguage.create(
+                        "source.kotlin",
+                        true
+                    )
+
+                    ReferenceLanguage.JAVA.toString() -> TextMateLanguage.create(
+                        "source.java",
+                        true
+                    )
+
+                    ReferenceLanguage.C.toString() -> TextMateLanguage.create("source.c", true)
+                    ReferenceLanguage.CPP.toString() -> TextMateLanguage.create("source.cpp", true)
+                    ReferenceLanguage.IYU.toString() -> TextMateLanguage.create("source.java", true)
+                    ReferenceLanguage.HTML.toString() -> TextMateLanguage.create(
+                        "text.html.basic",
+                        true
+                    )
+
+                    ReferenceLanguage.LUA.toString() -> TextMateLanguage.create("source.lua", true)
+                    else -> TextMateLanguage.create("source.java", true)
+                }
+                binding.editor.setEditorLanguage(language)
+                switchThemeIfRequired(this, binding.editor)
+            }
+
+            ReferenceFileType.MD -> {
+                binding.editor.visibility = View.GONE
+                binding.nestScrollView.visibility = View.VISIBLE
+                val markdown = Markwon.builder(this)
+                    .usePlugin(GlideImagesPlugin.create(this))
+                    .usePlugin(HtmlPlugin.create())
+                    .usePlugin(LinkifyPlugin.create(true))
+                    .build()
+                referenceBean.content?.let { markdown.setMarkdown(binding.textView, it) }
+            }
         }
-        binding.editor.setEditorLanguage(language)
-        switchThemeIfRequired(this, binding.editor)
 
         binding.action.setOnFeedbackListener {
-            it.context.clip(binding.editor.text)
+            it.context.clip(
+                "${referenceBean.title}\n${
+                    when (referenceBean.referenceFileType) {
+                        ReferenceFileType.CODE -> referenceBean.content
+                        ReferenceFileType.MD -> binding.textView.text.toString()
+                    }
+                }\n\n${getString(R.string.author)}${referenceBean.author}"
+            )
             ToastUtils.toast(R.string.clip)
         }
     }

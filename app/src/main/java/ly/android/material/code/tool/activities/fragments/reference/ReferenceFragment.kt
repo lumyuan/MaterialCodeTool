@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import ly.android.material.code.tool.MaterialCodeToolApplication
 import ly.android.material.code.tool.R
+import ly.android.material.code.tool.data.entity.ReferenceFileType
 import ly.android.material.code.tool.data.entity.ReferenceIntent
+import ly.android.material.code.tool.data.enums.ReferenceLanguage
 import ly.android.material.code.tool.data.enums.UrlType
 import ly.android.material.code.tool.databinding.FragmentReferenceBinding
 import ly.android.material.code.tool.ui.adapter.PagerAdapterForFragment
@@ -29,118 +31,48 @@ class ReferenceFragment : BaseFragment() {
         fun newInstance() = ReferenceFragment()
     }
 
-    private lateinit var pages: Array<PagerAdapterForFragment.Page>
+    private val pageList: ArrayList<PagerAdapterForFragment.Page> = ArrayList()
     override fun initView(root: View) {
         super.initView(root)
-        pages = arrayOf(
-            PagerAdapterForFragment.Page(
-                fragment = AndroidDeveloperFragment.newInstance(
-                    "http://www.tiecode.cn/"
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.tieCode)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = AndroidDeveloperFragment.newInstance(
-                    "https://developer.android.google.cn/training/basics/firstapp"
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.android)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = AndroidDeveloperFragment.newInstance(
-                    "https://developer.android.google.cn/courses/pathways/compose"
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.compose)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "iyu-helpV5.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iv5)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "iyu-helpV6.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iv6)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "iyu-helpV3.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iv3)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "ijava-helpV3.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iv3_java)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "ijs-helpV3.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iv3_js)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "ilua-helpV3.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iv3_lua)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "igame-helpV1.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iGame)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "iyu-中文编程V5.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iv5_cn)
-            ),
-            PagerAdapterForFragment.Page(
-                fragment = ReferenceItemFragment.newInstance(
-                    ReferenceIntent(
-                        title = "igame-中文编程V1.0.txt",
-                        urlType = UrlType.ASSETS
-                    )
-                ),
-                title = MaterialCodeToolApplication.application.getString(R.string.iGame_cn)
-            )
-        )
+
+        MaterialCodeToolApplication.setting?.apply {
+            this.homePages.onEach {
+                if (it.isShow){
+                    it.fragmentBean?.also { fragmentBean ->
+                        if (fragmentBean.url == null){
+                            pageList.add(
+                                PagerAdapterForFragment.Page(
+                                    ReferenceItemFragment.newInstance(
+                                        ReferenceIntent(
+                                            title = fragmentBean.title.toString(),
+                                            lang = fragmentBean.lang!!,
+                                            urlType = fragmentBean.urlType!!,
+                                            referenceFileType = fragmentBean.referenceFileType!!
+                                        )
+                                    ),
+                                    title = it.title
+                                )
+                            )
+                        }else {
+                            pageList.add(
+                                PagerAdapterForFragment.Page(
+                                    fragment = AndroidDeveloperFragment.newInstance(fragmentBean.url.toString()),
+                                    title = it.title
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+        }
 
         binding.viewpager.apply {
             adapter = PagerAdapterForFragment(
-                pages,
+                pageList.toArray(arrayOf<PagerAdapterForFragment.Page>()),
                 childFragmentManager
             )
             offscreenPageLimit = if (MaterialCodeToolApplication.highPerformanceMode){
-                pages.size
+                pageList.size
             }else {
                 2
             }

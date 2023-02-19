@@ -7,6 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.gson.Gson
+import io.noties.markwon.Markwon
+import io.noties.markwon.html.HtmlPlugin
+import io.noties.markwon.image.glide.GlideImagesPlugin
+import io.noties.markwon.linkify.LinkifyPlugin
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.activities.reference.ReferenceActivity
 import ly.android.material.code.tool.data.entity.ReferenceBean
@@ -48,7 +52,13 @@ class ReferenceListAdapter(
             }
         }
         binding.title.text = referenceBean.title
-        binding.content.text = referenceBean.content
+        val context = binding.root.context
+        val markdown = Markwon.builder(context)
+            .usePlugin(GlideImagesPlugin.create(context))
+            .usePlugin(HtmlPlugin.create())
+            .usePlugin(LinkifyPlugin.create(true))
+            .build()
+        markdown.setMarkdown(binding.content, referenceBean.content.toString())
         binding.content.maxLines = random.nextInt(3) + 5
         binding.action.setOnFeedbackListener {
             val intent = Intent(it.context, ReferenceActivity::class.java).apply {

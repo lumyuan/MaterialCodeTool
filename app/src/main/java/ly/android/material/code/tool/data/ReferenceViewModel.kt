@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.github.promeg.pinyinhelper.Pinyin
 import io.reactivex.rxjava3.core.Observable
 import ly.android.material.code.tool.data.entity.ReferenceBean
+import ly.android.material.code.tool.data.entity.ReferenceFileType
 
 class ReferenceViewModel: ViewModel() {
 
@@ -16,9 +17,9 @@ class ReferenceViewModel: ViewModel() {
     val items: LiveData<ArrayList<ReferenceBean>> = _items
 
     @SuppressLint("CheckResult")
-    fun updateAssets(date: String){
+    fun updateAssets(referenceFileType: ReferenceFileType, data: String){
         Observable.create {
-            val array = date.split("【")
+            val array = data.split("【")
             val list = ArrayList<ReferenceBean>()
             for (index in 1 until array.size) {
                 val item = array[index]
@@ -29,7 +30,8 @@ class ReferenceViewModel: ViewModel() {
                     ReferenceBean(
                         title,
                         content,
-                        "iApp"
+                        array[0],
+                        referenceFileType = referenceFileType
                     )
                 )
             }

@@ -66,14 +66,7 @@ class ReferenceItemFragment : BaseFragment() {
         binding.listView.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             this@ReferenceItemFragment.adapter = ReferenceListAdapter(
-                when (referenceIntent.title) {
-                    getString(R.string.tieCode) -> {
-                        ReferenceLanguage.TIE_CODE
-                    }
-                    else -> {
-                        ReferenceLanguage.JAVA
-                    }
-                }
+                referenceIntent.lang
             )
             adapter = this@ReferenceItemFragment.adapter
         }
@@ -98,7 +91,7 @@ class ReferenceItemFragment : BaseFragment() {
                 UrlType.ASSETS -> {
                     activity?.apply {
                         val data = String(readByte(referenceIntent.title), Charset.defaultCharset())
-                        viewModel.updateAssets(data)
+                        viewModel.updateAssets(referenceFileType = referenceIntent.referenceFileType, data)
                     }
                 }
                 //在线数据

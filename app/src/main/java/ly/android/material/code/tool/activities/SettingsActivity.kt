@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.MenuItem
+import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
@@ -23,13 +25,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.window.Dialog
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ly.android.material.code.tool.MaterialCodeToolApplication
 import ly.android.material.code.tool.R
 import ly.android.material.code.tool.core.Settings
 import ly.android.material.code.tool.data.entity.State
 import ly.android.material.code.tool.databinding.ActivitySettingsBinding
 import ly.android.material.code.tool.ui.adapter.SettingsViewModel
+import ly.android.material.code.tool.ui.adapter.SortReferenceAdapter
+import ly.android.material.code.tool.ui.common.SimpleItemTouchHelperCallback
 import ly.android.material.code.tool.ui.common.bind
 import ly.android.material.code.tool.ui.theme.MaterialCodeToolTheme
 import ly.android.material.code.tool.util.ToastUtils
@@ -84,6 +92,7 @@ class SettingsActivity : AppCompatActivity() {
         IconSavePath()
         SetVibrateState()
         SetHomePage()
+        SortReferencePage()
     }
 
     @Composable
@@ -100,38 +109,18 @@ class SettingsActivity : AppCompatActivity() {
             pathState = it.iconSavePath!!
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    aliIconSavePathDialogState.value = true
-                }
-        ) {
-            Spacer(modifier = Modifier.size(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.size(16.dp))
+        FunctionView(
+            iconId = R.drawable.ic_file_open,
+            title = stringResource(id = R.string.ali_icon_path),
+            label = pathState,
+            content = {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_file_open),
+                    painter = painterResource(id = R.drawable.ic_arrow_right),
                     contentDescription = null,
-                    modifier = Modifier.size(32.dp)
+                    modifier = Modifier.size(24.dp)
                 )
-                Spacer(modifier = Modifier.size(8.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = stringResource(id = R.string.ali_icon_path),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = pathState,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-                Spacer(modifier = Modifier.size(16.dp))
-            }
-            Spacer(modifier = Modifier.size(16.dp))
+            }) {
+            aliIconSavePathDialogState.value = true
         }
 
         AliIconPathDialog(state = aliIconSavePathDialogState)
@@ -202,44 +191,17 @@ class SettingsActivity : AppCompatActivity() {
             mutableStateOf(viewModel.setting.value?.isVibrate == true)
         }
 
-        //振动
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    vibrateState.value = !vibrateState.value
-                }
-        ) {
-            Spacer(modifier = Modifier.size(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.size(16.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.ic_vibrate),
-                    contentDescription = null,
-                    modifier = Modifier.size(32.dp)
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = stringResource(id = R.string.can_vibrate),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = stringResource(id = R.string.can_vibrate_tip),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-                Spacer(modifier = Modifier.size(8.dp))
+        FunctionView(
+            iconId = R.drawable.ic_vibrate,
+            title = stringResource(id = R.string.can_vibrate),
+            label = stringResource(id = R.string.can_vibrate_tip),
+            content = {
                 Switch(checked = vibrateState.value, onCheckedChange = {
                     vibrateState.value = !vibrateState.value
                 })
                 SaveVibrateState(state = vibrateState)
-                Spacer(modifier = Modifier.size(16.dp))
-            }
-            Spacer(modifier = Modifier.size(16.dp))
+            }) {
+            vibrateState.value = !vibrateState.value
         }
     }
 
@@ -288,37 +250,11 @@ class SettingsActivity : AppCompatActivity() {
             mutableStateOf(pageNames[homePosition.value])
         }
 
-        //自定义首页
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable {
-                    homePageDialogState.value = true
-                }
-        ) {
-            Spacer(modifier = Modifier.size(16.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Spacer(modifier = Modifier.size(16.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.ic_home),
-                    contentDescription = null,
-                    modifier = Modifier.size(32.dp)
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = stringResource(id = R.string.set_home_page),
-                        style = MaterialTheme.typography.bodyLarge
-                    )
-                    Text(
-                        text = stringResource(id = R.string.set_home_page_tip),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-                Spacer(modifier = Modifier.size(8.dp))
+        FunctionView(
+            iconId = R.drawable.ic_home,
+            title = stringResource(id = R.string.set_home_page),
+            label = stringResource(id = R.string.set_home_page_tip),
+            content = {
                 Text(
                     text = homePageName.value,
                     style = MaterialTheme.typography.bodyMedium,
@@ -330,9 +266,8 @@ class SettingsActivity : AppCompatActivity() {
                         )
                         .padding(8.dp)
                 )
-                Spacer(modifier = Modifier.size(16.dp))
-            }
-            Spacer(modifier = Modifier.size(16.dp))
+            }) {
+            homePageDialogState.value = true
         }
 
         SetHomePageDialog(homePageDialogState, homePosition, homePageName)
@@ -437,6 +372,156 @@ class SettingsActivity : AppCompatActivity() {
                         colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onBackground)
                     )
                 }
+            }
+            Spacer(modifier = Modifier.size(16.dp))
+        }
+    }
+
+    @Composable
+    private fun SortReferencePage() {
+
+        val sortDialogState = remember {
+            mutableStateOf(false)
+        }
+
+        //文档页面排序
+        FunctionView(iconId = R.drawable.ic_sort,
+            title = stringResource(id = R.string.sort_reference_page),
+            label = stringResource(id = R.string.sort_reference_page_tip),
+            content = {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_arrow_right),
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+            }) {
+            sortDialogState.value = true
+        }
+
+        SortDialog(
+            sortDialogState
+        )
+    }
+
+    @Composable
+    private fun SortDialog(sortDialogState: MutableState<Boolean>) {
+        if (sortDialogState.value) {
+            Dialog(onDismissRequest = { sortDialogState.value = false }) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(30.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        val sortReferenceAdapter = SortReferenceAdapter(
+                            viewModel.setting.value?.homePages!!
+                        )
+                        Text(
+                            text = stringResource(id = R.string.sort_reference_dialog_title),
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                        Spacer(modifier = Modifier.size(8.dp))
+                        AndroidView(
+                            factory = {
+                                LinearLayout(it).apply {
+                                    layoutParams = LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
+                                }
+                            },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .weight(1f)
+                        ) {
+                            it.addView(
+                                RecyclerView(it.context).apply {
+                                    this.apply {
+                                        layoutManager = StaggeredGridLayoutManager(
+                                            1,
+                                            StaggeredGridLayoutManager.VERTICAL
+                                        )
+                                        this.adapter = sortReferenceAdapter
+                                        val callback: ItemTouchHelper.Callback =
+                                            SimpleItemTouchHelperCallback(
+                                                sortReferenceAdapter,
+                                                ItemTouchHelper.UP or ItemTouchHelper.DOWN
+                                            )
+                                        val touchHelper = ItemTouchHelper(callback)
+                                        touchHelper.attachToRecyclerView(this)
+                                    }
+                                },
+                                LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                            )
+                        }
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Button(
+                            onClick = {
+                                sortDialogState.value = false
+                                viewModel.setting.value =
+                                    MaterialCodeToolApplication.setting!!.apply {
+                                        this.homePages = sortReferenceAdapter.getList()
+                                    }
+                                ToastUtils.toast(R.string.save_sort_reference)
+                            },
+                            modifier = Modifier.align(Alignment.End)
+                        ) {
+                            Text(text = stringResource(id = R.string.definite))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun FunctionView(
+        @DrawableRes iconId: Int,
+        title: String,
+        label: String?,
+        content: @Composable () -> Unit,
+        onClickListener: () -> Unit = { }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    onClickListener()
+                }
+        ) {
+            Spacer(modifier = Modifier.size(16.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(modifier = Modifier.size(16.dp))
+                Image(
+                    painter = painterResource(id = iconId),
+                    contentDescription = null,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    label?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.size(8.dp))
+                content()
+                Spacer(modifier = Modifier.size(16.dp))
             }
             Spacer(modifier = Modifier.size(16.dp))
         }
