@@ -102,6 +102,23 @@ class ToolsFragment : BaseFragment() {
                 }
                 Spacer(modifier = Modifier.size(16.dp))
             }
+            Spacer(modifier = Modifier.size(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Spacer(modifier = Modifier.size(16.dp))
+                FunctionView(modifier = Modifier.weight(1f), iconId = R.drawable.ic_hexadecimal_conversion, titleId = R.string.hexadecimal_conversion) {
+                    val intent = Intent(requireContext(), HexadecimalConversionActivity::class.java)
+                    requireActivity().startActivity(intent)
+                }
+                Spacer(modifier = Modifier.size(8.dp))
+                FunctionView(modifier = Modifier
+                    .weight(1f).height(0.dp), iconId = R.drawable.ic__post_dev, titleId = R.string.post_dev) {
+                    val intent = Intent(requireContext(), PostDevActivity::class.java)
+                    requireActivity().startActivity(intent)
+                }
+                Spacer(modifier = Modifier.size(16.dp))
+            }
         }
     }
 
@@ -120,7 +137,7 @@ fun FunctionView(
     modifier: Modifier = Modifier,
     @DrawableRes iconId: Int,
     @StringRes titleId: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit = {}
 ) = Card(
     modifier = modifier
         .background(
@@ -157,8 +174,6 @@ fun FunctionView(
 @Composable
 fun ItemPreview(){
     MaterialCodeToolTheme {
-        FunctionView(iconId = R.drawable.ic_logo, titleId = R.string.app_name) {
-            
-        }
+        FunctionView(iconId = R.drawable.ic_logo, titleId = R.string.app_name)
     }
 }

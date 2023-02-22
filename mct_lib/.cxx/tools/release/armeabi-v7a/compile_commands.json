@@ -1,7 +1,7 @@
 [
 {
-  "directory": "C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/.cxx/RelWithDebInfo/3o623g2e/armeabi-v7a",
-  "command": "C:\\Users\\LumYuan\\AppData\\Local\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnatives_EXPORTS -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -O2 -g -DNDEBUG -fPIC -o CMakeFiles\\natives.dir\\natives.cpp.o -c C:\\Users\\LumYuan\\AndroidStudioProjects\\MaterialCodeTool\\mct_lib\\src\\main\\cpp\\natives.cpp",
-  "file": "C:\\Users\\LumYuan\\AndroidStudioProjects\\MaterialCodeTool\\mct_lib\\src\\main\\cpp\\natives.cpp"
+  "directory": "D:/Android/MyProjects/MaterialCodeTool/mct_lib/.cxx/RelWithDebInfo/3o623g2e/armeabi-v7a",
+  "command": "C:\\Users\\22059\\AppData\\Local\\Android\\Sdk\\ndk\\23.1.7779620\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=armv7-none-linux-androideabi21 --sysroot=C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dnatives_EXPORTS -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -O2 -g -DNDEBUG -fPIC -o CMakeFiles\\natives.dir\\natives.cpp.o -c D:\\Android\\MyProjects\\MaterialCodeTool\\mct_lib\\src\\main\\cpp\\natives.cpp",
+  "file": "D:\\Android\\MyProjects\\MaterialCodeTool\\mct_lib\\src\\main\\cpp\\natives.cpp"
 }
 ]

@@ -17,7 +17,7 @@
 rule CXX_COMPILER__natives_Debug
   depfile = $DEP_FILE
   deps = gcc
-  command = C:\Users\LumYuan\AppData\Local\Android\Sdk\ndk\23.1.7779620\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=i686-none-linux-android21 --sysroot=C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
+  command = C:\Users\22059\AppData\Local\Android\Sdk\ndk\23.1.7779620\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=i686-none-linux-android21 --sysroot=C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
   description = Building CXX object $out
 
 
@@ -25,7 +25,7 @@ rule CXX_COMPILER__natives_Debug
 # Rule for linking CXX shared library.
 
 rule CXX_SHARED_LIBRARY_LINKER__natives_Debug
-  command = cmd.exe /C "$PRE_LINK && C:\Users\LumYuan\AppData\Local\Android\Sdk\ndk\23.1.7779620\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=i686-none-linux-android21 --sysroot=C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
+  command = cmd.exe /C "$PRE_LINK && C:\Users\22059\AppData\Local\Android\Sdk\ndk\23.1.7779620\toolchains\llvm\prebuilt\windows-x86_64\bin\clang++.exe --target=i686-none-linux-android21 --sysroot=C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot -fPIC $LANGUAGE_COMPILE_FLAGS $ARCH_FLAGS $LINK_FLAGS -shared $SONAME_FLAG$SONAME -o $TARGET_FILE $in $LINK_PATH $LINK_LIBRARIES && $POST_BUILD"
   description = Linking CXX shared library $TARGET_FILE
   restat = $RESTAT
 
@@ -42,7 +42,7 @@ rule CUSTOM_COMMAND
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = C:\Users\LumYuan\AppData\Local\Android\Sdk\cmake\3.22.1\bin\cmake.exe --regenerate-during-build -SC:\Users\LumYuan\AndroidStudioProjects\MaterialCodeTool\mct_lib\src\main\cpp -BC:\Users\LumYuan\AndroidStudioProjects\MaterialCodeTool\mct_lib\.cxx\Debug\6a3r1p33\x86
+  command = C:\Users\22059\AppData\Local\Android\Sdk\cmake\3.22.1\bin\cmake.exe --regenerate-during-build -SD:\Android\MyProjects\MaterialCodeTool\mct_lib\src\main\cpp -BD:\Android\MyProjects\MaterialCodeTool\mct_lib\.cxx\Debug\6a3r1p33\x86
   description = Re-running CMake...
   generator = 1
 
@@ -51,7 +51,7 @@ rule RERUN_CMAKE
 # Rule for cleaning all built files.
 
 rule CLEAN
-  command = C:\Users\LumYuan\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe $FILE_ARG -t clean $TARGETS
+  command = C:\Users\22059\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe $FILE_ARG -t clean $TARGETS
   description = Cleaning all built files...
 
 
@@ -59,6 +59,6 @@ rule CLEAN
 # Rule for printing all primary targets available.
 
 rule HELP
-  command = C:\Users\LumYuan\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe -t targets
+  command = C:\Users\22059\AppData\Local\Android\Sdk\cmake\3.22.1\bin\ninja.exe -t targets
   description = All primary targets available:
 

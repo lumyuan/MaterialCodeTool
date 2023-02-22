@@ -206,5 +206,11 @@
     <string name="sort_reference_page_tip">隐藏或排序参考文档页面</string>
     <string name="sort_reference_dialog_title">长按拖动排序</string>
     <string name="save_sort_reference">设置成功！重启APP后生效</string>
+    <string name="hexadecimal_conversion">进制转换</string>
+    <string name="hexadecimal_conversion_tip">最多保留16位小数</string>
+    <string name="binary">二进制（BIN）</string>
+    <string name="octal">八进制（OCT）</string>
+    <string name="decimal">十进制（DEC）</string>
+    <string name="hexadecimal">十六进制（HEX）</string>
 
 </resources>

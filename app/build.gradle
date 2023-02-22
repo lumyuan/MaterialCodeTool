@@ -19,8 +19,8 @@ android {
         applicationId "ly.android.material.code.tool"
         minSdk 21
         targetSdk 33
-        versionCode 2302191
-        versionName "1.1.0"
+        versionCode 2302221
+        versionName "1.1.1"
 
         renderscriptTargetApi 33
         renderscriptSupportModeEnabled true

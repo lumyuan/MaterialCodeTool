@@ -1,4 +1,4 @@
-set(CMAKE_C_COMPILER "C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe")
+set(CMAKE_C_COMPILER "C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "Clang")
 set(CMAKE_C_COMPILER_VERSION "12.0.8")
@@ -21,11 +21,11 @@ set(CMAKE_C_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.exe")
+set(CMAKE_AR "C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ar.exe")
 set(CMAKE_C_COMPILER_AR "CMAKE_C_COMPILER_AR-NOTFOUND")
-set(CMAKE_RANLIB "C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib.exe")
+set(CMAKE_RANLIB "C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/llvm-ranlib.exe")
 set(CMAKE_C_COMPILER_RANLIB "CMAKE_C_COMPILER_RANLIB-NOTFOUND")
-set(CMAKE_LINKER "C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld.exe")
+set(CMAKE_LINKER "C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/ld.lld.exe")
 set(CMAKE_MT "")
 set(CMAKE_COMPILER_IS_GNUCC )
 set(CMAKE_C_COMPILER_LOADED 1)
@@ -67,13 +67,13 @@ set(CMAKE_ANDROID_NDK_TOOLCHAIN_VERSION "clang")
 set(CMAKE_C_ANDROID_TOOLCHAIN_MACHINE "aarch64-linux-android")
 set(CMAKE_C_ANDROID_TOOLCHAIN_VERSION "")
 set(CMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN "")
-set(CMAKE_C_ANDROID_TOOLCHAIN_PREFIX "C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-")
+set(CMAKE_C_ANDROID_TOOLCHAIN_PREFIX "C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/bin/aarch64-linux-android-")
 set(CMAKE_C_ANDROID_TOOLCHAIN_SUFFIX ".exe")
 
 
 
 
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include;C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/12.0.8/include;C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android;C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/local/include;C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/12.0.8/include;C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/aarch64-linux-android;C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include")
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "atomic;m;-l:libunwind.a;dl;c;-l:libunwind.a;dl")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/12.0.8/lib/linux/aarch64;C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;C:/Users/LumYuan/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/lib64/clang/12.0.8/lib/linux/aarch64;C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/lib/gcc/aarch64-linux-android/4.9.x;C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/21;C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android;C:/Users/22059/AppData/Local/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

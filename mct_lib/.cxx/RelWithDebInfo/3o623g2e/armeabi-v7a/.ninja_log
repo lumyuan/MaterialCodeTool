@@ -1,12 +1,3 @@
 # ninja log v5
-13	510	6981910087550621	build.ninja	6a2fa638405e019c
-5	734	6971033020239046	CMakeFiles/natives.dir/natives.cpp.o	7a22f53b5ff0ecf7
-735	934	6971033022089976	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/RelWithDebInfo/3o623g2e/obj/armeabi-v7a/libnatives.so	3006b97ed2428b1d
-0	127	0	clean	ce376697d34b1a80
-3	723	6981910098471404	CMakeFiles/natives.dir/natives.cpp.o	7a22f53b5ff0ecf7
-725	1178	6981910102829741	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/RelWithDebInfo/3o623g2e/obj/armeabi-v7a/libnatives.so	3006b97ed2428b1d
-0	150	0	clean	ce376697d34b1a80
-0	148	0	clean	ce376697d34b1a80
-0	135	0	clean	ce376697d34b1a80
-3	771	6983469506095945	CMakeFiles/natives.dir/natives.cpp.o	7a22f53b5ff0ecf7
-772	1238	6983469510574374	C:/Users/LumYuan/AndroidStudioProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/RelWithDebInfo/3o623g2e/obj/armeabi-v7a/libnatives.so	3006b97ed2428b1d
+1	449	6987683236317306	CMakeFiles/natives.dir/natives.cpp.o	d155af44f4031617
+451	715	6987683238870027	D:/Android/MyProjects/MaterialCodeTool/mct_lib/build/intermediates/cxx/RelWithDebInfo/3o623g2e/obj/armeabi-v7a/libnatives.so	8c662cef6d30d2f3

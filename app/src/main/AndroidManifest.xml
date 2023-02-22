@@ -46,11 +46,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialCodeTool"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activities.tools.HexadecimalConversionActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.notes.PreviewActivity"
             android:exported="false" />
-
         <activity
             android:name=".activities.tools.postdev.PostDevActivity"
             android:exported="false"
