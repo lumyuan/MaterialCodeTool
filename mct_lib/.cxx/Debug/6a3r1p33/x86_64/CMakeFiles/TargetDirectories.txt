@@ -1,3 +1,3 @@
-D:/Android/MyProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/x86_64/CMakeFiles/natives.dir
-D:/Android/MyProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/x86_64/CMakeFiles/edit_cache.dir
-D:/Android/MyProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/x86_64/CMakeFiles/rebuild_cache.dir
+C:/Users/LumStudio/AndroidStudioProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/x86_64/CMakeFiles/natives.dir
+C:/Users/LumStudio/AndroidStudioProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/LumStudio/AndroidStudioProjects/MaterialCodeTool/mct_lib/.cxx/Debug/6a3r1p33/x86_64/CMakeFiles/rebuild_cache.dir

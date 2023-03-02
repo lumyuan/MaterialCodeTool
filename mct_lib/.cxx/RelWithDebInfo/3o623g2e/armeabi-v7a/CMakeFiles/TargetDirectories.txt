@@ -1,3 +1,0 @@
-D:/Android/MyProjects/MaterialCodeTool/mct_lib/.cxx/RelWithDebInfo/3o623g2e/armeabi-v7a/CMakeFiles/natives.dir
-D:/Android/MyProjects/MaterialCodeTool/mct_lib/.cxx/RelWithDebInfo/3o623g2e/armeabi-v7a/CMakeFiles/edit_cache.dir
-D:/Android/MyProjects/MaterialCodeTool/mct_lib/.cxx/RelWithDebInfo/3o623g2e/armeabi-v7a/CMakeFiles/rebuild_cache.dir
